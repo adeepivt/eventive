@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+  {% for event in events %}
+        <i>{{event.category}}</i>: <i>{{event.name}}</i> -- {{event.place}}
+        <br>
+  {% endfor %}
+
+    <form action="{% url 'search_results' %}" method="get">
+        <select class="custom-select" name="place" >
+            <option value="0" selected="">Choose Place</option>*
+            <option value="Thiruvananthapuram">Thiruvananthapuram</option>
+            <option value="Eranakulam">Eranakulam</option>
+            <option value="Thrissur">Thrissur</option>
+            <option value="Kollam">Kollam</option>
+            <option value="Palakkad">Palakkad</option>
+            <option value="Malappuram">Malappuram</option>
+            <option value="Kozhikode">Kozhikode</option>
+            <option value="Kottayam">Kottayam</option>
+            <option value="Alappuzha">Alappuzha</option>
+            <option value="Idukki">Idukki</option>
+            <option value="Pathanamthitta">Pathanamthitta</option>
+            <option value="Wayanad">Wayanad</option>
+            <option value="Kannur">Kannur</option>
+            <option value="Kasaragod">Kasaragod</option>
+        </select>
+        <select class="custom-select" name="category" >
+            <option value="0" selected="">Select Catagory</option>
+            <option value="Cakeshop">Cakeshops</option>
+            <option value="Cars and Buses">Cars and Buses</option>
+            <option value="Catering">Catering Service</option>
+            <option value="Event Management">Eventmanagement</option>
+            <option value="Invitation Cards">Invitation Cards</option>
+            <option value="Makeup Artist">Makeup Artsist</option>
+            <option value="Mehandi Artist">Mehandi Artist</option>
+            <option value="Photographer">Photographer</option>
+            <option value="Stage Decorator">Stagedecorator</option>
+            <option value="Wedding venues">Wedding Venues</option>
+        </select>
+        <button type="submit" class="btn btn btn-primary btn-lg"><i class="fa fa-search pr-2" aria-hidden="true"></i> Search</button>
+    </form>
+
+{% endblock content %}

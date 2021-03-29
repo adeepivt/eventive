@@ -1,0 +1,10 @@
+<form method="POST">
+    {% csrf_token %}
+    <fieldset>
+        <legend>Join Today</legend>
+        {{form}}
+    </fieldset>
+    <button type="submit">Login</button>
+    <a href="#">Forgotten password?</a>
+    <a href="{% url 'register' %}">Sign Up</a>
+</form>

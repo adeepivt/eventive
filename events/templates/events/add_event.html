@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    <!-- {% if user.profile.is_admin or user.is_superuser %} -->
+        <p>{{user}}--hello admin</p>
+        Add Event <a href=""></a>
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <fieldset>
+                <legend>Blog Post</legend>
+                {{e_form.as_p}}
+            </fieldset>
+            <button type="submit">Submit</button>
+        </form>
+    <!-- {% else %} -->
+        <!-- <p>{{user}}--customer</p>
+        You need to be a vendor account add your event -->
+    <!-- {% endif %} -->
+    <a href="{% url 'logout' %}">logout</a>
+
+{% endblock content %}

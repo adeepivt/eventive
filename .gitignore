@@ -1,0 +1,21 @@
+.env
+
+### vscode ###
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+*.code-workspace
+
+*.pyc
+*~
+__pycache__
+Pipfile
+*.log
+# Database
+db.sqlite3
+
+# Static folder at project root
+/static/
+/media/

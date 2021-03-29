@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+  {% for event in events %}
+    
+    <h3>{{event.name}}</h3>
+    <a href="{% url 'event-update' event.pk %}"><button class="ui button bwhite-lg ">Update</button></a>
+    <a href="{% url 'event-delete' event.pk %}"><button class="ui button bwhite-lg ">Delete</button></a>
+
+  {% endfor %}
+
+{% endblock content %}

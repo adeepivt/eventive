@@ -1,0 +1,13 @@
+
+{% if messages %}
+{% for message in messages %}
+  {{message}}
+{% endfor %}
+{% endif %}
+
+<form action="" method="POST">
+    {% csrf_token %}
+    {{u_form}}
+    {{v_form}}
+    <button type="submit">Register</button>
+</form>
