@@ -7,38 +7,91 @@
         <br>
   {% endfor %}
 
-    <form action="{% url 'search_results' %}" method="get">
-        <select class="custom-select" name="place" >
-            <option value="0" selected="">Choose Place</option>*
-            <option value="Thiruvananthapuram">Thiruvananthapuram</option>
-            <option value="Eranakulam">Eranakulam</option>
-            <option value="Thrissur">Thrissur</option>
-            <option value="Kollam">Kollam</option>
-            <option value="Palakkad">Palakkad</option>
-            <option value="Malappuram">Malappuram</option>
-            <option value="Kozhikode">Kozhikode</option>
-            <option value="Kottayam">Kottayam</option>
-            <option value="Alappuzha">Alappuzha</option>
-            <option value="Idukki">Idukki</option>
-            <option value="Pathanamthitta">Pathanamthitta</option>
-            <option value="Wayanad">Wayanad</option>
-            <option value="Kannur">Kannur</option>
-            <option value="Kasaragod">Kasaragod</option>
-        </select>
-        <select class="custom-select" name="category" >
-            <option value="0" selected="">Select Catagory</option>
-            <option value="Cakeshop">Cakeshops</option>
-            <option value="Cars and Buses">Cars and Buses</option>
-            <option value="Catering">Catering Service</option>
-            <option value="Event Management">Eventmanagement</option>
-            <option value="Invitation Cards">Invitation Cards</option>
-            <option value="Makeup Artist">Makeup Artsist</option>
-            <option value="Mehandi Artist">Mehandi Artist</option>
-            <option value="Photographer">Photographer</option>
-            <option value="Stage Decorator">Stagedecorator</option>
-            <option value="Wedding venues">Wedding Venues</option>
-        </select>
-        <button type="submit" class="btn btn btn-primary btn-lg"><i class="fa fa-search pr-2" aria-hidden="true"></i> Search</button>
-    </form>
+
+
+
+  <!-- ***** Welcome Area Start ***** -->
+    <section class="dorne-welcome-area bg-img bg-overlay" style="background-image: url(img/bg-img/hero-1.jpg);">
+        <div class="container h-100">
+            <div class="row h-100 align-items-center justify-content-center">
+                <div class="col-12 col-md-10">
+                    <div class="hero-content">
+                        <h2>Discover places near you</h2>
+                        <h4>This is the best guide of your city</h4>
+                    </div>
+                    <!-- Hero Search Form -->
+                    <div class="hero-search-form">
+                        <!-- Tabs -->
+                        <div class="nav nav-tabs" id="heroTab" role="tablist">
+                            <a class="nav-item nav-link active" id="nav-places-tab" data-toggle="tab" href="#nav-places" role="tab" aria-controls="nav-places" aria-selected="true">Places</a>
+                        </div>
+                        <!-- Tabs Content -->
+                        <div class="tab-content" id="nav-tabContent">
+                            <div class="tab-pane fade show active" id="nav-places" role="tabpanel" aria-labelledby="nav-places-tab">
+                                <h6>What are you looking for?</h6>
+                                <form action="{% url 'search_results' %}" method="get">
+                                    <select class="custom-select" name="place" >
+                                        <option value="Thiruvananthapuram" selected="">Choose Place</option>*
+                                        <option value="Thiruvananthapuram">Thiruvananthapuram</option>
+                                        <option value="Eranakulam">Eranakulam</option>
+                                        <option value="Thrissur">Thrissur</option>
+                                        <option value="Kollam">Kollam</option>
+                                        <option value="Palakkad">Palakkad</option>
+                                        <option value="Malappuram">Malappuram</option>
+                                        <option value="Kozhikode">Kozhikode</option>
+                                        <option value="Kottayam">Kottayam</option>
+                                        <option value="Alappuzha">Alappuzha</option>
+                                        <option value="Idukki">Idukki</option>
+                                        <option value="Pathanamthitta">Pathanamthitta</option>
+                                        <option value="Wayanad">Wayanad</option>
+                                        <option value="Kannur">Kannur</option>
+                                        <option value="Kasaragod">Kasaragod</option>
+                                    </select>
+                                    <select class="custom-select" name="category" >
+                                        <option value="Cakeshop" selected="">Select Catagory</option>
+                                        <option value="Cakeshop">Cakeshops</option>
+                                        <option value="Cars and Buses">Cars and Buses</option>
+                                        <option value="Catering">Catering Service</option>
+                                        <option value="Event Management">Eventmanagement</option>
+                                        <option value="Invitation Cards">Invitation Cards</option>
+                                        <option value="Makeup Artist">Makeup Artsist</option>
+                                        <option value="Mehandi Artist">Mehandi Artist</option>
+                                        <option value="Photographer">Photographer</option>
+                                        <option value="Stage Decorator">Stagedecorator</option>
+                                        <option value="Wedding venues">Wedding Venues</option>
+                                    </select>
+                                    <select class="custom-select">
+                                        <option selected>Price Range</option>
+                                        <option value="1">$100 - $499</option>
+                                        <option value="2">$500 - $999</option>
+                                        <option value="3">$1000 - $4999</option>
+                                    </select>
+                                    <button type="submit" class="btn btn btn-primary btn-lg"><i class="fa fa-search pr-2" aria-hidden="true"></i> Search</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Hero Social Btn -->
+        <div class="hero-social-btn">
+            <div class="social-title d-flex align-items-center">
+                <h6>Follow us on Social Media</h6>
+                <span></span>
+            </div>
+            <div class="social-btns">
+                <a href="#"><i class="fa fa-linkedin" aria-haspopup="true"></i></a>
+                <a href="#"><i class="fa fa-behance" aria-hidden="true"></i></a>
+                <a href="#"><i class="fa fa-dribbble" aria-hidden="true"></i></a>
+                <a href="#"><i class="fa fa-twitter" aria-haspopup="true"></i></a>
+                <a href="#"><i class="fa fa-facebook" aria-haspopup="true"></i></a>
+            </div>
+        </div>
+    </section>
+
+
+
+
 
 {% endblock content %}
