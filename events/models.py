@@ -1,11 +1,20 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.core.validators import FileExtensionValidator
+from PIL import Image
 # Create your models here.
 
 EVENTS = (
-    ('photography','photography'),
-    ('cakeshops','cakeshops'),
+    ('Cakeshops','Cakeshops'),
+    ('CarsAndBuses','Cars and Buses'),
+    ('CateringService','Catering Service'),
+    ('Eventmanagement','Eventmanagement'),
+    ('InvitationCards','Invitation Cards'),
+    ('MakeupArtsist','Makeup Artsist'),
+    ('MehandiArtist','Mehandi Artist'),
+    ('Photographer','Photographer'),
+    ('Stagedecorator','Stagedecorator'),
+    ('WeddingVenues','Wedding Venues'),
 )
 
 class Event(models.Model):
@@ -18,11 +27,12 @@ class Event(models.Model):
     details = models.TextField(blank=True)
     updated = models.DateTimeField(auto_now=True)
     created = models.DateTimeField(auto_now_add=True)
-    image = models.ImageField(upload_to='events/',validators=[FileExtensionValidator(['jpeg','png', 'jpg'])], blank=True)
+    image = models.ImageField(upload_to='events/',validators=[FileExtensionValidator(['jpeg','png', 'jpg'])], default='eventive_logo.jpg')
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='admin')
 
     def __str__(self):
         return f"Eventive - {self.category} - {self.price}"
+
 
     class Meta:
         ordering = ('-created',)

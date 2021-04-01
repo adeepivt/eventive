@@ -2,12 +2,51 @@
 
 {% block content %}
 
-  {% for event in events %}
-    
-    <h3>{{event.name}}</h3>
-    <a href="{% url 'event-update' event.pk %}"><button class="ui button bwhite-lg ">Update</button></a>
-    <a href="{% url 'event-delete' event.pk %}"><button class="ui button bwhite-lg ">Delete</button></a>
+  
 
-  {% endfor %}
+  
+
+  <!-- ***** Breadcumb Area Start ***** -->
+  <div class="breadcumb-area bg-img bg-overlay" style="background-image: url(img/bg-img/hero-1.jpg)"></div>
+  <!-- ***** Breadcumb Area End ***** -->
+
+  <!-- ***** Listing Destinations Area Start ***** -->
+  <section class="dorne-listing-destinations-area section-padding-100-50">
+      <div class="container">
+          <div class="row">
+              <div class="col-12">
+                  <div class="section-heading dark text-center">
+                      <span></span>
+                      <h4>Your Registered Events</h4>
+                      <p>Update / Delete</p>
+                  </div>
+              </div>
+          </div>
+          <div class="row">
+            {% for event in events %}
+              <!-- Single Features Area -->
+              <div class="col-12 col-sm-6 col-lg-4">
+                  <div class="single-features-area mb-50">
+                      <img class="search-img" src="{{ event.image.url }}" alt="">
+                      <!-- Price -->
+                      <div class="price-start">
+                          <a href="{% url 'event-delete' event.pk %}"><p>Delete</p></a>
+                      </div>
+                      <div class="e-update">
+                        <a href="{% url 'event-update' event.pk %}"><p>Update</p></a>
+                    </div>
+                      <div class="feature-content d-flex align-items-center justify-content-between">
+                          <div class="feature-title">
+                              <a href="/"><h5>{{event.name}}</h5></a>
+                              <p>{{event.place}}</p>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+            {% endfor %}
+          </div>
+      </div>
+  </section>
+  <!-- ***** Listing Destinations Area End ***** -->
 
 {% endblock content %}

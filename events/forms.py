@@ -7,3 +7,8 @@ class EventCreateForm(forms.ModelForm):
     class Meta:
         model = Event
         exclude = ['user']
+
+class EventUpdateForm(forms.ModelForm):
+    class Meta:
+        model = Event
+        fields = ['category','name','place','price','details','image']

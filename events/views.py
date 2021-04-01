@@ -1,7 +1,7 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from users.models import Profile
 from django.contrib.auth.models import User
-from .forms import EventCreateForm
+from .forms import EventCreateForm, EventUpdateForm
 from .models import Event
 from django.contrib import messages
 from django.views.generic import UpdateView, DeleteView
@@ -67,7 +67,7 @@ def event_list(request):
 
 class EventUpdateView(LoginRequiredMixin, UpdateView):
     model = Event
-    form_class = EventCreateForm
+    form_class = EventUpdateForm
     template_name = 'events/update.html'
     success_url = reverse_lazy('event-list')
 
