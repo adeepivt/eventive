@@ -1,2 +1,19 @@
-<h2>loogedout </h2>
-<a href="{% url 'login' %}">Login</a>
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<div class="breadcumb-area bg-img bg-overlay" style="background-image: url({% static 'img/bg-img/hero-1.jpg' %})"></div>
+<br>
+<section class="dorne-about-area section-padding-0-100">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="about-content text-center">
+                    <h2>Logged Out</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+{% endblock content %}

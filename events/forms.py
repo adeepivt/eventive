@@ -7,8 +7,18 @@ class EventCreateForm(forms.ModelForm):
     class Meta:
         model = Event
         exclude = ['user']
+    
+    def __init__(self, *args, **kwargs):
+        super(EventCreateForm, self).__init__(*args, **kwargs)
+        for visible in self.visible_fields():
+            visible.field.widget.attrs['class'] = 'form-control'
 
 class EventUpdateForm(forms.ModelForm):
     class Meta:
         model = Event
-        fields = ['category','name','place','price','details','image']
+        fields = ['name','place','price','details','image']
+
+    def __init__(self, *args, **kwargs):
+        super(EventUpdateForm, self).__init__(*args, **kwargs)
+        for visible in self.visible_fields():
+            visible.field.widget.attrs['class'] = 'form-control'

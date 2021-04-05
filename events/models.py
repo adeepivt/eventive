@@ -27,11 +27,11 @@ class Event(models.Model):
     details = models.TextField(blank=True)
     updated = models.DateTimeField(auto_now=True)
     created = models.DateTimeField(auto_now_add=True)
-    image = models.ImageField(upload_to='events/',validators=[FileExtensionValidator(['jpeg','png', 'jpg'])], default='eventive_logo.jpg')
+    image = models.ImageField(upload_to='events/',validators=[FileExtensionValidator(['jpeg','png', 'jpg'])], default='e_logo.jpg')
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='admin')
 
     def __str__(self):
-        return f"Eventive - {self.category} - {self.price}"
+        return f"Eventive-{self.user} - {self.category} - {self.price}"
 
 
     class Meta:

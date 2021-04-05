@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-
+{% load static %}
 {% block content %}
 
   
@@ -7,7 +7,7 @@
   
 
   <!-- ***** Breadcumb Area Start ***** -->
-  <div class="breadcumb-area bg-img bg-overlay" style="background-image: url(img/bg-img/hero-1.jpg)"></div>
+  <div class="breadcumb-area bg-img bg-overlay" style="background-image: url({% static 'img/bg-img/hero-1.jpg' %})"></div>
   <!-- ***** Breadcumb Area End ***** -->
 
   <!-- ***** Listing Destinations Area Start ***** -->
@@ -17,8 +17,12 @@
               <div class="col-12">
                   <div class="section-heading dark text-center">
                       <span></span>
-                      <h4>Your Registered Events</h4>
-                      <p>Update / Delete</p>
+                      {% if request.user.profile.is_admin %}
+                        <h4>Your Registered Events</h4>
+                        <p>Update / Delete</p>
+                      {% else %}
+                        <h4>You need an Admin account to view this page.</h4>
+                      {% endif %}
                   </div>
               </div>
           </div>

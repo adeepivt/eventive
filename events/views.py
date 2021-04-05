@@ -29,7 +29,6 @@ def search_event(request):
         object_list = Event.objects.filter(
             Q(place__icontains=place) & Q(category__contains=category)
         )
-        print(place,category,object_list)
 
     return render(request, 'events/search_result.html', {'object':object_list})
 
@@ -76,7 +75,7 @@ class EventUpdateView(LoginRequiredMixin, UpdateView):
         if form.instance.user == user:
             return super().form_valid(form)
         else:
-            form.add_error(None, 'You need to be user to Update')
+            form.add_error(None, 'You need to be the user to Update')
             return super().form_invalid(form)
 
 class EventDeleteView(LoginRequiredMixin, DeleteView):

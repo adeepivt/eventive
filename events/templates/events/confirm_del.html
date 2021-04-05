@@ -1,18 +1,30 @@
 {% extends 'base.html' %}
-
+{% load static %}
 {% block content %}
   
-    {% if messages %}
-        <p></p>
-    {% else %}
-        <div class="ui segment">
-            <h3>Delete Post?</h3>
-            <form action="" method="POST">
-                {% csrf_token %}
-                <p>Are you sure you want to delete?</p>
-                <button type="submit">Delete</button>
-            </form>
+<div class="breadcumb-area bg-img bg-overlay" style="background-image: url({% static 'img/bg-img/hero-1.jpg' %})"></div>
+<br>
+<section class="dorne-about-area section-padding-0-100">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="about-content text-center">
+                    {% if messages %}
+                        {% for message in messages %}
+                            <h3>{{message}}</h3>
+                        {% endfor %}
+                    {% else %}
+                        <h3>Delete <span>{{object.name}}??</span></h3>
+                        <form action="" method="POST">
+                            {% csrf_token %}
+                            <h3>Are you sure you want to delete?</h3>
+                            <button class="btn dorne-btn" type="submit">Delete</button>
+                        </form>
+                    {% endif %}
+                </div>
+            </div>
         </div>
-    {% endif %}
+    </div>
+</section>
 
 {% endblock content %}

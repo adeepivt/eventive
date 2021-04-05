@@ -2,7 +2,7 @@
 {% load static %}
 {% block content %}
   <!-- ***** Welcome Area Start ***** -->
-    <section class="dorne-welcome-area bg-img bg-overlay" style="background-image: url({% static 'img/beach-beach-wedding-chairs-1691921.jpg' %});">
+    <section class="dorne-welcome-area bg-img bg-overlay" style="background-image: url({% static 'img/Eventique House.jpg' %});">
         <div class="container h-100">
             <div class="row h-100 align-items-center justify-content-center">
                 <div class="col-12 col-md-10">
@@ -21,8 +21,8 @@
                             <div class="tab-pane fade show active" id="nav-places" role="tabpanel" aria-labelledby="nav-places-tab">
                                 <h6>What are you looking for?</h6>
                                 <form action="{% url 'search_results' %}" method="get">
-                                    <select class="custom-select" name="place" >
-                                        <option value="Thiruvananthapuram" selected="">Choose Place</option>*
+                                    <select class="custom-select" name="place" required>
+                                        <option value="">Choose Place</option>
                                         <option value="Thiruvananthapuram">Thiruvananthapuram</option>
                                         <option value="Eranakulam">Eranakulam</option>
                                         <option value="Thrissur">Thrissur</option>
@@ -38,8 +38,8 @@
                                         <option value="Kannur">Kannur</option>
                                         <option value="Kasaragod">Kasaragod</option>
                                     </select>
-                                    <select class="custom-select" name="category" >
-                                        <option value="Cakeshop" selected="">Select Catagory</option>
+                                    <select class="custom-select" name="category" required>
+                                        <option value="">Select Catagory</option>
                                         <option value="Cakeshop">Cakeshops</option>
                                         <option value="CarsAndBuses">Cars and Buses</option>
                                         <option value="CateringService">Catering Service</option>
@@ -51,7 +51,7 @@
                                         <option value="Stagedecorator">Stagedecorator</option>
                                         <option value="WeddingVenues">Wedding Venues</option>
                                     </select>
-                                    <select class="custom-select">
+                                    <select class="custom-select" disabled>
                                         <option selected>Price Range</option>
                                         <option value="1">$100 - $499</option>
                                         <option value="2">$500 - $999</option>
@@ -157,8 +157,8 @@
                 <div class="row">
                     <div class="col-12">
                         <div class="about-content text-center">
-                            <h2>Discover your city with <br><span>Dorne</span></h2>
-                            <p>Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Fusce quis tempus elit. Sed efficitur tortor neque, vitae aliquet urna varius sit amet. Ut rhoncus, nunc nec tincidunt volutpat, ex libero.</p>
+                            <h2>Plan your special day with  <br><span>Eventive</span></h2>
+                            <p>Sit back at home as we have done the hard-work to list all the required vendors for your spectacular events - best wedding photographers, wedding make-up artists, affordable party catering crew, and marriage hall decoration.Browse through a wide range of venues & vendors.The services provided by our wedding planners can save you a lot of time.Our clients value our affordable pricing policy and great service.</p>
                         </div>
                     </div>
                 </div>
@@ -237,15 +237,15 @@
                                 <img src="{% static 'img/Girideepam Convention Centre.jpg' %}" alt="">
                                 <!-- Price -->
                                 <div class="price-start">
-                                    <p>FROM $59/night</p>
+                                    <p>FROM ₹170000/Day</p>
                                 </div>
                                 <div class="feature-content d-flex align-items-center justify-content-between">
                                     <div class="feature-title">
                                         <h5>Girideepam</h5>
-                                        <p>Party</p>
+                                        <p>Trivandrum</p>
                                     </div>
                                     <div class="feature-favourite">
-                                        <a href="#"><i class="fa fa-heart-o" aria-hidden="true"></i></a>
+                                        <a href="#"><i class="fa  fa-pencil-square-o" aria-hidden="true"></i></a>
                                     </div>
                                 </div>
                             </div>
@@ -254,15 +254,15 @@
                                 <img src="{% static 'img/Adlux Convention Centre.jpg' %}" alt="">
                                 <!-- Price -->
                                 <div class="price-start">
-                                    <p>FROM $59/night</p>
+                                    <p>FROM ₹200000/Day</p>
                                 </div>
                                 <div class="feature-content d-flex align-items-center justify-content-between">
                                     <div class="feature-title">
                                         <h5>Adlux</h5>
-                                        <p>Luxury</p>
+                                        <p>Eranakulam</p>
                                     </div>
                                     <div class="feature-favourite">
-                                        <a href="#"><i class="fa fa-heart-o" aria-hidden="true"></i></a>
+                                        <a href="#"><i class="fa  fa-pencil-square-o" aria-hidden="true"></i></a>
                                     </div>
                                 </div>
                             </div>
@@ -271,15 +271,15 @@
                                 <img src="{% static 'img/miami.jpg' %}" alt="">
                                 <!-- Price -->
                                 <div class="price-start">
-                                    <p>FROM $59/night</p>
+                                    <p>FROM ₹150000/Day</p>
                                 </div>
                                 <div class="feature-content d-flex align-items-center justify-content-between">
                                     <div class="feature-title">
                                         <h5>Miami</h5>
-                                        <p>Spectacular</p>
+                                        <p>Kozhikode</p>
                                     </div>
                                     <div class="feature-favourite">
-                                        <a href="#"><i class="fa fa-heart-o" aria-hidden="true"></i></a>
+                                        <a href="#"><i class="fa  fa-pencil-square-o" aria-hidden="true"></i></a>
                                     </div>
                                 </div>
                             </div>
@@ -288,15 +288,15 @@
                                 <img src="{% static 'img/Lulu Convention Centre.jpg' %}" alt="">
                                 <!-- Price -->
                                 <div class="price-start">
-                                    <p>FROM $59/night</p>
+                                    <p>FROM ₹200000/Day</p>
                                 </div>
                                 <div class="feature-content d-flex align-items-center justify-content-between">
                                     <div class="feature-title">
                                         <h5>Lulu</h5>
-                                        <p>Sunny</p>
+                                        <p>Thrissur</p>
                                     </div>
                                     <div class="feature-favourite">
-                                        <a href="#"><i class="fa fa-heart-o" aria-hidden="true"></i></a>
+                                        <a href="#"><i class="fa  fa-pencil-square-o" aria-hidden="true"></i></a>
                                     </div>
                                 </div>
                             </div>
@@ -305,15 +305,15 @@
                                 <img src="{% static 'img/Rose Lounge Auditorium.jpg' %}" alt="">
                                 <!-- Price -->
                                 <div class="price-start">
-                                    <p>FROM $59/night</p>
+                                    <p>FROM ₹200000/Day</p>
                                 </div>
                                 <div class="feature-content d-flex align-items-center justify-content-between">
                                     <div class="feature-title">
                                         <h5>Rose</h5>
-                                        <p>All Year round</p>
+                                        <p>Malappuram</p>
                                     </div>
                                     <div class="feature-favourite">
-                                        <a href="#"><i class="fa fa-heart-o" aria-hidden="true"></i></a>
+                                        <a href="#"><i class="fa  fa-pencil-square-o" aria-hidden="true"></i></a>
                                     </div>
                                 </div>
                             </div>
@@ -345,13 +345,13 @@
                                 <img src="{% static 'img/Cupcake Noggins.jpg ' %}" alt="">
                                 <!-- Rating & Map Area -->
                                 <div class="ratings-map-area d-flex">
-                                    <a href="#">8.5</a>
+                                    <a href="#">₹999</a>
                                     <a href="#"><i class="fa fa-birthday-cake" alt=""></i></a>
                                 </div>
                                 <div class="feature-content d-flex align-items-center justify-content-between">
                                     <div class="feature-title">
                                         <h5>Cupcake</h5>
-                                        <p>Manhathan</p>
+                                        <p>Trivandrum</p>
                                     </div>
                                     <div class="feature-favourite">
                                         <a href="#"><i class="fa  fa-pencil-square-o" aria-hidden="true"></i></a>
@@ -363,13 +363,13 @@
                                 <img src="{% static 'img/Pandhal.jpg' %}" alt="">
                                 <!-- Rating & Map Area -->
                                 <div class="ratings-map-area d-flex">
-                                    <a href="#">9.5</a>
+                                    <a href="#">₹900</a>
                                     <a href="#"><i class="fa fa-birthday-cake" alt=""></i></a>
                                 </div>
                                 <div class="feature-content d-flex align-items-center justify-content-between">
                                     <div class="feature-title">
                                         <h5>Pandhal</h5>
-                                        <p>Paris</p>
+                                        <p>Eranakulam</p>
                                     </div>
                                     <div class="feature-favourite">
                                         <a href="#"><i class="fa  fa-pencil-square-o" aria-hidden="true"></i></a>
@@ -381,13 +381,13 @@
                                 <img src="{% static 'img/Just Bake.jpg ' %}" alt="">
                                 <!-- Rating & Map Area -->
                                 <div class="ratings-map-area d-flex">
-                                    <a href="#">8.2</a>
+                                    <a href="#">₹850</a>
                                     <a href="#"><i class="fa fa-birthday-cake" alt=""></i></a>
                                 </div>
                                 <div class="feature-content d-flex align-items-center justify-content-between">
                                     <div class="feature-title">
                                         <h5>Just Bake</h5>
-                                        <p>Madrid</p>
+                                        <p>Kozhikode</p>
                                     </div>
                                     <div class="feature-favourite">
                                         <a href="#"><i class="fa  fa-pencil-square-o" aria-hidden="true"></i></a>
@@ -399,13 +399,13 @@
                                 <img src="{% static 'img/Navya Bake Shop.jpg' %}" alt="">
                                 <!-- Rating & Map Area -->
                                 <div class="ratings-map-area d-flex">
-                                    <a href="#">8.7</a>
+                                    <a href="#">₹850</a>
                                     <a href="#"><i class="fa fa-birthday-cake" alt=""></i></a>
                                 </div>
                                 <div class="feature-content d-flex align-items-center justify-content-between">
                                     <div class="feature-title">
-                                        <h5>Navya Bake</h5>
-                                        <p>Sydney</p>
+                                        <h5>Navya</h5>
+                                        <p>Thrissur</p>
                                     </div>
                                     <div class="feature-favourite">
                                         <a href="#"><i class="fa  fa-pencil-square-o" aria-hidden="true"></i></a>
@@ -417,13 +417,13 @@
                                 <img src="{% static 'img/CakeStudio.jpg' %}" alt="">
                                 <!-- Rating & Map Area -->
                                 <div class="ratings-map-area d-flex">
-                                    <a href="#">9.8</a>
+                                    <a href="#">₹900</a>
                                     <a href="#"><i class="fa fa-birthday-cake" alt=""></i></a>
                                 </div>
                                 <div class="feature-content d-flex align-items-center justify-content-between">
                                     <div class="feature-title">
-                                        <h5>Cake Studio</h5>
-                                        <p>Hong Kong</p>
+                                        <h5>CakeStudio</h5>
+                                        <p>Kannur</p>
                                     </div>
                                     <div class="feature-favourite">
                                         <a href="#"><i class="fa  fa-pencil-square-o" aria-hidden="true"></i></a>
@@ -438,7 +438,7 @@
         <!-- ***** Features Restaurant Area End ***** -->
 
         <!-- ***** Features Events Area Start ***** -->
-        <section class="dorne-features-events-area bg-img bg-overlay-9 section-padding-100-50" style="background-image: url(img/bg-img/hero-3.jpg)">
+        <section class="dorne-features-events-area bg-img bg-overlay-9 section-padding-100-50" style="background-image: url({% static 'img/bg-img/hero-3.jpg' %})">
             <div class="container">
                 <div class="row">
                     <div class="col-12">
@@ -454,114 +454,72 @@
                     <div class="col-12 col-lg-6">
                         <div class="single-feature-events-area d-sm-flex align-items-center wow fadeInUpBig" data-wow-delay="0.2s">
                             <div class="feature-events-thumb">
-                                <img src="img/bg-img/event-1.jpg" alt="">
-                                <div class="date-map-area d-flex">
-                                    <a href="#">26 Nov</a>
-                                    <a href="#"><img src="img/core-img/map.png" alt=""></a>
-                                </div>
+                                <img src="{% static 'img/ECAT Events.jpg' %}" alt="">
                             </div>
                             <div class="feature-events-content">
-                                <h5>Jazz Concert</h5>
-                                <h6>Manhathan</h6>
+                                <h5>ECAT Events</h5>
+                                <h6>Thrissur</h6>
                                 <p>Class aptent taciti sociosqu ad litora torquent per conubia nostra...</p>
-                            </div>
-                            <div class="feature-events-details-btn">
-                                <a href="#">+</a>
                             </div>
                         </div>
                     </div>
                     <div class="col-12 col-lg-6">
                         <div class="single-feature-events-area d-sm-flex align-items-center wow fadeInUpBig" data-wow-delay="0.3s">
                             <div class="feature-events-thumb">
-                                <img src="img/bg-img/event-2.jpg" alt="">
-                                <div class="date-map-area d-flex">
-                                    <a href="#">26 Nov</a>
-                                    <a href="#"><img src="img/core-img/map.png" alt=""></a>
-                                </div>
+                                <img src="{% static 'img/Melodia Events.jpg' %}" alt="">
                             </div>
                             <div class="feature-events-content">
-                                <h5>DeeJay in the house</h5>
-                                <h6>Manhathan</h6>
+                                <h5>Melodia Events</h5>
+                                <h6>Thrissur</h6>
                                 <p>Class aptent taciti sociosqu ad litora torquent per conubia nostra...</p>
-                            </div>
-                            <div class="feature-events-details-btn">
-                                <a href="#">+</a>
                             </div>
                         </div>
                     </div>
                     <div class="col-12 col-lg-6">
                         <div class="single-feature-events-area d-sm-flex align-items-center wow fadeInUpBig" data-wow-delay="0.4s">
                             <div class="feature-events-thumb">
-                                <img src="img/bg-img/event-3.jpg" alt="">
-                                <div class="date-map-area d-flex">
-                                    <a href="#">26 Nov</a>
-                                    <a href="#"><img src="img/core-img/map.png" alt=""></a>
-                                </div>
+                                <img src="{% static 'img/Wasava Events.jpg' %}" alt="">
                             </div>
                             <div class="feature-events-content">
-                                <h5>Theatre Night outside</h5>
-                                <h6>Manhathan</h6>
+                                <h5>Wasava Events</h5>
+                                <h6>Kannur</h6>
                                 <p>Class aptent taciti sociosqu ad litora torquent per conubia nostra...</p>
-                            </div>
-                            <div class="feature-events-details-btn">
-                                <a href="#">+</a>
                             </div>
                         </div>
                     </div>
                     <div class="col-12 col-lg-6">
                         <div class="single-feature-events-area d-sm-flex align-items-center wow fadeInUpBig" data-wow-delay="0.5s">
                             <div class="feature-events-thumb">
-                                <img src="img/bg-img/event-4.jpg" alt="">
-                                <div class="date-map-area d-flex">
-                                    <a href="#">26 Nov</a>
-                                    <a href="#"><img src="img/core-img/map.png" alt=""></a>
-                                </div>
+                                <img src="{% static 'img/Eventique House.jpg' %}" alt="">
                             </div>
                             <div class="feature-events-content">
-                                <h5>Wine tasting</h5>
-                                <h6>Manhathan</h6>
+                                <h5>Eventique House</h5>
+                                <h6>Eranakulam</h6>
                                 <p>Class aptent taciti sociosqu ad litora torquent per conubia nostra...</p>
-                            </div>
-                            <div class="feature-events-details-btn">
-                                <a href="#">+</a>
                             </div>
                         </div>
                     </div>
                     <div class="col-12 col-lg-6">
                         <div class="single-feature-events-area d-sm-flex align-items-center wow fadeInUpBig" data-wow-delay="0.6s">
                             <div class="feature-events-thumb">
-                                <img src="img/bg-img/event-5.jpg" alt="">
-                                <div class="date-map-area d-flex">
-                                    <a href="#">26 Nov</a>
-                                    <a href="#"><img src="img/core-img/map.png" alt=""></a>
-                                </div>
+                                <img src="{% static 'img/Raldia Events.jpg' %}" alt="">
                             </div>
                             <div class="feature-events-content">
-                                <h5>New Moon Party</h5>
-                                <h6>Manhathan</h6>
+                                <h5>Raldia Events</h5>
+                                <h6>Trivandrum</h6>
                                 <p>Class aptent taciti sociosqu ad litora torquent per conubia nostra...</p>
-                            </div>
-                            <div class="feature-events-details-btn">
-                                <a href="#">+</a>
                             </div>
                         </div>
                     </div>
                     <div class="col-12 col-lg-6">
                         <div class="single-feature-events-area d-sm-flex align-items-center wow fadeInUpBig" data-wow-delay="0.7s">
                             <div class="feature-events-thumb">
-                                <img src="img/bg-img/event-6.jpg" alt="">
-                                <div class="date-map-area d-flex">
-                                    <a href="#">26 Nov</a>
-                                    <a href="#"><img src="img/core-img/map.png" alt=""></a>
-                                </div>
+                                <img src="{% static 'img/Frisco Evento.jpg' %}" alt="">
                             </div>
                             <div class="feature-events-content">
-                                <h5>Happy hour at pub</h5>
-                                <h6>Manhathan</h6>
+                                <h5>Frisco Evento</h5>
+                                <h6>Kozhikode</h6>
                                 <p>Class aptent taciti sociosqu ad litora torquent per conubia nostra...</p>
-                            </div>
-                            <div class="feature-events-details-btn">
-                                <a href="#">+</a>
                             </div>
                         </div>
                     </div>
