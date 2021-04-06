@@ -34,3 +34,9 @@ class CustomAuthForm(AuthenticationForm):
         super(CustomAuthForm, self).__init__(*args, **kwargs)
         for visible in self.visible_fields():
             visible.field.widget.attrs['placeholder'] = visible.name
+
+class VendorLoginForm(AuthenticationForm):
+    def __init__(self, *args, **kwargs):
+        super(VendorLoginForm, self).__init__(*args, **kwargs)
+        for visible in self.visible_fields():
+            visible.field.widget.attrs['placeholder'] = visible.name

@@ -23,11 +23,11 @@
             <div class="signin-content">
                 <div class="signin-image">
                     <figure><img src="{% static 'register_page/images/signin-image.jpg' %}" alt="sing up image"></figure>
-                    <a href="{% url 'register' %}" class="signup-image-link">Create an account</a>
+                    <a href="{% url 'vendor_register' %}" class="signup-image-link">Create an account</a>
                 </div>
 
                 <div class="signin-form">
-                    <h2 class="form-title">Sign In</h2>
+                    <h2 class="form-title">Vendor Sign In</h2>
                     <form method="POST" class="register-form" id="login-form">
                         {% csrf_token %}
                         {% for message in messages %}
@@ -50,13 +50,15 @@
                             <label for="remember-me" class="label-agree-term"><span><span></span></span>Remember me</label>
                         </div>
                         <div class="form-group form-button">
-                            <input type="hidden" name="next" value="{{ request.GET.next }}">
                             <input type="submit" name="signin" id="signin" class="form-submit" value="Log in"/>
                         </div>
                     </form>
                     <div class="social-login">
+                        <span class="social-label">Or login with</span>
                         <ul class="socials">
-                            <a href="{% url 'event-home' %}">Home</a>
+                            <li><a href="#"><i class="display-flex-center zmdi zmdi-facebook"></i></a></li>
+                            <li><a href="#"><i class="display-flex-center zmdi zmdi-twitter"></i></a></li>
+                            <li><a href="#"><i class="display-flex-center zmdi zmdi-google"></i></a></li>
                         </ul>
                     </div>
                 </div>

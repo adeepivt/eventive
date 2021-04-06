@@ -1,548 +1,565 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block content %}
-  <!-- ***** Welcome Area Start ***** -->
-    <section class="dorne-welcome-area bg-img bg-overlay" style="background-image: url({% static 'img/Eventique House.jpg' %});">
-        <div class="container h-100">
-            <div class="row h-100 align-items-center justify-content-center">
-                <div class="col-12 col-md-10">
-                    <div class="hero-content">
-                        <h2>Kerala's Favourite Event Plannig Platform</h2>
-                        <h4>Browse through a wide range of vendors</h4>
-                    </div>
-                    <!-- Hero Search Form -->
-                    <div class="hero-search-form">
-                        <!-- Tabs -->
-                        <div class="nav nav-tabs" id="heroTab" role="tablist">
-                            <a class="nav-item nav-link active" id="nav-places-tab" data-toggle="tab" href="#nav-places" role="tab" aria-controls="nav-places" aria-selected="true">Places</a>
-                        </div>
-                        <!-- Tabs Content -->
-                        <div class="tab-content" id="nav-tabContent">
-                            <div class="tab-pane fade show active" id="nav-places" role="tabpanel" aria-labelledby="nav-places-tab">
-                                <h6>What are you looking for?</h6>
-                                <form action="{% url 'search_results' %}" method="get">
-                                    <select class="custom-select" name="place" required>
-                                        <option value="">Choose Place</option>
-                                        <option value="Thiruvananthapuram">Thiruvananthapuram</option>
-                                        <option value="Eranakulam">Eranakulam</option>
-                                        <option value="Thrissur">Thrissur</option>
-                                        <option value="Kollam">Kollam</option>
-                                        <option value="Palakkad">Palakkad</option>
-                                        <option value="Malappuram">Malappuram</option>
-                                        <option value="Kozhikode">Kozhikode</option>
-                                        <option value="Kottayam">Kottayam</option>
-                                        <option value="Alappuzha">Alappuzha</option>
-                                        <option value="Idukki">Idukki</option>
-                                        <option value="Pathanamthitta">Pathanamthitta</option>
-                                        <option value="Wayanad">Wayanad</option>
-                                        <option value="Kannur">Kannur</option>
-                                        <option value="Kasaragod">Kasaragod</option>
-                                    </select>
-                                    <select class="custom-select" name="category" required>
-                                        <option value="">Select Catagory</option>
-                                        <option value="Cakeshop">Cakeshops</option>
-                                        <option value="CarsAndBuses">Cars and Buses</option>
-                                        <option value="CateringService">Catering Service</option>
-                                        <option value="Eventmanagement">Eventmanagement</option>
-                                        <option value="InvitationCards">Invitation Cards</option>
-                                        <option value="MakeupArtsist">Makeup Artsist</option>
-                                        <option value="MehandiArtist">Mehandi Artist</option>
-                                        <option value="Photographer">Photographer</option>
-                                        <option value="Stagedecorator">Stagedecorator</option>
-                                        <option value="WeddingVenues">Wedding Venues</option>
-                                    </select>
-                                    <select class="custom-select" disabled>
-                                        <option selected>Price Range</option>
-                                        <option value="1">$100 - $499</option>
-                                        <option value="2">$500 - $999</option>
-                                        <option value="3">$1000 - $4999</option>
-                                    </select>
-                                    <button type="submit" class="btn btn btn-primary btn-lg"><i class="fa fa-search pr-2" aria-hidden="true"></i> Search</button>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- Hero Social Btn -->
-        <div class="hero-social-btn">
-            <div class="social-title d-flex align-items-center">
-                <h6>Follow us on Social Media</h6>
-                <span></span>
-            </div>
-            <div class="social-btns">
-                <a href="#"><i class="fa fa-linkedin" aria-haspopup="true"></i></a>
-                <a href="#"><i class="fa fa-behance" aria-hidden="true"></i></a>
-                <a href="#"><i class="fa fa-dribbble" aria-hidden="true"></i></a>
-                <a href="#"><i class="fa fa-twitter" aria-haspopup="true"></i></a>
-                <a href="#"><i class="fa fa-facebook" aria-haspopup="true"></i></a>
-            </div>
-        </div>
-    </section>
-
-    <!-- ***** Catagory Area Start ***** -->
-        <section class="dorne-catagory-area">
-            <div class="container">
-                <div class="row">
-                    <div class="col-12">
-                        <div class="all-catagories">
-                            <div class="row">
-                                <!-- Single Catagory Area -->
-                                <div class="col-12 col-sm-6 col-md">
-                                    <div class="single-catagory-area wow fadeInUpBig" data-wow-delay="0.2s">
-                                        <div class="catagory-content">
-                                            <img src="{% static 'img/core-img/icon-1.png' %}" alt="">
-                                            <a href="#">
-                                                <h6>Auditorium</h6>
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- Single Catagory Area -->
-                                <div class="col-12 col-sm-6 col-md">
-                                    <div class="single-catagory-area wow fadeInUpBig" data-wow-delay="0.4s">
-                                        <div class="catagory-content">
-                                            <img src="{% static 'img/core-img/icon-2.png' %}" alt="">
-                                            <a href="#">
-                                                <h6>Cakeshops</h6>
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- Single Catagory Area -->
-                                <div class="col-12 col-sm-6 col-md">
-                                    <div class="single-catagory-area wow fadeInUpBig" data-wow-delay="0.6s">
-                                        <div class="catagory-content">
-                                            <img src="{% static 'img/core-img/icon-3.png' %}" alt="">
-                                            <a href="#">
-                                                <h6>EventManagement</h6>
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- Single Catagory Area -->
-                                <div class="col-12 col-sm-6 col-md">
-                                    <div class="single-catagory-area wow fadeInUpBig" data-wow-delay="0.8s">
-                                        <div class="catagory-content">
-                                            <img src="{% static 'img/core-img/icon-4.png' %}" alt="">
-                                            <a href="#">
-                                                <h6>Mehandi &amp; Makeup</h6>
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- Single Catagory Area -->
-                                <div class="col-12 col-md">
-                                    <div class="single-catagory-area wow fadeInUpBig" data-wow-delay="1s">
-                                        <div class="catagory-content">
-                                            <img src="{% static 'img/core-img/icon-5.png' %}" alt="">
-                                            <a href="#">
-                                                <h6>Photography</h6>
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-        <!-- ***** Catagory Area End ***** -->
-
-        <!-- ***** About Area Start ***** -->
+    {% if admin %}
+        <div class="breadcumb-area bg-img bg-overlay" style="background-image: url({% static 'img/bg-img/hero-1.jpg' %})"></div>
+        <br>
         <section class="dorne-about-area section-padding-0-100">
             <div class="container">
                 <div class="row">
                     <div class="col-12">
                         <div class="about-content text-center">
-                            <h2>Plan your special day with  <br><span>Eventive</span></h2>
-                            <p>Sit back at home as we have done the hard-work to list all the required vendors for your spectacular events - best wedding photographers, wedding make-up artists, affordable party catering crew, and marriage hall decoration.Browse through a wide range of venues & vendors.The services provided by our wedding planners can save you a lot of time.Our clients value our affordable pricing policy and great service.</p>
+                            <h2>Welcome To Eventive<br><span>Admin Panel</span></h2>
+                            <a href="{% url 'event-create' %}"><p>Register your Service Here.</p></a>
                         </div>
                     </div>
                 </div>
             </div>
         </section>
-        <!-- ***** About Area End ***** -->
-
-        <!-- ***** Editor Pick Area Start ***** -->
-        <section class="dorne-editors-pick-area bg-img bg-overlay-9 section-padding-100" style="background-image: url({% static 'img/bg-img/hero-2.jpg' %});">
-            <div class="container">
-                <div class="row">
-                    <div class="col-12">
-                        <div class="section-heading text-center">
-                            <span></span>
-                            <h4>Photography</h4>
-                            <p>Editor’s pick</p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="col-12 col-lg-6">
-                        <div class="single-editors-pick-area wow fadeInUp" data-wow-delay="0.2s">
-                            <img src="{% static 'img/Paprikas Ads and Films.jpg' %}" alt="">
-                            <div class="editors-pick-info">
-                                <div class="places-total-destinations d-flex">
-                                    <a href="#">Paprikas Ads and Films</a>
-                                    <a href="#">Eranakulam</a>
-                                </div>
+    {% else %}
+        <!-- ***** Welcome Area Start ***** -->
+            <section class="dorne-welcome-area bg-img bg-overlay" style="background-image: url({% static 'img/Eventique House.jpg' %});">
+                <div class="container h-100">
+                    <div class="row h-100 align-items-center justify-content-center">
+                        <div class="col-12 col-md-10">
+                            <div class="hero-content">
+                                <h2>Kerala's Favourite Event Plannig Platform</h2>
+                                <h4>Browse through a wide range of vendors</h4>
                             </div>
-                        </div>
-                    </div>
-                    <div class="col-12 col-lg-6">
-                        <div class="single-editors-pick-area wow fadeInUp" data-wow-delay="0.4s">
-                            <img src="{% static 'img/Pixels Studio.jpg' %}" alt="">
-                            <div class="editors-pick-info">
-                                <div class="places-total-destinations d-flex">
-                                    <a href="#">Pixels Studio</a>
-                                    <a href="#">Kozhikode</a>
+                            <!-- Hero Search Form -->
+                            <div class="hero-search-form">
+                                <!-- Tabs -->
+                                <div class="nav nav-tabs" id="heroTab" role="tablist">
+                                    <a class="nav-item nav-link active" id="nav-places-tab" data-toggle="tab" href="#nav-places" role="tab" aria-controls="nav-places" aria-selected="true">Places</a>
                                 </div>
-                            </div>
-                        </div>
-                        <div class="single-editors-pick-area wow fadeInUp" data-wow-delay="0.6s">
-                            <img src="{% static 'img/_1522994831_6.jpg' %}" alt="">
-                            <div class="editors-pick-info">
-                                <div class="places-total-destinations d-flex">
-                                    <a href="#">Maven Photography</a>
-                                    <a href="#">Kozhikode</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-        <!-- ***** Editor Pick Area End ***** -->
-
-        <!-- ***** Features Destinations Area Start ***** -->
-        <section class="dorne-features-destinations-area">
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="col-12">
-                        <div class="section-heading dark text-center">
-                            <span></span>
-                            <h4>FEATURED VENUES</h4>
-                            <p>Editor’s pick</p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="col-12">
-                        <div class="features-slides owl-carousel">
-                            <!-- Single Features Area -->
-                            <div class="single-features-area">
-                                <img src="{% static 'img/Girideepam Convention Centre.jpg' %}" alt="">
-                                <!-- Price -->
-                                <div class="price-start">
-                                    <p>FROM ₹170000/Day</p>
-                                </div>
-                                <div class="feature-content d-flex align-items-center justify-content-between">
-                                    <div class="feature-title">
-                                        <h5>Girideepam</h5>
-                                        <p>Trivandrum</p>
-                                    </div>
-                                    <div class="feature-favourite">
-                                        <a href="#"><i class="fa  fa-pencil-square-o" aria-hidden="true"></i></a>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- Single Features Area -->
-                            <div class="single-features-area">
-                                <img src="{% static 'img/Adlux Convention Centre.jpg' %}" alt="">
-                                <!-- Price -->
-                                <div class="price-start">
-                                    <p>FROM ₹200000/Day</p>
-                                </div>
-                                <div class="feature-content d-flex align-items-center justify-content-between">
-                                    <div class="feature-title">
-                                        <h5>Adlux</h5>
-                                        <p>Eranakulam</p>
-                                    </div>
-                                    <div class="feature-favourite">
-                                        <a href="#"><i class="fa  fa-pencil-square-o" aria-hidden="true"></i></a>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- Single Features Area -->
-                            <div class="single-features-area">
-                                <img src="{% static 'img/miami.jpg' %}" alt="">
-                                <!-- Price -->
-                                <div class="price-start">
-                                    <p>FROM ₹150000/Day</p>
-                                </div>
-                                <div class="feature-content d-flex align-items-center justify-content-between">
-                                    <div class="feature-title">
-                                        <h5>Miami</h5>
-                                        <p>Kozhikode</p>
-                                    </div>
-                                    <div class="feature-favourite">
-                                        <a href="#"><i class="fa  fa-pencil-square-o" aria-hidden="true"></i></a>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- Single Features Area -->
-                            <div class="single-features-area">
-                                <img src="{% static 'img/Lulu Convention Centre.jpg' %}" alt="">
-                                <!-- Price -->
-                                <div class="price-start">
-                                    <p>FROM ₹200000/Day</p>
-                                </div>
-                                <div class="feature-content d-flex align-items-center justify-content-between">
-                                    <div class="feature-title">
-                                        <h5>Lulu</h5>
-                                        <p>Thrissur</p>
-                                    </div>
-                                    <div class="feature-favourite">
-                                        <a href="#"><i class="fa  fa-pencil-square-o" aria-hidden="true"></i></a>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- Single Features Area -->
-                            <div class="single-features-area">
-                                <img src="{% static 'img/Rose Lounge Auditorium.jpg' %}" alt="">
-                                <!-- Price -->
-                                <div class="price-start">
-                                    <p>FROM ₹200000/Day</p>
-                                </div>
-                                <div class="feature-content d-flex align-items-center justify-content-between">
-                                    <div class="feature-title">
-                                        <h5>Rose</h5>
-                                        <p>Malappuram</p>
-                                    </div>
-                                    <div class="feature-favourite">
-                                        <a href="#"><i class="fa  fa-pencil-square-o" aria-hidden="true"></i></a>
+                                <!-- Tabs Content -->
+                                <div class="tab-content" id="nav-tabContent">
+                                    <div class="tab-pane fade show active" id="nav-places" role="tabpanel" aria-labelledby="nav-places-tab">
+                                        <h6>What are you looking for?</h6>
+                                        <form action="{% url 'search_results' %}" method="get">
+                                            <select class="custom-select" name="place" required>
+                                                <option value="">Choose Place</option>
+                                                <option value="Thiruvananthapuram">Thiruvananthapuram</option>
+                                                <option value="Eranakulam">Eranakulam</option>
+                                                <option value="Thrissur">Thrissur</option>
+                                                <option value="Kollam">Kollam</option>
+                                                <option value="Palakkad">Palakkad</option>
+                                                <option value="Malappuram">Malappuram</option>
+                                                <option value="Kozhikode">Kozhikode</option>
+                                                <option value="Kottayam">Kottayam</option>
+                                                <option value="Alappuzha">Alappuzha</option>
+                                                <option value="Idukki">Idukki</option>
+                                                <option value="Pathanamthitta">Pathanamthitta</option>
+                                                <option value="Wayanad">Wayanad</option>
+                                                <option value="Kannur">Kannur</option>
+                                                <option value="Kasaragod">Kasaragod</option>
+                                            </select>
+                                            <select class="custom-select" name="category" required>
+                                                <option value="">Select Catagory</option>
+                                                <option value="Cakeshop">Cakeshops</option>
+                                                <option value="CarsAndBuses">Cars and Buses</option>
+                                                <option value="CateringService">Catering Service</option>
+                                                <option value="Eventmanagement">Eventmanagement</option>
+                                                <option value="InvitationCards">Invitation Cards</option>
+                                                <option value="MakeupArtsist">Makeup Artsist</option>
+                                                <option value="MehandiArtist">Mehandi Artist</option>
+                                                <option value="Photographer">Photographer</option>
+                                                <option value="Stagedecorator">Stagedecorator</option>
+                                                <option value="WeddingVenues">Wedding Venues</option>
+                                            </select>
+                                            <select class="custom-select" disabled>
+                                                <option selected>Date</option>
+                                                <option value="1">$100 - $499</option>
+                                                <option value="2">$500 - $999</option>
+                                                <option value="3">$1000 - $4999</option>
+                                            </select>
+                                            <button type="submit" class="btn btn btn-primary btn-lg"><i class="fa fa-search pr-2" aria-hidden="true"></i> Search</button>
+                                        </form>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        </section>
-        <!-- ***** Features Destinations Area End ***** -->
+                <!-- Hero Social Btn -->
+                <div class="hero-social-btn">
+                    <div class="social-title d-flex align-items-center">
+                        <h6>Follow us on Social Media</h6>
+                        <span></span>
+                    </div>
+                    <div class="social-btns">
+                        <a href="#"><i class="fa fa-linkedin" aria-haspopup="true"></i></a>
+                        <a href="#"><i class="fa fa-behance" aria-hidden="true"></i></a>
+                        <a href="#"><i class="fa fa-dribbble" aria-hidden="true"></i></a>
+                        <a href="#"><i class="fa fa-twitter" aria-haspopup="true"></i></a>
+                        <a href="#"><i class="fa fa-facebook" aria-haspopup="true"></i></a>
+                    </div>
+                </div>
+            </section>
 
-        <!-- ***** Features Restaurant Area Start ***** -->
-        <section class="dorne-features-restaurant-area bg-default">
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="col-12">
-                        <div class="section-heading text-center">
-                            <span></span>
-                            <h4>FEATURED CAKESHOPS</h4>
-                            <p>Editor’s pick</p>
+            <!-- ***** Catagory Area Start ***** -->
+                <section class="dorne-catagory-area">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="all-catagories">
+                                    <div class="row">
+                                        <!-- Single Catagory Area -->
+                                        <div class="col-12 col-sm-6 col-md">
+                                            <div class="single-catagory-area wow fadeInUpBig" data-wow-delay="0.2s">
+                                                <div class="catagory-content">
+                                                    <img src="{% static 'img/core-img/icon-1.png' %}" alt="">
+                                                    <a href="#">
+                                                        <h6>Auditorium</h6>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- Single Catagory Area -->
+                                        <div class="col-12 col-sm-6 col-md">
+                                            <div class="single-catagory-area wow fadeInUpBig" data-wow-delay="0.4s">
+                                                <div class="catagory-content">
+                                                    <img src="{% static 'img/core-img/icon-2.png' %}" alt="">
+                                                    <a href="#">
+                                                        <h6>Cakeshops</h6>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- Single Catagory Area -->
+                                        <div class="col-12 col-sm-6 col-md">
+                                            <div class="single-catagory-area wow fadeInUpBig" data-wow-delay="0.6s">
+                                                <div class="catagory-content">
+                                                    <img src="{% static 'img/core-img/icon-3.png' %}" alt="">
+                                                    <a href="#">
+                                                        <h6>EventManagement</h6>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- Single Catagory Area -->
+                                        <div class="col-12 col-sm-6 col-md">
+                                            <div class="single-catagory-area wow fadeInUpBig" data-wow-delay="0.8s">
+                                                <div class="catagory-content">
+                                                    <img src="{% static 'img/core-img/icon-4.png' %}" alt="">
+                                                    <a href="#">
+                                                        <h6>Mehandi &amp; Makeup</h6>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- Single Catagory Area -->
+                                        <div class="col-12 col-md">
+                                            <div class="single-catagory-area wow fadeInUpBig" data-wow-delay="1s">
+                                                <div class="catagory-content">
+                                                    <img src="{% static 'img/core-img/icon-5.png' %}" alt="">
+                                                    <a href="#">
+                                                        <h6>Photography</h6>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <!-- ***** Catagory Area End ***** -->
+
+                <!-- ***** About Area Start ***** -->
+                <section class="dorne-about-area section-padding-0-100">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="about-content text-center">
+                                    <h2>Plan your special day with  <br><span>Eventive</span></h2>
+                                    <p>Sit back at home as we have done the hard-work to list all the required vendors for your spectacular events - best wedding photographers, wedding make-up artists, affordable party catering crew, and marriage hall decoration.Browse through a wide range of venues & vendors.The services provided by our wedding planners can save you a lot of time.Our clients value our affordable pricing policy and great service.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <!-- ***** About Area End ***** -->
+
+                <!-- ***** Editor Pick Area Start ***** -->
+                <section class="dorne-editors-pick-area bg-img bg-overlay-9 section-padding-100" style="background-image: url({% static 'img/bg-img/hero-2.jpg' %});">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="section-heading text-center">
+                                    <span></span>
+                                    <h4>Photography</h4>
+                                    <p>Editor’s pick</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-12 col-lg-6">
+                                <div class="single-editors-pick-area wow fadeInUp" data-wow-delay="0.2s">
+                                    <img src="{% static 'img/Paprikas Ads and Films.jpg' %}" alt="">
+                                    <div class="editors-pick-info">
+                                        <div class="places-total-destinations d-flex">
+                                            <a href="#">Paprikas Ads and Films</a>
+                                            <a href="#">Eranakulam</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-lg-6">
+                                <div class="single-editors-pick-area wow fadeInUp" data-wow-delay="0.4s">
+                                    <img src="{% static 'img/Pixels Studio.jpg' %}" alt="">
+                                    <div class="editors-pick-info">
+                                        <div class="places-total-destinations d-flex">
+                                            <a href="#">Pixels Studio</a>
+                                            <a href="#">Kozhikode</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="single-editors-pick-area wow fadeInUp" data-wow-delay="0.6s">
+                                    <img src="{% static 'img/_1522994831_6.jpg' %}" alt="">
+                                    <div class="editors-pick-info">
+                                        <div class="places-total-destinations d-flex">
+                                            <a href="#">Maven Photography</a>
+                                            <a href="#">Kozhikode</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <!-- ***** Editor Pick Area End ***** -->
+
+                <!-- ***** Features Destinations Area Start ***** -->
+                <section class="dorne-features-destinations-area">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="section-heading dark text-center">
+                                    <span></span>
+                                    <h4>FEATURED VENUES</h4>
+                                    <p>Editor’s pick</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="features-slides owl-carousel">
+                                    <!-- Single Features Area -->
+                                    <div class="single-features-area">
+                                        <img src="{% static 'img/Girideepam Convention Centre.jpg' %}" alt="">
+                                        <!-- Price -->
+                                        <div class="price-start">
+                                            <p>FROM ₹170000/Day</p>
+                                        </div>
+                                        <div class="feature-content d-flex align-items-center justify-content-between">
+                                            <div class="feature-title">
+                                                <h5>Girideepam</h5>
+                                                <p>Trivandrum</p>
+                                            </div>
+                                            <div class="feature-favourite">
+                                                <a href="#"><i class="fa  fa-pencil-square-o" aria-hidden="true"></i></a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- Single Features Area -->
+                                    <div class="single-features-area">
+                                        <img src="{% static 'img/Adlux Convention Centre.jpg' %}" alt="">
+                                        <!-- Price -->
+                                        <div class="price-start">
+                                            <p>FROM ₹200000/Day</p>
+                                        </div>
+                                        <div class="feature-content d-flex align-items-center justify-content-between">
+                                            <div class="feature-title">
+                                                <h5>Adlux</h5>
+                                                <p>Eranakulam</p>
+                                            </div>
+                                            <div class="feature-favourite">
+                                                <a href="#"><i class="fa  fa-pencil-square-o" aria-hidden="true"></i></a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- Single Features Area -->
+                                    <div class="single-features-area">
+                                        <img src="{% static 'img/miami.jpg' %}" alt="">
+                                        <!-- Price -->
+                                        <div class="price-start">
+                                            <p>FROM ₹150000/Day</p>
+                                        </div>
+                                        <div class="feature-content d-flex align-items-center justify-content-between">
+                                            <div class="feature-title">
+                                                <h5>Miami</h5>
+                                                <p>Kozhikode</p>
+                                            </div>
+                                            <div class="feature-favourite">
+                                                <a href="#"><i class="fa  fa-pencil-square-o" aria-hidden="true"></i></a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- Single Features Area -->
+                                    <div class="single-features-area">
+                                        <img src="{% static 'img/Lulu Convention Centre.jpg' %}" alt="">
+                                        <!-- Price -->
+                                        <div class="price-start">
+                                            <p>FROM ₹200000/Day</p>
+                                        </div>
+                                        <div class="feature-content d-flex align-items-center justify-content-between">
+                                            <div class="feature-title">
+                                                <h5>Lulu</h5>
+                                                <p>Thrissur</p>
+                                            </div>
+                                            <div class="feature-favourite">
+                                                <a href="#"><i class="fa  fa-pencil-square-o" aria-hidden="true"></i></a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- Single Features Area -->
+                                    <div class="single-features-area">
+                                        <img src="{% static 'img/Rose Lounge Auditorium.jpg' %}" alt="">
+                                        <!-- Price -->
+                                        <div class="price-start">
+                                            <p>FROM ₹200000/Day</p>
+                                        </div>
+                                        <div class="feature-content d-flex align-items-center justify-content-between">
+                                            <div class="feature-title">
+                                                <h5>Rose</h5>
+                                                <p>Malappuram</p>
+                                            </div>
+                                            <div class="feature-favourite">
+                                                <a href="#"><i class="fa  fa-pencil-square-o" aria-hidden="true"></i></a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <!-- ***** Features Destinations Area End ***** -->
+
+                <!-- ***** Features Restaurant Area Start ***** -->
+                <section class="dorne-features-restaurant-area bg-default">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="section-heading text-center">
+                                    <span></span>
+                                    <h4>FEATURED CAKESHOPS</h4>
+                                    <p>Editor’s pick</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="features-slides owl-carousel">
+                                    <!-- Single Features Area -->
+                                    <div class="single-features-area">
+                                        <img src="{% static 'img/Cupcake Noggins.jpg ' %}" alt="">
+                                        <!-- Rating & Map Area -->
+                                        <div class="ratings-map-area d-flex">
+                                            <a href="#">₹999</a>
+                                            <a href="#"><i class="fa fa-birthday-cake" alt=""></i></a>
+                                        </div>
+                                        <div class="feature-content d-flex align-items-center justify-content-between">
+                                            <div class="feature-title">
+                                                <h5>Cupcake</h5>
+                                                <p>Trivandrum</p>
+                                            </div>
+                                            <div class="feature-favourite">
+                                                <a href="#"><i class="fa  fa-pencil-square-o" aria-hidden="true"></i></a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- Single Features Area -->
+                                    <div class="single-features-area">
+                                        <img src="{% static 'img/Pandhal.jpg' %}" alt="">
+                                        <!-- Rating & Map Area -->
+                                        <div class="ratings-map-area d-flex">
+                                            <a href="#">₹900</a>
+                                            <a href="#"><i class="fa fa-birthday-cake" alt=""></i></a>
+                                        </div>
+                                        <div class="feature-content d-flex align-items-center justify-content-between">
+                                            <div class="feature-title">
+                                                <h5>Pandhal</h5>
+                                                <p>Eranakulam</p>
+                                            </div>
+                                            <div class="feature-favourite">
+                                                <a href="#"><i class="fa  fa-pencil-square-o" aria-hidden="true"></i></a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- Single Features Area -->
+                                    <div class="single-features-area">
+                                        <img src="{% static 'img/Just Bake.jpg ' %}" alt="">
+                                        <!-- Rating & Map Area -->
+                                        <div class="ratings-map-area d-flex">
+                                            <a href="#">₹850</a>
+                                            <a href="#"><i class="fa fa-birthday-cake" alt=""></i></a>
+                                        </div>
+                                        <div class="feature-content d-flex align-items-center justify-content-between">
+                                            <div class="feature-title">
+                                                <h5>Just Bake</h5>
+                                                <p>Kozhikode</p>
+                                            </div>
+                                            <div class="feature-favourite">
+                                                <a href="#"><i class="fa  fa-pencil-square-o" aria-hidden="true"></i></a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- Single Features Area -->
+                                    <div class="single-features-area">
+                                        <img src="{% static 'img/Navya Bake Shop.jpg' %}" alt="">
+                                        <!-- Rating & Map Area -->
+                                        <div class="ratings-map-area d-flex">
+                                            <a href="#">₹850</a>
+                                            <a href="#"><i class="fa fa-birthday-cake" alt=""></i></a>
+                                        </div>
+                                        <div class="feature-content d-flex align-items-center justify-content-between">
+                                            <div class="feature-title">
+                                                <h5>Navya</h5>
+                                                <p>Thrissur</p>
+                                            </div>
+                                            <div class="feature-favourite">
+                                                <a href="#"><i class="fa  fa-pencil-square-o" aria-hidden="true"></i></a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- Single Features Area -->
+                                    <div class="single-features-area">
+                                        <img src="{% static 'img/CakeStudio.jpg' %}" alt="">
+                                        <!-- Rating & Map Area -->
+                                        <div class="ratings-map-area d-flex">
+                                            <a href="#">₹900</a>
+                                            <a href="#"><i class="fa fa-birthday-cake" alt=""></i></a>
+                                        </div>
+                                        <div class="feature-content d-flex align-items-center justify-content-between">
+                                            <div class="feature-title">
+                                                <h5>CakeStudio</h5>
+                                                <p>Kannur</p>
+                                            </div>
+                                            <div class="feature-favourite">
+                                                <a href="#"><i class="fa  fa-pencil-square-o" aria-hidden="true"></i></a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <!-- ***** Features Restaurant Area End ***** -->
+
+                <!-- ***** Features Events Area Start ***** -->
+                <section class="dorne-features-events-area bg-img bg-overlay-9 section-padding-100-50" style="background-image: url({% static 'img/bg-img/hero-3.jpg' %})">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="section-heading text-center">
+                                    <span></span>
+                                    <h4>Featured events</h4>
+                                    <p>Editor’s pick</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-12 col-lg-6">
+                                <div class="single-feature-events-area d-sm-flex align-items-center wow fadeInUpBig" data-wow-delay="0.2s">
+                                    <div class="feature-events-thumb">
+                                        <img src="{% static 'img/ECAT Events.jpg' %}" alt="">
+                                    </div>
+                                    <div class="feature-events-content">
+                                        <h5>ECAT Events</h5>
+                                        <h6>Thrissur</h6>
+                                        <p>Class aptent taciti sociosqu ad litora torquent per conubia nostra...</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-lg-6">
+                                <div class="single-feature-events-area d-sm-flex align-items-center wow fadeInUpBig" data-wow-delay="0.3s">
+                                    <div class="feature-events-thumb">
+                                        <img src="{% static 'img/Melodia Events.jpg' %}" alt="">
+                                    </div>
+                                    <div class="feature-events-content">
+                                        <h5>Melodia Events</h5>
+                                        <h6>Thrissur</h6>
+                                        <p>Class aptent taciti sociosqu ad litora torquent per conubia nostra...</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-lg-6">
+                                <div class="single-feature-events-area d-sm-flex align-items-center wow fadeInUpBig" data-wow-delay="0.4s">
+                                    <div class="feature-events-thumb">
+                                        <img src="{% static 'img/Wasava Events.jpg' %}" alt="">
+                                    </div>
+                                    <div class="feature-events-content">
+                                        <h5>Wasava Events</h5>
+                                        <h6>Kannur</h6>
+                                        <p>Class aptent taciti sociosqu ad litora torquent per conubia nostra...</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-lg-6">
+                                <div class="single-feature-events-area d-sm-flex align-items-center wow fadeInUpBig" data-wow-delay="0.5s">
+                                    <div class="feature-events-thumb">
+                                        <img src="{% static 'img/Eventique House.jpg' %}" alt="">
+                                    </div>
+                                    <div class="feature-events-content">
+                                        <h5>Eventique House</h5>
+                                        <h6>Eranakulam</h6>
+                                        <p>Class aptent taciti sociosqu ad litora torquent per conubia nostra...</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-lg-6">
+                                <div class="single-feature-events-area d-sm-flex align-items-center wow fadeInUpBig" data-wow-delay="0.6s">
+                                    <div class="feature-events-thumb">
+                                        <img src="{% static 'img/Raldia Events.jpg' %}" alt="">
+                                    </div>
+                                    <div class="feature-events-content">
+                                        <h5>Raldia Events</h5>
+                                        <h6>Trivandrum</h6>
+                                        <p>Class aptent taciti sociosqu ad litora torquent per conubia nostra...</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-lg-6">
+                                <div class="single-feature-events-area d-sm-flex align-items-center wow fadeInUpBig" data-wow-delay="0.7s">
+                                    <div class="feature-events-thumb">
+                                        <img src="{% static 'img/Frisco Evento.jpg' %}" alt="">
+                                    </div>
+                                    <div class="feature-events-content">
+                                        <h5>Frisco Evento</h5>
+                                        <h6>Kozhikode</h6>
+                                        <p>Class aptent taciti sociosqu ad litora torquent per conubia nostra...</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <!-- ***** Features Events Area End ***** -->
+
+                <!-- ***** Clients Area Start ***** -->
+                <div class="dorne-clients-area section-padding-100">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="clients-logo d-md-flex align-items-center justify-content-around">
+                                    <img src="img/clients-img/1.png" alt="">
+                                    <img src="img/clients-img/2.png" alt="">
+                                    <img src="img/clients-img/3.png" alt="">
+                                    <img src="img/clients-img/4.png" alt="">
+                                    <img src="img/clients-img/5.png" alt="">
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
-
-                <div class="row">
-                    <div class="col-12">
-                        <div class="features-slides owl-carousel">
-                            <!-- Single Features Area -->
-                            <div class="single-features-area">
-                                <img src="{% static 'img/Cupcake Noggins.jpg ' %}" alt="">
-                                <!-- Rating & Map Area -->
-                                <div class="ratings-map-area d-flex">
-                                    <a href="#">₹999</a>
-                                    <a href="#"><i class="fa fa-birthday-cake" alt=""></i></a>
-                                </div>
-                                <div class="feature-content d-flex align-items-center justify-content-between">
-                                    <div class="feature-title">
-                                        <h5>Cupcake</h5>
-                                        <p>Trivandrum</p>
-                                    </div>
-                                    <div class="feature-favourite">
-                                        <a href="#"><i class="fa  fa-pencil-square-o" aria-hidden="true"></i></a>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- Single Features Area -->
-                            <div class="single-features-area">
-                                <img src="{% static 'img/Pandhal.jpg' %}" alt="">
-                                <!-- Rating & Map Area -->
-                                <div class="ratings-map-area d-flex">
-                                    <a href="#">₹900</a>
-                                    <a href="#"><i class="fa fa-birthday-cake" alt=""></i></a>
-                                </div>
-                                <div class="feature-content d-flex align-items-center justify-content-between">
-                                    <div class="feature-title">
-                                        <h5>Pandhal</h5>
-                                        <p>Eranakulam</p>
-                                    </div>
-                                    <div class="feature-favourite">
-                                        <a href="#"><i class="fa  fa-pencil-square-o" aria-hidden="true"></i></a>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- Single Features Area -->
-                            <div class="single-features-area">
-                                <img src="{% static 'img/Just Bake.jpg ' %}" alt="">
-                                <!-- Rating & Map Area -->
-                                <div class="ratings-map-area d-flex">
-                                    <a href="#">₹850</a>
-                                    <a href="#"><i class="fa fa-birthday-cake" alt=""></i></a>
-                                </div>
-                                <div class="feature-content d-flex align-items-center justify-content-between">
-                                    <div class="feature-title">
-                                        <h5>Just Bake</h5>
-                                        <p>Kozhikode</p>
-                                    </div>
-                                    <div class="feature-favourite">
-                                        <a href="#"><i class="fa  fa-pencil-square-o" aria-hidden="true"></i></a>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- Single Features Area -->
-                            <div class="single-features-area">
-                                <img src="{% static 'img/Navya Bake Shop.jpg' %}" alt="">
-                                <!-- Rating & Map Area -->
-                                <div class="ratings-map-area d-flex">
-                                    <a href="#">₹850</a>
-                                    <a href="#"><i class="fa fa-birthday-cake" alt=""></i></a>
-                                </div>
-                                <div class="feature-content d-flex align-items-center justify-content-between">
-                                    <div class="feature-title">
-                                        <h5>Navya</h5>
-                                        <p>Thrissur</p>
-                                    </div>
-                                    <div class="feature-favourite">
-                                        <a href="#"><i class="fa  fa-pencil-square-o" aria-hidden="true"></i></a>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- Single Features Area -->
-                            <div class="single-features-area">
-                                <img src="{% static 'img/CakeStudio.jpg' %}" alt="">
-                                <!-- Rating & Map Area -->
-                                <div class="ratings-map-area d-flex">
-                                    <a href="#">₹900</a>
-                                    <a href="#"><i class="fa fa-birthday-cake" alt=""></i></a>
-                                </div>
-                                <div class="feature-content d-flex align-items-center justify-content-between">
-                                    <div class="feature-title">
-                                        <h5>CakeStudio</h5>
-                                        <p>Kannur</p>
-                                    </div>
-                                    <div class="feature-favourite">
-                                        <a href="#"><i class="fa  fa-pencil-square-o" aria-hidden="true"></i></a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-        <!-- ***** Features Restaurant Area End ***** -->
-
-        <!-- ***** Features Events Area Start ***** -->
-        <section class="dorne-features-events-area bg-img bg-overlay-9 section-padding-100-50" style="background-image: url({% static 'img/bg-img/hero-3.jpg' %})">
-            <div class="container">
-                <div class="row">
-                    <div class="col-12">
-                        <div class="section-heading text-center">
-                            <span></span>
-                            <h4>Featured events</h4>
-                            <p>Editor’s pick</p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="col-12 col-lg-6">
-                        <div class="single-feature-events-area d-sm-flex align-items-center wow fadeInUpBig" data-wow-delay="0.2s">
-                            <div class="feature-events-thumb">
-                                <img src="{% static 'img/ECAT Events.jpg' %}" alt="">
-                            </div>
-                            <div class="feature-events-content">
-                                <h5>ECAT Events</h5>
-                                <h6>Thrissur</h6>
-                                <p>Class aptent taciti sociosqu ad litora torquent per conubia nostra...</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-12 col-lg-6">
-                        <div class="single-feature-events-area d-sm-flex align-items-center wow fadeInUpBig" data-wow-delay="0.3s">
-                            <div class="feature-events-thumb">
-                                <img src="{% static 'img/Melodia Events.jpg' %}" alt="">
-                            </div>
-                            <div class="feature-events-content">
-                                <h5>Melodia Events</h5>
-                                <h6>Thrissur</h6>
-                                <p>Class aptent taciti sociosqu ad litora torquent per conubia nostra...</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-12 col-lg-6">
-                        <div class="single-feature-events-area d-sm-flex align-items-center wow fadeInUpBig" data-wow-delay="0.4s">
-                            <div class="feature-events-thumb">
-                                <img src="{% static 'img/Wasava Events.jpg' %}" alt="">
-                            </div>
-                            <div class="feature-events-content">
-                                <h5>Wasava Events</h5>
-                                <h6>Kannur</h6>
-                                <p>Class aptent taciti sociosqu ad litora torquent per conubia nostra...</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-12 col-lg-6">
-                        <div class="single-feature-events-area d-sm-flex align-items-center wow fadeInUpBig" data-wow-delay="0.5s">
-                            <div class="feature-events-thumb">
-                                <img src="{% static 'img/Eventique House.jpg' %}" alt="">
-                            </div>
-                            <div class="feature-events-content">
-                                <h5>Eventique House</h5>
-                                <h6>Eranakulam</h6>
-                                <p>Class aptent taciti sociosqu ad litora torquent per conubia nostra...</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-12 col-lg-6">
-                        <div class="single-feature-events-area d-sm-flex align-items-center wow fadeInUpBig" data-wow-delay="0.6s">
-                            <div class="feature-events-thumb">
-                                <img src="{% static 'img/Raldia Events.jpg' %}" alt="">
-                            </div>
-                            <div class="feature-events-content">
-                                <h5>Raldia Events</h5>
-                                <h6>Trivandrum</h6>
-                                <p>Class aptent taciti sociosqu ad litora torquent per conubia nostra...</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-12 col-lg-6">
-                        <div class="single-feature-events-area d-sm-flex align-items-center wow fadeInUpBig" data-wow-delay="0.7s">
-                            <div class="feature-events-thumb">
-                                <img src="{% static 'img/Frisco Evento.jpg' %}" alt="">
-                            </div>
-                            <div class="feature-events-content">
-                                <h5>Frisco Evento</h5>
-                                <h6>Kozhikode</h6>
-                                <p>Class aptent taciti sociosqu ad litora torquent per conubia nostra...</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-        <!-- ***** Features Events Area End ***** -->
-
-        <!-- ***** Clients Area Start ***** -->
-        <div class="dorne-clients-area section-padding-100">
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="col-12">
-                        <div class="clients-logo d-md-flex align-items-center justify-content-around">
-                            <img src="img/clients-img/1.png" alt="">
-                            <img src="img/clients-img/2.png" alt="">
-                            <img src="img/clients-img/3.png" alt="">
-                            <img src="img/clients-img/4.png" alt="">
-                            <img src="img/clients-img/5.png" alt="">
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- ***** Clients Area End ***** -->
+                <!-- ***** Clients Area End ***** -->
+    {% endif %}
 {% endblock content %}

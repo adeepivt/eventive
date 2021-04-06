@@ -72,8 +72,8 @@
                                 {% if user.is_authenticated %}
                                     {% if user.profile.is_admin %}
                                         <a href="{% url 'logout' %}">logout</a>
-                                        <a href="{% url 'event-create' %}">New Post</a>
-                                        <a href="{% url 'event-list' %}">Your Events</a>
+                                        <a href="{% url 'event-create' %}">Add New</a>
+                                        <a href="{% url 'event-list' %}">Your Services</a>
                                     {% else %}
                                         <a href="{% url 'logout' %}">logout</a>
                                     {% endif %}

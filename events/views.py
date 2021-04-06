@@ -14,6 +14,13 @@ from django.db.models import Q
 # Create your views here.
 
 def home_page(request):
+    if request.user.is_authenticated:
+        admin = False
+        if request.user.profile.is_admin:
+            admin = True
+            return render(request, 'events/index.html', {'admin' : admin})
+        else:
+            return render(request, 'events/index.html', {'admin' : admin})
     events = Event.objects.all()
     content = {
         'events':events,

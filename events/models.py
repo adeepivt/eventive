@@ -5,22 +5,34 @@ from PIL import Image
 # Create your models here.
 
 EVENTS = (
-    ('Cakeshops','Cakeshops'),
-    ('CarsAndBuses','Cars and Buses'),
-    ('CateringService','Catering Service'),
     ('Eventmanagement','Eventmanagement'),
-    ('InvitationCards','Invitation Cards'),
     ('MakeupArtsist','Makeup Artsist'),
     ('MehandiArtist','Mehandi Artist'),
     ('Photographer','Photographer'),
-    ('Stagedecorator','Stagedecorator'),
     ('WeddingVenues','Wedding Venues'),
+)
+
+PLACES = (
+    ('Thiruvananthapuram','Thiruvananthapuram'),
+    ('Eranakulam','Eranakulam'),
+    ('Thrissur','Thrissur'),
+    ('Kollam','Kollam'),
+    ('Palakkad','Palakkad'),
+    ('Malappuram','Malappuram'),
+    ('Kozhikode','Kozhikode'),
+    ('Kottayam','Kottayam'),
+    ('Alappuzha','Alappuzha'),
+    ('Idukki','Idukki'),
+    ('Pathanamthitta','Pathanamthitta'),
+    ('Wayanad','Wayanad'),
+    ('Kannur','Kannur'),
+    ('Kasaragod','Kasaragod'),
 )
 
 class Event(models.Model):
     category = models.CharField(choices=EVENTS, max_length=20)
     name = models.CharField(max_length=100)
-    place = models.CharField(max_length=100)
+    place = models.CharField(choices=PLACES, max_length=100)
     mobile = models.CharField(max_length=20)
     address = models.TextField()
     price = models.DecimalField(max_digits=10,decimal_places=2)
@@ -36,3 +48,15 @@ class Event(models.Model):
 
     class Meta:
         ordering = ('-created',)
+
+class Booking(models.Model):
+    customer = models.ForeignKey(User, on_delete=models.CASCADE, related_name='customer')
+    event = models.ForeignKey(Event, on_delete=models.CASCADE, related_name='event')
+    start_date = models.DateField(default=None)
+    end_date = models.DateField(default=None, blank=True)
+    status = models.BooleanField(default=False)
+    updated = models.DateTimeField(auto_now=True)
+    created = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.customer} -- {self.event} -- {self.status}"
