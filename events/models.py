@@ -58,5 +58,10 @@ class Booking(models.Model):
     updated = models.DateTimeField(auto_now=True)
     created = models.DateTimeField(auto_now_add=True)
 
+    def save(self):
+        # self.first_char for referencing to the current object
+        self.end_date = self.start_date
+        super().save(self)
+
     def __str__(self):
         return f"{self.customer} -- {self.event} -- {self.status}"

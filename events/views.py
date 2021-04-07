@@ -1,8 +1,8 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from users.models import Profile
 from django.contrib.auth.models import User
-from .forms import EventCreateForm, EventUpdateForm
-from .models import Event
+from .forms import EventCreateForm, EventUpdateForm, EventBookingForm
+from .models import Event, Booking
 from django.contrib import messages
 from django.views.generic import UpdateView, DeleteView
 from django.contrib.auth.decorators import login_required
@@ -30,14 +30,19 @@ def home_page(request):
 
 @login_required
 def search_event(request):
-    if request.method == 'GET':    
-        place =  request.GET.get('place')
-        category = request.GET.get('category')
-        object_list = Event.objects.filter(
-            Q(place__icontains=place) & Q(category__contains=category)
-        )
+    user = request.user
+    if user.profile.is_admin:
+        messages.warning(request,"You need a customer account")
+    else:
+        if request.method == 'GET':    
+            place =  request.GET.get('place')
+            category = request.GET.get('category')
+            object_list = Event.objects.filter(
+                Q(place__icontains=place) & Q(category__contains=category)
+            )
 
-    return render(request, 'events/search_result.html', {'object':object_list})
+        return render(request, 'events/search_result.html', {'object':object_list})
+    return render(request, 'events/search_result.html')
 
 @login_required
 def event_create(request):
@@ -96,3 +101,37 @@ class EventDeleteView(LoginRequiredMixin, DeleteView):
         if not obj.user == self.request.user:
             messages.warning(self.request, "You need to be the owner.")
         return obj
+
+@login_required
+def booking(request, pk):
+    user = request.user
+    if user.profile.is_admin:
+        messages.warning(request,"You need customer account")
+    else:
+        if request.method=='POST':
+            form = EventBookingForm(request.POST)
+            event = Event.objects.get(id=pk)
+            if form.is_valid():
+                start_date = request.POST['start_date']
+                end_date = request.POST['end_date']
+                if end_date < start_date:
+                    messages.warning(request,'end_date need to be greater than start')
+                else:
+                    instance = form.save(commit=False)
+                    instance.customer = user
+                    instance.event = event
+                    instance.save()
+                    return redirect('cart')
+    form = EventBookingForm()
+    context = {
+        'form' : form
+        }
+    return render(request, 'events/booking.html', context)
+
+def booking_cart(request):
+    booking = Booking.objects.filter(customer=request.user)
+
+    context = {
+        'booking' : booking
+    }
+    return render(request, 'events/booking_list.html', context)

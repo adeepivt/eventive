@@ -12,13 +12,17 @@
     <!-- Title -->
     <title>Dorne - Directory &amp; Listing Template</title>
 
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
     <!-- Favicon -->
     <link rel="icon" href="{% static 'img/core-img/favicon.ico' %}">
 
     <!-- Core Stylesheet -->
     <link href="{% static 'style.css' %}" rel="stylesheet">
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
     <!-- Responsive CSS -->
     <link href="{% static 'css/responsive/responsive.css' %}" rel="stylesheet">
@@ -75,6 +79,7 @@
                                         <a href="{% url 'event-create' %}">Add New</a>
                                         <a href="{% url 'event-list' %}">Your Services</a>
                                     {% else %}
+                                        <a href="{% url 'cart' %}">Cart</a>
                                         <a href="{% url 'logout' %}">logout</a>
                                     {% endif %}
                                 {% else %}
@@ -83,7 +88,7 @@
                             </div>
                                 <!-- Add listings btn -->
                                 <div class="dorne-add-listings-btn">
-                                    <a href="{% url 'vendor_register' %}" class="btn dorne-btn">+ Partner With Us.</a>
+                                    <a href="{% url 'vendor_login' %}" class="btn dorne-btn">+ Partner With Us.</a>
                                 </div>
                                 {% endif %}
                         </div>

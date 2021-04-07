@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+  
+<div class="breadcumb-area bg-img bg-overlay" style="background-image: url({% static 'img/bg-img/hero-1.jpg' %})"></div>
+    <!-- ***** Breadcumb Area End ***** -->
+
+    <!-- ***** Listing Destinations Area Start ***** -->
+    <section class="dorne-listing-destinations-area section-padding-100-50">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 col-md-6">
+                    <div class="section-heading dark text-center">
+                        <span></span>
+                        {% if messages %}
+                            {% for message in messages  %}
+                            <h4>{{message}}</h4>
+                            {% endfor %}
+                        {% else %}
+                            <form action="" method="POST">
+                                {% csrf_token %}
+                                {{form}}
+                                <button type="submit">Submit</button>
+                            </form>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+{% endblock content %}

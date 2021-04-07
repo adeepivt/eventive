@@ -13,6 +13,9 @@
                 <div class="col-12">
                     <div class="section-heading dark text-center">
                         <span></span>
+                        {% for message in messages  %}
+                          <h4>{{message}}</h4>
+                        {% endfor %}
                     {% if not object %}
                         <h4>No Results Found</h4>
                     {% else %}
@@ -38,7 +41,7 @@
                                     <p>Party</p>
                                 </div>
                                 <div class="feature-favourite">
-                                    <a href="#"><i class="fa fa-heart-o" aria-hidden="true"></i></a>
+                                    <a href="{% url 'event-booking' event.id %}"><i class="fa fa-heart-o" aria-hidden="true"></i></a>
                                 </div>
                             </div>
                         </div>
