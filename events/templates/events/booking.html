@@ -3,27 +3,110 @@
 {% block content %}
   
 <div class="breadcumb-area bg-img bg-overlay" style="background-image: url({% static 'img/bg-img/hero-1.jpg' %})"></div>
+<br>
     <!-- ***** Breadcumb Area End ***** -->
 
     <!-- ***** Listing Destinations Area Start ***** -->
-    <section class="dorne-listing-destinations-area section-padding-100-50">
+    <section class="dorne-about-area section-padding-0-100">
         <div class="container">
             <div class="row">
-                <div class="col-12 col-md-6">
-                    <div class="section-heading dark text-center">
-                        <span></span>
-                        {% if messages %}
-                            {% for message in messages  %}
-                            <h4>{{message}}</h4>
-                            {% endfor %}
-                        {% else %}
-                            <form action="" method="POST">
-                                {% csrf_token %}
-                                {{form}}
-                                <button type="submit">Submit</button>
-                            </form>
-                        {% endif %}
+                <div class="col-12">
+                    <div class="about-content text-center">
+                        <h2>Discover your city with <br><span>Dorne</span></h2>
+                        <p>Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Fusce quis tempus elit. Sed efficitur tortor neque, vitae aliquet urna varius sit amet. Ut rhoncus, nunc nec tincidunt volutpat, ex libero.</p>
                     </div>
                 </div>
             </div>
+        </div>
+    </section>
+    <div class="contact-form">
+        <h4 style="text-align: center;">Book The Service</h4>
+        <div class="contact-form-title">
+                {% for message in messages  %}
+                <h4 style="color: red;">{{message}}</h4>
+                {% endfor %}
+        </div>
+            <form action="" method="POST" autocomplete="off">
+                {% csrf_token %}
+                <h3 style="text-align: center;">{{ form.non_field_errors }}</h3>
+                <br>
+                <div class="row">
+                    <div class="col-12 col-md-6">
+                        <input style="color: rgb(26, 24, 24);" type="text" value='{{event.name|title}}--{{event.category}} @ {{event.place|title}}' class="form-control" disabled>
+                    </div>
+                    <div class="col-12 col-md-6">
+                        <input style="color: rgb(26, 24, 24);" type="text" value='Price: &#8377; {{event.price|floatformat}}' class="form-control" disabled>
+                    </div>
+                    <div class="col-12 col-md-6">
+                        {{ form.start_date.errors }}
+                        {{ form.start_date }}
+                    </div>
+                    <div class="col-12 col-md-6">
+                        {{ form.end_date.errors }}
+                        {{ form.end_date }}
+                    </div>
+                    <div class="col-12 col-md-6">
+                        {{ form.details.errors }}
+                        {{ form.details }}
+                    </div>
+                    <div class="col-12">
+                        <button type="submit" class="btn dorne-btn">Add to Cart</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+<br>
+
+            <script>
+                $(document).ready(function() {
+
+                    var d = ["02/02/2021", "05/02/2021"];
+                    var dates_list = {{dates|safe}}
+
+                    $(function(){
+                        $( ".datepicker" ).datepicker({
+                            changeMonth: true,
+                            changeYear: true,
+                            minDate: new Date(),
+                            beforeShowDay: my_check
+                        });
+                    });
+
+
+        function pad(num) {
+            var s = "" + num;
+            if ( num < 10 ) {
+                s = "0" + num; 
+                }
+            return s;
+        }
+                    
+
+
+        function my_check(in_date) {
+            in_date = pad(in_date.getDate()) + '/'
+            + pad((in_date.getMonth() + 1)) + '/' + pad(in_date.getFullYear());
+            var my_array = dates_list;
+            //$('#d1').append(in_date+'<br>')
+            if (my_array.indexOf(in_date) >= 0) {
+                return [false, "notav", 'Not Available'];
+            } else {
+                return [true, "av", "available"];
+            }
+        }
+        
+        
+
+                    $('#id_start_date').change(function() {
+                            startDate = $(this).datepicker('getDate');
+                            $("#id_end_date").datepicker("option", "minDate", startDate);
+                    })
+
+                    $('#id_end_date').change(function() {
+                            endDate = $(this).datepicker('getDate');
+                            $("#id_start_date").datepicker("option", "maxDate", endDate);
+                    })
+
+                })
+            </script>
 {% endblock content %}

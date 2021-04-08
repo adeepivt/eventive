@@ -31,7 +31,6 @@ def user_register(request):
 def user_login(request):
     if request.method == 'POST':
         valuenext= request.POST.get('next')
-        print('caca',valuenext)
         username = request.POST['username']
         password = request.POST['password']
         account = authenticate(username=username, password=password)

@@ -25,9 +25,6 @@ class EventUpdateForm(forms.ModelForm):
             visible.field.widget.attrs['class'] = 'form-control'
 
 
-class DateInput(forms.DateInput):
-    input_type = 'date'
-
 class EventBookingForm(forms.ModelForm):
     class Meta:
         model = Booking
@@ -36,6 +33,5 @@ class EventBookingForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(EventBookingForm, self).__init__(*args, **kwargs)
         for visible in self.visible_fields():
-            visible.field.widget = DateInput()
             visible.field.widget.attrs['placeholder'] = visible.name
-            visible.field.widget.attrs['class'] = 'datepicker'
+            visible.field.widget.attrs['class'] = 'datepicker form-control'

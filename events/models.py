@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.core.validators import FileExtensionValidator
 from PIL import Image
+from datetime import date, timedelta
 # Create your models here.
 
 EVENTS = (
@@ -49,19 +50,48 @@ class Event(models.Model):
     class Meta:
         ordering = ('-created',)
 
+class BookingManager(models.Manager):
+    def check_availability(self, event, start_date, end_date):
+        available_list = []
+        booking_list = Booking.objects.filter(event=event)
+        for booking in booking_list:
+            if booking.start_date > end_date or booking.end_date < start_date:
+                available_list.append(True)
+            else:
+                available_list.append(False)
+        return all(available_list)
+
+    def get_all_dates(self,event):
+        dates = []
+        booked_list = Booking.objects.filter(event=event)
+        for booking in booked_list:
+            s_year = booking.start_date.year
+            s_month = booking.start_date.month
+            s_day = booking.start_date.day
+            sdate = date(s_year, s_month, s_day)   # start date
+
+            e_year = booking.end_date.year
+            e_month = booking.end_date.month
+            e_day = booking.end_date.day
+            edate = date(e_year, e_month, e_day)   # end date
+
+            delta = edate - sdate
+            for i in range(delta.days + 1):
+                day = sdate + timedelta(days=i)
+                dates.append(day.strftime("%d/%m/%Y"))
+        return set(dates)
+
 class Booking(models.Model):
     customer = models.ForeignKey(User, on_delete=models.CASCADE, related_name='customer')
     event = models.ForeignKey(Event, on_delete=models.CASCADE, related_name='event')
     start_date = models.DateField(default=None)
-    end_date = models.DateField(default=None, blank=True)
+    end_date = models.DateField(default=None)
     status = models.BooleanField(default=False)
     updated = models.DateTimeField(auto_now=True)
     created = models.DateTimeField(auto_now_add=True)
 
-    def save(self):
-        # self.first_char for referencing to the current object
-        self.end_date = self.start_date
-        super().save(self)
+    objects = BookingManager()
 
     def __str__(self):
         return f"{self.customer} -- {self.event} -- {self.status}"
+

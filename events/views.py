@@ -10,6 +10,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
 from django.http import HttpResponseNotFound
 from django.db.models import Q
+import json
 
 # Create your views here.
 
@@ -105,17 +106,23 @@ class EventDeleteView(LoginRequiredMixin, DeleteView):
 @login_required
 def booking(request, pk):
     user = request.user
+    event = Event.objects.get(id=pk)
+    f = Booking.objects.get_all_dates(event)
+    dates_list = list(f)
     if user.profile.is_admin:
         messages.warning(request,"You need customer account")
     else:
         if request.method=='POST':
             form = EventBookingForm(request.POST)
-            event = Event.objects.get(id=pk)
             if form.is_valid():
+                s_date = form.cleaned_data['start_date']
+                e_date = form.cleaned_data['end_date']
                 start_date = request.POST['start_date']
                 end_date = request.POST['end_date']
-                if end_date < start_date:
-                    messages.warning(request,'end_date need to be greater than start')
+                qs = Booking.objects.check_availability(event,s_date,e_date)
+                print(qs)
+                if not qs:
+                    messages.warning(request,f'This service is not available on the selected dates')
                 else:
                     instance = form.save(commit=False)
                     instance.customer = user
@@ -124,10 +131,13 @@ def booking(request, pk):
                     return redirect('cart')
     form = EventBookingForm()
     context = {
-        'form' : form
+        'form' : form,
+        'event' : event,
+        'dates' : json.dumps(dates_list),
         }
     return render(request, 'events/booking.html', context)
 
+@login_required
 def booking_cart(request):
     booking = Booking.objects.filter(customer=request.user)
 
