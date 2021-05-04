@@ -1,7 +1,8 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from .forms import UserRegisterForm, UserProfileForm, VendorLoginForm
 from django.contrib import messages
 from django.contrib.auth import authenticate, login
+from events.models import Event
 
 # Create your views here.
 
@@ -52,6 +53,22 @@ def user_login(request):
     context = {'form':form}
 
     return render(request, 'users/login.html', context)
+
+def add_favourites(request, pk):
+    event = get_object_or_404(Event, id=pk)
+    user = request.user
+    if event.favourites.filter(id=user.id).exists():
+        event.favourites.remove(request.user)
+    else:
+        event.favourites.add(request.user)
+    return redirect('/')
+
+def favourites_list(request):
+    user = request.user
+    if user.profile.is_admin:
+         messages.warning(request,f'You are at wrong place!')
+    favourites = Event.objects.filter(favourites=request.user)
+    return render(request, 'users/favourites.html', {'favourites': favourites})
 
 def vendor_register(request):
     if request.method == 'POST':

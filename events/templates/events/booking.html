@@ -57,21 +57,20 @@
         </div>
 <br>
 
-            <script>
-                $(document).ready(function() {
+<script>
+    $(document).ready(function() {
 
-                    var d = ["02/02/2021", "05/02/2021"];
-                    var dates_list = {{dates|safe}}
+        var d = ["02/02/2021", "05/02/2021"];
+        var dates_list = {{dates|safe}};
 
-                    $(function(){
-                        $( ".datepicker" ).datepicker({
-                            changeMonth: true,
-                            changeYear: true,
-                            minDate: new Date(),
-                            beforeShowDay: my_check
-                        });
-                    });
-
+        $(function(){
+            $( ".datepicker" ).datepicker({
+                    changeMonth: true,
+                    changeYear: true,
+                    minDate: new Date(),
+                    beforeShowDay: my_check
+                });
+            });
 
         function pad(num) {
             var s = "" + num;
@@ -80,8 +79,6 @@
                 }
             return s;
         }
-                    
-
 
         function my_check(in_date) {
             in_date = pad(in_date.getDate()) + '/'
@@ -94,19 +91,17 @@
                 return [true, "av", "available"];
             }
         }
-        
-        
-
-                    $('#id_start_date').change(function() {
+         
+        $('#id_start_date').change(function() {
                             startDate = $(this).datepicker('getDate');
                             $("#id_end_date").datepicker("option", "minDate", startDate);
                     })
 
-                    $('#id_end_date').change(function() {
+        $('#id_end_date').change(function() {
                             endDate = $(this).datepicker('getDate');
                             $("#id_start_date").datepicker("option", "maxDate", endDate);
                     })
 
-                })
+    });
             </script>
 {% endblock content %}

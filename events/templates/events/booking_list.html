@@ -15,31 +15,37 @@
                 </div>
             </div>
 
-            <div class="row">
-                {% if booking %}
-                    {% for item in booking %}
-                    <div class="col-12 col-sm-6 col-lg-4">
-                        <div class="single-features-area mb-50">
-                            <!-- <img width="600" height="337" class="search-img" src="{{event.image.url}}" alt=""> -->
-                            <!-- Price -->
-                            <div class="price-start">
-                                <p>FROM &#8377; {{item.event.price|floatformat }}</p>
-                            </div>
-                            <div class="feature-content d-flex align-items-center justify-content-between">
-                                <div class="feature-title">
-                                    <h5>{{item.event.name}}</h5>
-                                    <p>{{item.start_date}}--{{item.end_date}}</p>
-                                </div>
+            
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                      <th scope="col">Service</th>
+                                      <th scope="col">Start_Date</th>
+                                      <th scope="col">End_Date</th>
+                                      <th scope="col">Price</th>
+                                      <th scope="col">Cancel</th>
+                                      <th scope="col">Pay</th>
+                                    </tr>
+                                  </thead>
+                                  {% for book in booking %}
+                                    
+                                  <tbody>
+                                    <tr>
+                                      <td>{{book.event.name}}</td>
+                                      <td>{{book.start_date}}</td>
+                                      <td>{{book.end_date}}</td>
+                                      <td>&#8377; {{book.event.price|floatformat}}</td>
+                                      <td><button>Cancel</button></td>
+                                      <td><button>Pay</button></td>
+                                    </tr>
+                                  </tbody>
+                                  {% endfor %}
+                            </table>
+                          </div>
                                 <div class="feature-favourite">
                                     <a href="#"><i class="fa fa-check" aria-hidden="true"></i></a>
                                 </div>
-                            </div>
-                        </div>
-                    </div>    
-                    {% endfor %}
-                {% endif %}
-            </div>
-        </div>
     </section>
         
 

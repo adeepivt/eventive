@@ -33,5 +33,7 @@ class EventBookingForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(EventBookingForm, self).__init__(*args, **kwargs)
         for visible in self.visible_fields():
-            visible.field.widget.attrs['placeholder'] = visible.name
+            visible.field.widget.attrs['placeholder'] = 'choose ' +visible.name
             visible.field.widget.attrs['class'] = 'datepicker form-control'
+            visible.field.widget.attrs['readonly'] = 'readonly'
+            visible.field.widget.attrs['style'] = 'background-color:white'

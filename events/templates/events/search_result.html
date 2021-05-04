@@ -37,11 +37,14 @@
                             </div>
                             <div class="feature-content d-flex align-items-center justify-content-between">
                                 <div class="feature-title">
-                                    <h5>{{event.name}}</h5>
-                                    <p>Party</p>
+                                    <h5>{{event.name|truncatewords:2}}</h5>
+                                    <a href="{% url 'event-details' event.id %}"><p>View Details</p></a>
                                 </div>
                                 <div class="feature-favourite">
-                                    <a href="{% url 'event-booking' event.id %}"><i class="fa fa-heart-o" aria-hidden="true"></i></a>
+                                    {% if event.favourites %}
+                                      
+                                    {% endif %}
+                                    <a href="{% url 'add_favourites' event.id %}"><i class="fa fa-heart-o" aria-hidden="true"></i></a>
                                 </div>
                             </div>
                         </div>

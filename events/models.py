@@ -38,6 +38,7 @@ class Event(models.Model):
     address = models.TextField()
     price = models.DecimalField(max_digits=10,decimal_places=2)
     details = models.TextField(blank=True)
+    favourites = models.ManyToManyField(User, blank=True, default=None, related_name="favourite")
     updated = models.DateTimeField(auto_now=True)
     created = models.DateTimeField(auto_now_add=True)
     image = models.ImageField(upload_to='events/',validators=[FileExtensionValidator(['jpeg','png', 'jpg'])], default='e_logo.jpg')

@@ -11,6 +11,7 @@ from django.urls import reverse_lazy
 from django.http import HttpResponseNotFound
 from django.db.models import Q
 import json
+from datetime import date
 
 # Create your views here.
 
@@ -44,6 +45,17 @@ def search_event(request):
 
         return render(request, 'events/search_result.html', {'object':object_list})
     return render(request, 'events/search_result.html')
+
+
+def event_details(request, pk):
+    user = request.user
+    event = Event.objects.get(id=pk)
+    image = event.image.url
+    content = {
+        'event' : event,
+        'img' : image
+    }
+    return render(request, 'events/event_details.html', content)
 
 @login_required
 def event_create(request):
@@ -120,8 +132,8 @@ def booking(request, pk):
                 start_date = request.POST['start_date']
                 end_date = request.POST['end_date']
                 qs = Booking.objects.check_availability(event,s_date,e_date)
-                print(qs)
-                if not qs:
+                today = date.today()
+                if not qs or s_date < today or e_date < today:
                     messages.warning(request,f'This service is not available on the selected dates')
                 else:
                     instance = form.save(commit=False)

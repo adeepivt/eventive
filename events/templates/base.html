@@ -10,7 +10,7 @@
     <!-- The above 4 meta tags *must* come first in the head; any other head content must come *after* these tags -->
 
     <!-- Title -->
-    <title>Dorne - Directory &amp; Listing Template</title>
+    <title>Eventive - Wedding Planners KERALA</title>
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -18,7 +18,7 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
     <!-- Favicon -->
-    <link rel="icon" href="{% static 'img/core-img/favicon.ico' %}">
+    <link rel="icon" href="{% static 'img/core-img/Eventive.png' %}">
     
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/smoothness/jquery-ui.css">
     <script src="//code.jquery.com/jquery-1.12.4.js"></script>
@@ -39,36 +39,13 @@
             <div class="row h-100">
                 <div class="col-12 h-100">
                     <nav class="h-100 navbar navbar-expand-lg">
-                        <a class="navbar-brand" href="{% url 'event-home' %}"><img src="{% static 'img/core-img/logo.png' %}" alt=""></a>
+                        <a class="navbar-brand" href="{% url 'event-home' %}"><img src="{% static 'img/core-img/logo1.png' %}" alt=""></a>
                         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#dorneNav" aria-controls="dorneNav" aria-expanded="false" aria-label="Toggle navigation"><span class="fa fa-bars"></span></button>
                         <!-- Nav -->
                         <div class="collapse navbar-collapse" id="dorneNav">
                             <ul class="navbar-nav mr-auto" id="dorneMenu">
                                 <li class="nav-item active">
                                     <a class="nav-link" href="{% url 'event-home' %}">Home <span class="sr-only">(current)</span></a>
-                                </li>
-                                <li class="nav-item dropdown">
-                                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Explore <i class="fa fa-angle-down" aria-hidden="true"></i></a>
-                                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                        <a class="dropdown-item" href="index.html">Home</a>
-                                        <a class="dropdown-item" href="explore.html">Explore</a>
-                                        <a class="dropdown-item" href="listing.html">Listing</a>
-                                        <a class="dropdown-item" href="single-listing.html">Single Listing</a>
-                                        <a class="dropdown-item" href="contact.html">Contact</a>
-                                    </div>
-                                </li>
-                                <li class="nav-item dropdown">
-                                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown2" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Listings <i class="fa fa-angle-down" aria-hidden="true"></i></a>
-                                    <div class="dropdown-menu" aria-labelledby="navbarDropdown2">
-                                        <a class="dropdown-item" href="index.html">Home</a>
-                                        <a class="dropdown-item" href="explore.html">Explore</a>
-                                        <a class="dropdown-item" href="listing.html">Listing</a>
-                                        <a class="dropdown-item" href="single-listing.html">Single Listing</a>
-                                        <a class="dropdown-item" href="contact.html">Contact</a>
-                                    </div>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="contact.html">Contact</a>
                                 </li>
                             </ul>
                             <!-- Search btn -->
@@ -79,10 +56,11 @@
                             <div class="dorne-signin-btn">
                                 {% if user.is_authenticated %}
                                     {% if user.profile.is_admin %}
-                                        <a href="{% url 'logout' %}">logout</a>
-                                        <a href="{% url 'event-create' %}">Add New</a>
-                                        <a href="{% url 'event-list' %}">Your Services</a>
+                                    <a href="{% url 'event-create' %}">Add New</a>
+                                    <a href="{% url 'event-list' %}">Your Services</a>
+                                    <a href="{% url 'logout' %}">logout</a>
                                     {% else %}
+                                        <a href="{% url 'favourites_list' %}">Favourites</a>
                                         <a href="{% url 'cart' %}">Cart</a>
                                         <a href="{% url 'logout' %}">logout</a>
                                     {% endif %}
@@ -131,9 +109,9 @@
         <!-- ****** Footer Area End ****** -->
         
         <!-- Popper js -->
-        <script src="{% static 'js/bootstrap/popper.min.js ' %}"></script>
+        <!-- <script src="{% static 'js/bootstrap/popper.min.js ' %}"></script> -->
         <!-- Bootstrap-4 js -->
-        <script src="{% static 'js/bootstrap/bootstrap.min.js' %}"></script>
+        <!-- <script src="{% static 'js/bootstrap/bootstrap.min.js' %}"></script> -->
         <!-- All Plugins js -->
         <script src="{% static 'js/others/plugins.js' %}"></script>
         <!-- Active JS -->
