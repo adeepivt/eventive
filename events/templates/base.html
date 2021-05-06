@@ -56,9 +56,9 @@
                             <div class="dorne-signin-btn">
                                 {% if user.is_authenticated %}
                                     {% if user.profile.is_admin %}
-                                    <a href="{% url 'event-create' %}">Add New</a>
-                                    <a href="{% url 'event-list' %}">Your Services</a>
-                                    <a href="{% url 'logout' %}">logout</a>
+                                    <a class="nav-link" href="{% url 'event-create' %}">Add New</a>
+                                    <a class="nav-link" href="{% url 'event-list' %}">Your Services</a>
+                                    <a class="nav-link" href="{% url 'logout' %}">logout</a>
                                     {% else %}
                                         <a href="{% url 'favourites_list' %}">Favourites</a>
                                         <a href="{% url 'cart' %}">Cart</a>

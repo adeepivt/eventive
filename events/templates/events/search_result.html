@@ -20,7 +20,6 @@
                         <h4>No Results Found</h4>
                     {% else %}
                         <h4>Search Results</h4>
-                        <p>Editor’s pick</p>
                     {% endif %}
                     </div>
                 </div>
@@ -41,10 +40,11 @@
                                     <a href="{% url 'event-details' event.id %}"><p>View Details</p></a>
                                 </div>
                                 <div class="feature-favourite">
-                                    {% if event.favourites %}
-                                      
+                                    {% if event.favourites.exists %}
+                                        <a href="{% url 'add_favourites' event.id %}" title="add to favourites"><i class="fa fa-heart blue-color" aria-hidden="true"></i></a>
+                                    {% else %}
+                                        <a href="{% url 'add_favourites' event.id %}" title="Remove"><i class="fa fa-heart-o" aria-hidden="true"></i></a>
                                     {% endif %}
-                                    <a href="{% url 'add_favourites' event.id %}"><i class="fa fa-heart-o" aria-hidden="true"></i></a>
                                 </div>
                             </div>
                         </div>

@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import render, redirect, get_object_or_404, HttpResponseRedirect
 from .forms import UserRegisterForm, UserProfileForm, VendorLoginForm
 from django.contrib import messages
 from django.contrib.auth import authenticate, login
@@ -61,7 +61,7 @@ def add_favourites(request, pk):
         event.favourites.remove(request.user)
     else:
         event.favourites.add(request.user)
-    return redirect('/')
+    return HttpResponseRedirect(request.META['HTTP_REFERER'])
 
 def favourites_list(request):
     user = request.user

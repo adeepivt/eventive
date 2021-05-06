@@ -22,8 +22,7 @@
                          <h4>No Saved Vendors</h4>
                         {% endif %}
                      {% else %}
-                         <h4>Search Results</h4>
-                         <p>Editor’s pick</p>
+                         <h4>Saved Vendors</h4>
                      {% endif %}
                      </div>
                  </div>
@@ -44,7 +43,7 @@
                                      <a href="{% url 'event-details' event.id %}"><p>View Details</p></a>
                                  </div>
                                  <div class="feature-favourite">
-                                     <a href="{% url 'add_favourites' event.id %}"><i class="fa fa-heart-o" aria-hidden="true"></i></a>
+                                     <a href="{% url 'add_favourites' event.id %}" title="Remove"><i class="fa fa-heart blue-color" aria-hidden="true"></i></a>
                                  </div>
                              </div>
                          </div>
