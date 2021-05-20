@@ -11,7 +11,7 @@
                     <div class="map-ratings-review-area d-flex">
                         <a href="#" class="d-flex align-items-center justify-content-center"><img src="img/core-img/map.png" alt=""></a>
                         <a href="#">8.7</a>
-                        <a href="#">Write a review</a>
+                        <a href="{% url 'event-review' event.id %}">Write a review</a>
                     </div>
                 </div>
             </div>
@@ -159,7 +159,8 @@
                         </div>
                         <a href="{% url 'event-booking' event.id %}" class="btn dorne-btn mt-50">Check Availability</a>
                     </div>
-
+                    
+                    {% for review in reviews  %}
                     <div class="listing-reviews-area mt-100" id="review">
                         <h4>reviews</h4>
                         <div class="single-review-area">
@@ -176,37 +177,17 @@
                                             <img src="img/clients-img/star-fill.png" alt="">
                                         </div>
                                     </div>
-                                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam ac nibh sed mi ullamcorper rhoncus. Curabitur pulvinar vel augue sit amet vestibulum. Proin tempus lacus porta lorem blandit aliquam eget quis ipsum. Vivamus accumsan consequat ligula non volutpat.</p>
+                                        <p>{{review.body}}</p>
+                                    
                                 </div>
                             </div>
                             <div class="reviewer-name">
-                                <h6>Christinne Smith</h6>
-                                <p>12 November 2017</p>
-                            </div>
-                        </div>
-                        <div class="single-review-area">
-                            <div class="reviewer-meta d-flex align-items-center">
-                                <img src="img/clients-img/1.jpg" alt="">
-                                <div class="reviewer-content">
-                                    <div class="review-title-ratings d-flex justify-content-between">
-                                        <h5>“Lorem ipsum dolor sit”</h5>
-                                        <div class="ratings">
-                                            <img src="img/clients-img/star-fill.png" alt="">
-                                            <img src="img/clients-img/star-fill.png" alt="">
-                                            <img src="img/clients-img/star-fill.png" alt="">
-                                            <img src="img/clients-img/star-fill.png" alt="">
-                                            <img src="img/clients-img/star-unfill.png" alt="">
-                                        </div>
-                                    </div>
-                                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam ac nibh sed mi ullamcorper rhoncus. Curabitur pulvinar vel augue sit amet vestibulum. Proin tempus lacus porta lorem blandit aliquam eget quis ipsum. Vivamus accumsan consequat ligula non volutpat.</p>
-                                </div>
-                            </div>
-                            <div class="reviewer-name">
-                                <h6>Michael Brown</h6>
-                                <p>12 November 2017</p>
+                                <h6>{{review.customer}}</h6>
+                                <p>{{review.created}}</p>
                             </div>
                         </div>
                     </div>
+                    {% endfor %}
 
                     <div class="location-on-map mt-50" id="lomap">
                         <h4>Location on map</h4>

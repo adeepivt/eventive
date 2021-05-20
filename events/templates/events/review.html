@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+<div class="breadcumb-area bg-img bg-overlay" style="background-image: url({% static 'img/bg-img/hero-1.jpg' %})"></div>
+<br>
+
+<div class="contact-form">
+    <div class="contact-form-title">
+        <h6>Write A Review</h6>
+    </div>
+        <form action="" method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <h3>{{ form.non_field_errors }}</h3>
+            <div class="row">
+                <div class="col-12">
+                    {{ form.body.errors }}
+                    <label for="{{ e_form.category.id_for_label }}"></label>
+                    {{ form.body }}
+                </div>
+                <div class="col-12">
+                    <button type="submit" class="btn dorne-btn">Submit</button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+{% endblock content %}

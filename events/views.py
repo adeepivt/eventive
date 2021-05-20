@@ -1,8 +1,8 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from users.models import Profile
 from django.contrib.auth.models import User
-from .forms import EventCreateForm, EventUpdateForm, EventBookingForm
-from .models import Event, Booking
+from .forms import EventCreateForm, EventUpdateForm, EventBookingForm, EventReviewForm
+from .models import Event, Booking, Review
 from django.contrib import messages
 from django.views.generic import UpdateView, DeleteView
 from django.contrib.auth.decorators import login_required
@@ -51,11 +51,32 @@ def event_details(request, pk):
     user = request.user
     event = Event.objects.get(id=pk)
     image = event.image.url
+    reviews = Review.objects.filter(event=pk)
+
     content = {
         'event' : event,
-        'img' : image
+        'img' : image,
+        'reviews' : reviews
     }
     return render(request, 'events/event_details.html', content)
+
+def add_review(request, pk):
+    user = request.user
+    event = Event.objects.get(id=pk)
+    if request.method == 'POST':
+        form = EventReviewForm(request.POST)
+        if form.is_valid():
+            instance = form.save(commit=False)
+            instance.customer = user
+            instance.event = event
+            instance.save()
+            return redirect('event-details', pk=pk)
+
+    form = EventReviewForm()
+    content = {
+        "form" : form
+    }
+    return render(request, 'events/review.html', content)
 
 @login_required
 def event_create(request):

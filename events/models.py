@@ -96,3 +96,14 @@ class Booking(models.Model):
     def __str__(self):
         return f"{self.customer} -- {self.event} -- {self.status}"
 
+
+class Review(models.Model):
+    customer = models.ForeignKey(User, on_delete=models.CASCADE, related_name='user')
+    event = models.ForeignKey(Event, on_delete=models.CASCADE, related_name='vendor')
+    body = models.TextField()
+    updated = models.DateTimeField(auto_now=True)
+    created = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f'{self.customer}-{self.event.name}'
+

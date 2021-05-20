@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.models import User
 from bootstrap_datepicker_plus import DatePickerInput
-from .models import Event, Booking
+from .models import Event, Booking, Review
 
 
 class EventCreateForm(forms.ModelForm):
@@ -23,6 +23,11 @@ class EventUpdateForm(forms.ModelForm):
         super(EventUpdateForm, self).__init__(*args, **kwargs)
         for visible in self.visible_fields():
             visible.field.widget.attrs['class'] = 'form-control'
+
+class EventReviewForm(forms.ModelForm):
+    class Meta:
+        model = Review
+        fields = ['body']
 
 
 class EventBookingForm(forms.ModelForm):
