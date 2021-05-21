@@ -159,35 +159,37 @@
                         </div>
                         <a href="{% url 'event-booking' event.id %}" class="btn dorne-btn mt-50">Check Availability</a>
                     </div>
-                    
-                    {% for review in reviews  %}
                     <div class="listing-reviews-area mt-100" id="review">
                         <h4>reviews</h4>
-                        <div class="single-review-area">
-                            <div class="reviewer-meta d-flex align-items-center">
-                                <img src="img/clients-img/1.jpg" alt="">
-                                <div class="reviewer-content">
-                                    <div class="review-title-ratings d-flex justify-content-between">
-                                        <h5>“Lorem ipsum dolor sit”</h5>
-                                        <div class="ratings">
-                                            <img src="img/clients-img/star-fill.png" alt="">
-                                            <img src="img/clients-img/star-fill.png" alt="">
-                                            <img src="img/clients-img/star-fill.png" alt="">
-                                            <img src="img/clients-img/star-fill.png" alt="">
-                                            <img src="img/clients-img/star-fill.png" alt="">
+                        {% if reviews %}
+                            {% for review in reviews  %}
+                            <div class="single-review-area">
+                                <div class="reviewer-meta d-flex align-items-center">
+                                    <img src="img/clients-img/1.jpg" alt="">
+                                    <div class="reviewer-content">
+                                        <div class="review-title-ratings d-flex justify-content-between">
+                                            <!-- <h5></h5> -->
+                                            <div class="ratings">
+                                                <img src="{% static 'img/clients-img/star-fill.png' %}" alt="">
+                                                <img src="{% static 'img/clients-img/star-fill.png' %}" alt="">
+                                                <img src="{% static 'img/clients-img/star-fill.png' %}" alt="">
+                                                <img src="{% static 'img/clients-img/star-half-fill.png' %}" alt="">
+                                            </div>
                                         </div>
-                                    </div>
                                         <p>{{review.body}}</p>
-                                    
+                                        
+                                    </div>
+                                </div>
+                                <div class="reviewer-name">
+                                    <h6>{{review.customer}}</h6>
+                                    <p>{{review.created}}</p>
                                 </div>
                             </div>
-                            <div class="reviewer-name">
-                                <h6>{{review.customer}}</h6>
-                                <p>{{review.created}}</p>
-                            </div>
+                            {% endfor %}
+                            {% else %}
+                                <p>No Reviews</p>
+                            {% endif %}
                         </div>
-                    </div>
-                    {% endfor %}
 
                     <div class="location-on-map mt-50" id="lomap">
                         <h4>Location on map</h4>
@@ -209,7 +211,7 @@
                     </div>
 
                     <!-- Book A Table Widget -->
-                    <div class="book-a-table-widget mt-50">
+                    <!-- <div class="book-a-table-widget mt-50">
                         <h6>Check Availability</h6>
                         {% for message in messages  %}
                         <h4 style="color: red;">{{message}}</h4>
@@ -217,22 +219,22 @@
                         <form action="#" method="POST" autocomplete="off">
                             {% csrf_token %}
                             <select class="custom-select" id="destinations">
-                            <option selected>From</option>
+                            <option selected>From</option> -->
                             <!-- <option value="1">New York</option>
                             <option value="2">Latvia</option>
                             <option value="3">Dhaka</option>
                             <option value="4">Melbourne</option>
                             <option value="5">London</option> -->
-                        </select>
+                        <!-- </select>
                             <select class="custom-select" id="catagories">
-                            <option selected>To</option>
+                            <option selected>To</option> -->
                             <!-- <option value="1">Guest 2</option>
                             <option value="3">Guest 3</option>
                             <option value="3">Guest 4</option> -->
-                        </select>
+                        <!-- </select>
                             <button type="submit" class="btn dorne-btn bg-white text-dark"><i class="fa fa-search pr-2" aria-hidden="true"></i> Search</button>
                         </form>
-                    </div>
+                    </div> -->
 
                     <!-- Opening Hours Widget -->
                     <div class="opening-hours-widget mt-50">
@@ -271,15 +273,12 @@
 
                     <!-- Author Widget -->
                     <div class="author-widget mt-50 d-flex align-items-center">
-                        <img src="{{events.user.image}}" alt="">
+                        <img src="{{event.image.url}}" alt="">
                         <div class="authors-name">
-                            <a href="#">James Smith</a>
-                            <p>The Author</p>
+                            <a href="#">{{event.user}}</a>
+                            <p>The Vendor</p>
                         </div>
                     </div>
-
-                    
-
                 </div>
             </div>
         </div>
