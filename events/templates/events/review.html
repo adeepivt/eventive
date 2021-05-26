@@ -20,6 +20,11 @@
                     {{ form.body }}
                 </div>
                 <div class="col-12">
+                    <p>{{ form.rating.errors }}</p>
+                    <label for=""></label>
+                    {{ form.rating }}
+                </div>
+                <div class="col-12">
                     <button type="submit" class="btn dorne-btn">Submit</button>
                 </div>
             </div>

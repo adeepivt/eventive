@@ -97,16 +97,35 @@ class Booking(models.Model):
         return f"{self.customer} -- {self.event} -- {self.status}"
 
 ratings = (
-    ('1','1'),
-    ('1.5','1.5'),
-    ('2','2'),
-    ('2.5','2.5'),
-    ('3','3'),
-    ('3.5','3.5'),
-    ('4','4'),
-    ('4.5','4.5'),
-    ('5','5'),
+    (1,'1'),
+    (1.5,'1.5'),
+    (2,'2'),
+    (2.5,'2.5'),
+    (3,'3'),
+    (3.5,'3.5'),
+    (4,'4'),
+    (4.5,'4.5'),
+    (5,'5'),
 )
+
+class ReviewManager(models.Manager):
+    def average_ratings(self, event):
+        average = []
+        event = Review.objects.filter(event=event)
+        for rating in event:
+            average.append(rating.rating)
+        total_ratings = len(average)
+        avg_rating = 0
+        if total_ratings != 0:
+            for i in average:
+                print(i)
+                avg_rating += i
+            event_rating = avg_rating/total_ratings
+        else:
+            event_rating = 0
+        return event_rating
+
+
 class Review(models.Model):
     customer = models.ForeignKey(User, on_delete=models.CASCADE, related_name='user')
     event = models.ForeignKey(Event, on_delete=models.CASCADE, related_name='vendor')
@@ -114,6 +133,7 @@ class Review(models.Model):
     updated = models.DateTimeField(auto_now=True)
     created = models.DateTimeField(auto_now_add=True)
     rating = models.IntegerField(choices=ratings)
+    objects = ReviewManager()
 
     def __str__(self):
         return f'{self.customer}-{self.event.name}'

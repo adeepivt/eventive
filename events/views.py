@@ -52,11 +52,13 @@ def event_details(request, pk):
     event = Event.objects.get(id=pk)
     image = event.image.url
     reviews = Review.objects.filter(event=pk)
+    rating = Review.objects.average_ratings(event)
 
     content = {
         'event' : event,
         'img' : image,
-        'reviews' : reviews
+        'reviews' : reviews,
+        'rating' : rating
     }
     return render(request, 'events/event_details.html', content)
 

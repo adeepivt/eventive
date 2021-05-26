@@ -27,7 +27,7 @@ class EventUpdateForm(forms.ModelForm):
 class EventReviewForm(forms.ModelForm):
     class Meta:
         model = Review
-        fields = ['body']
+        fields = ['body','rating']
 
 
 class EventBookingForm(forms.ModelForm):
