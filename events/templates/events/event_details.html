@@ -2,16 +2,33 @@
 {% load static %}
 
 {% block content %}
-<!-- ***** Breadcumb Area Start ***** -->
+{% if user.profile.is_admin %}
+<div class="breadcumb-area bg-img bg-overlay" style="background-image: url({% static 'img/bg-img/hero-1.jpg' %})"></div>
+<br>
+<section class="dorne-about-area section-padding-0-100">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="about-content text-center">
+                    <h2>You need customer Account<br></h2>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% else %}
+  <!-- ***** Breadcumb Area Start ***** -->
 <div class="breadcumb-area height-700 bg-img bg-overlay" style="background-image: url({{event.image.url}});">
     <div class="container">
         <div class="row">
             <div class="col-12">
                 <div class="breadcumb-content">
                     <div class="map-ratings-review-area d-flex">
-                        <a href="#" class="d-flex align-items-center justify-content-center"><img src="img/core-img/map.png" alt=""></a>
+                        <a href="" style="cursor: default;"><div class="Stars" style="--rating: {{rating}};padding: 2px;margin: auto;width: auto;" aria-label="Rating of this product is 2.3 out of 5."></div></a>
                         <a href="#">{{rating}} / <small>5</small></a>
+                        {% if user.id not in user_review %}
                         <a href="{% url 'event-review' event.id %}">Write a review</a>
+                        {% endif %}
                     </div>
                 </div>
             </div>
@@ -27,12 +44,12 @@
             <!-- Single Listing Content -->
             <div class="col-12 col-lg-8">
                 <div class="single-listing-content">
-
+                    
                     <div class="listing-title">
                         <h4>{{event.name}}</h4>
                         <h6>{{event.place}}</h6>
                     </div>
-
+                    
                     <div class="single-listing-nav">
                         <nav>
                             <ul id="listingNav">
@@ -43,7 +60,7 @@
                             </ul>
                         </nav>
                     </div>
-
+                    
                     <div class="overview-content mt-50" id="overview">
                         <p id="details">{{event.details}}</p>
                         <p><span class="desc-prof" data-css-changed="1"><svg viewBox="0 0 12 16" version="1.1" width="10" height="14" aria-hidden="true"><path fill-rule="evenodd" d="M6 0C2.69 0 0 2.5 0 5.5 0 10.02 6 16 6 16s6-5.98 6-10.5C12 2.5 9.31 0 6 0zm0 14.55C4.14 12.52 1 8.44 1 5.5 1 3.02 3.25 1 6 1c1.34 0 2.61.48 3.56 1.36.92.86 1.44 1.97 1.44 3.14 0 2.94-3.14 7.02-5 9.05zM8 5.5c0 1.11-.89 2-2 2-1.11 0-2-.89-2-2 0-1.11.89-2 2-2 1.11 0 2 .89 2 2z"></path></svg></span> {{event.address}}</p>
@@ -106,7 +123,7 @@
                             </div>
                         </div>
                     </div>
-
+                    
                     <div class="listing-menu-area mt-100" id="menu">
                         <h4>Menu</h4>
                         <!-- Single Listing Menu -->
@@ -162,54 +179,57 @@
                     <div class="listing-reviews-area mt-100" id="review">
                         <h4>reviews</h4>
                         {% if reviews %}
-                            {% for review in reviews  %}
-                            <div class="single-review-area">
-                                <div class="reviewer-meta d-flex align-items-center">
-                                    <img src="img/clients-img/1.jpg" alt="">
-                                    <div class="reviewer-content">
-                                        <div class="review-title-ratings d-flex justify-content-between">
-                                            <!-- <h5></h5> -->
-                                            <div class="ratings">
+                        {% for review in reviews  %}
+                        <div class="single-review-area">
+                            <div class="reviewer-meta d-flex align-items-center">
+                                <img src="img/clients-img/1.jpg" alt="">
+                                <div class="reviewer-content">
+                                    <div class="review-title-ratings d-flex justify-content-between">
+                                        <!-- <h5></h5> -->
+                                        <div class="ratings">
+                                            <!-- <img src="{% static 'img/clients-img/star-fill.png' %}" alt="">
                                                 <img src="{% static 'img/clients-img/star-fill.png' %}" alt="">
                                                 <img src="{% static 'img/clients-img/star-fill.png' %}" alt="">
-                                                <img src="{% static 'img/clients-img/star-fill.png' %}" alt="">
-                                                <img src="{% static 'img/clients-img/star-half-fill.png' %}" alt="">
+                                                <img src="{% static 'img/clients-img/star-half-fill.png' %}" alt=""> -->
+                                                <div class="Stars" style="--rating: {{review.rating}};" aria-label="Rating of this product is 2.3 out of 5."></div>
                                             </div>
                                         </div>
                                         <p>{{review.body}}</p>
-                                        
+                                        <!-- {% if user.id == review.customer.id %}
+                                            <button>Update</button>
+                                            {% endif %} -->
+                                        </div>
+                                    </div>
+                                    <div class="reviewer-name">
+                                        <h6>{{review.customer}}</h6>
+                                        <p>{{review.created}}</p>
                                     </div>
                                 </div>
-                                <div class="reviewer-name">
-                                    <h6>{{review.customer}}</h6>
-                                    <p>{{review.created}}</p>
-                                </div>
-                            </div>
-                            {% endfor %}
-                            {% else %}
+                                {% endfor %}
+                                {% else %}
                                 <p>No Reviews</p>
-                            {% endif %}
-                        </div>
-
-                    <div class="location-on-map mt-50" id="lomap">
-                        <h4>Location on map</h4>
-                        <div class="location-map">
-                            <div id="locationMap"></div>
+                                {% endif %}
+                            </div>
+                            
+                            <div class="location-on-map mt-50" id="lomap">
+                                <h4>Location on map</h4>
+                                <div class="location-map">
+                                    <div id="locationMap"></div>
                         </div>
                     </div>
 
                 </div>
             </div>
-
+            
             <!-- Listing Sidebar -->
             <div class="col-12 col-md-8 col-lg-4">
                 <div class="listing-sidebar">
-
+                    
                     <!-- Listing Verify -->
                     <div class="listing-verify">
                         <a href="#" class="btn dorne-btn w-100"><i class="fa fa-check pr-3"></i> Verified Listing</a>
                     </div>
-
+                    
                     <!-- Book A Table Widget -->
                     <!-- <div class="book-a-table-widget mt-50">
                         <h6>Check Availability</h6>
@@ -219,25 +239,25 @@
                         <form action="#" method="POST" autocomplete="off">
                             {% csrf_token %}
                             <select class="custom-select" id="destinations">
-                            <option selected>From</option> -->
-                            <!-- <option value="1">New York</option>
-                            <option value="2">Latvia</option>
-                            <option value="3">Dhaka</option>
-                            <option value="4">Melbourne</option>
-                            <option value="5">London</option> -->
-                        <!-- </select>
-                            <select class="custom-select" id="catagories">
-                            <option selected>To</option> -->
-                            <!-- <option value="1">Guest 2</option>
-                            <option value="3">Guest 3</option>
-                            <option value="3">Guest 4</option> -->
-                        <!-- </select>
-                            <button type="submit" class="btn dorne-btn bg-white text-dark"><i class="fa fa-search pr-2" aria-hidden="true"></i> Search</button>
-                        </form>
-                    </div> -->
-
-                    <!-- Opening Hours Widget -->
-                    <div class="opening-hours-widget mt-50">
+                                <option selected>From</option> -->
+                                <!-- <option value="1">New York</option>
+                                    <option value="2">Latvia</option>
+                                    <option value="3">Dhaka</option>
+                                    <option value="4">Melbourne</option>
+                                    <option value="5">London</option> -->
+                                    <!-- </select>
+                                        <select class="custom-select" id="catagories">
+                                            <option selected>To</option> -->
+                                            <!-- <option value="1">Guest 2</option>
+                                                <option value="3">Guest 3</option>
+                                                <option value="3">Guest 4</option> -->
+                                                <!-- </select>
+                                                    <button type="submit" class="btn dorne-btn bg-white text-dark"><i class="fa fa-search pr-2" aria-hidden="true"></i> Search</button>
+                                                </form>
+                                            </div> -->
+                                            
+                                            <!-- Opening Hours Widget -->
+                                            <div class="opening-hours-widget mt-50">
                         <h6>Opening Hours</h6>
                         <ul class="opening-hours">
                             <li>
@@ -270,12 +290,12 @@
                             </li>
                         </ul>
                     </div>
-
+                    
                     <!-- Author Widget -->
                     <div class="author-widget mt-50 d-flex align-items-center">
-                        <img src="{{event.image.url}}" alt="">
+                        <img src="{{event.user.profile.img.url}}" alt="">
                         <div class="authors-name">
-                            <a href="#">{{event.user}}</a>
+                            <h6>{{event.user}}</h6>
                             <p>The Vendor</p>
                         </div>
                     </div>
@@ -286,4 +306,5 @@
 </section>
 <!-- ***** Single Listing Area End ***** -->
 
+{% endif %}
 {% endblock content %}

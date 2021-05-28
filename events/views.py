@@ -33,6 +33,8 @@ def home_page(request):
 @login_required
 def search_event(request):
     user = request.user
+    fav = bool
+    l = []
     if user.profile.is_admin:
         messages.warning(request,"You need a customer account")
     else:
@@ -42,41 +44,48 @@ def search_event(request):
             object_list = Event.objects.filter(
                 Q(place__icontains=place) & Q(category__contains=category)
             )
-
-        return render(request, 'events/search_result.html', {'object':object_list})
+        user_fav = Event.objects.user_favourites(user)
+        return render(request, 'events/search_result.html', {'object':object_list, 'fav':user_fav})
     return render(request, 'events/search_result.html')
 
-
+@login_required
 def event_details(request, pk):
     user = request.user
     event = Event.objects.get(id=pk)
     image = event.image.url
     reviews = Review.objects.filter(event=pk)
     rating = Review.objects.average_ratings(event)
+    user_review = Review.objects.user_review(event,user)
 
     content = {
+        'user': user,
         'event' : event,
         'img' : image,
         'reviews' : reviews,
-        'rating' : rating
+        'rating' : rating,
+        'user_review' : user_review
     }
     return render(request, 'events/event_details.html', content)
 
+@login_required
 def add_review(request, pk):
     user = request.user
     event = Event.objects.get(id=pk)
-    if request.method == 'POST':
-        form = EventReviewForm(request.POST)
-        if form.is_valid():
-            instance = form.save(commit=False)
-            instance.customer = user
-            instance.event = event
-            instance.save()
-            return redirect('event-details', pk=pk)
+    if user.profile.is_admin :
+        messages.warning(request,"You need customer account")
+    else:
+        if request.method == 'POST':
+            form = EventReviewForm(request.POST)
+            if form.is_valid():
+                instance = form.save(commit=False)
+                instance.customer = user
+                instance.event = event
+                instance.save()
+                return redirect('event-details', pk=pk)
 
     form = EventReviewForm()
     content = {
-        "form" : form
+        "form" : form,
     }
     return render(request, 'events/review.html', content)
 

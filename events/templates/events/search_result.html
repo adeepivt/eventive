@@ -37,10 +37,10 @@
                             <div class="feature-content d-flex align-items-center justify-content-between">
                                 <div class="feature-title">
                                     <h5>{{event.name|truncatewords:2}}</h5>
-                                    <a href="{% url 'event-details' event.id %}"><p>View Details</p></a>
+                                    <a href="{% url 'event-details' event.id %}"><p>View Details...</p></a>
                                 </div>
                                 <div class="feature-favourite">
-                                    {% if event.favourites.exists %}
+                                    {% if event.id in fav %}
                                         <a href="{% url 'add_favourites' event.id %}" title="add to favourites"><i class="fa fa-heart blue-color" aria-hidden="true"></i></a>
                                     {% else %}
                                         <a href="{% url 'add_favourites' event.id %}" title="Remove"><i class="fa fa-heart-o" aria-hidden="true"></i></a>

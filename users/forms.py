@@ -22,7 +22,7 @@ class UserRegisterForm(UserCreationForm):
 class UserProfileForm(forms.ModelForm):
     class Meta:
         model = Profile
-        fields = ['mobile','location']
+        fields = ['mobile','location','img']
 
     def __init__(self, *args, **kwargs):
         super(UserProfileForm, self).__init__(*args, **kwargs)

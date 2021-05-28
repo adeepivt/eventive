@@ -9,6 +9,11 @@
 <div class="contact-form">
     <div class="contact-form-title">
         <h6>Write A Review</h6>
+        {% if messages %}
+          {% for message in messages %}
+            {{message}}
+          {% endfor %}
+        {% endif %}
     </div>
         <form action="" method="POST" enctype="multipart/form-data">
             {% csrf_token %}

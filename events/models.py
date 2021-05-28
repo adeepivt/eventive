@@ -30,6 +30,14 @@ PLACES = (
     ('Kasaragod','Kasaragod'),
 )
 
+class EventManager(models.Manager):
+    def user_favourites(self,user):
+        fav_list = []
+        user_favourite = Event.objects.filter(favourites=user)
+        for event in user_favourite:
+            fav_list.append(event.id)
+        return fav_list
+
 class Event(models.Model):
     category = models.CharField(choices=EVENTS, max_length=20)
     name = models.CharField(max_length=100)
@@ -43,6 +51,8 @@ class Event(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     image = models.ImageField(upload_to='events/',validators=[FileExtensionValidator(['jpeg','png', 'jpg'])], default='e_logo.jpg')
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='admin')
+
+    objects = EventManager()
 
     def __str__(self):
         return f"Eventive-{self.user} - {self.category} - {self.price}"
@@ -118,12 +128,19 @@ class ReviewManager(models.Manager):
         avg_rating = 0
         if total_ratings != 0:
             for i in average:
-                print(i)
                 avg_rating += i
-            event_rating = avg_rating/total_ratings
+            event_rating = round(avg_rating/total_ratings,1)
         else:
             event_rating = 0
         return event_rating
+
+    def user_review(self,event,user):
+        print(event,user)
+        users = []
+        r = Review.objects.filter(event=event.id)
+        for user in r:
+            users.append(user.customer.id)
+        return users
 
 
 class Review(models.Model):
@@ -132,7 +149,7 @@ class Review(models.Model):
     body = models.TextField()
     updated = models.DateTimeField(auto_now=True)
     created = models.DateTimeField(auto_now_add=True)
-    rating = models.IntegerField(choices=ratings)
+    rating = models.FloatField(choices=ratings)
     objects = ReviewManager()
 
     def __str__(self):
