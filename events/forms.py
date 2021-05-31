@@ -29,6 +29,10 @@ class EventReviewForm(forms.ModelForm):
         model = Review
         fields = ['body','rating']
 
+    def __init__(self, *args, **kwargs):
+        super(EventReviewForm, self).__init__(*args, **kwargs)
+        for visible in self.visible_fields():
+            visible.field.widget.attrs['class'] = 'form-control'
 
 class EventBookingForm(forms.ModelForm):
     class Meta:

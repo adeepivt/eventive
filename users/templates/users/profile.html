@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="breadcumb-area bg-img bg-overlay" style="background-image: url({% static 'img/bg-img/hero-1.jpg' %})"></div>
+<br>
+  <p>{{profile.user}}</p>
+  <p>{{profile.user.email}}</p>
+  <p>{{profile.location}}</p>
+  <p>{{profile.mobile}}</p>
+  <img src="{{profile.img.url}}" alt="">
+{% endblock content %}

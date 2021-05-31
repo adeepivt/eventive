@@ -27,7 +27,9 @@
                         <a href="" style="cursor: default;"><div class="Stars" style="--rating: {{rating}};padding: 2px;margin: auto;width: auto;" aria-label="Rating of this product is 2.3 out of 5."></div></a>
                         <a href="#">{{rating}} / <small>5</small></a>
                         {% if user.id not in user_review %}
-                        <a href="{% url 'event-review' event.id %}">Write a review</a>
+                        <a href="#write_review">Write a review</a>
+                        {% else %}
+                            <a href="#review">Review</a>
                         {% endif %}
                     </div>
                 </div>
@@ -54,9 +56,9 @@
                         <nav>
                             <ul id="listingNav">
                                 <li class="active"><a href="#overview">Overview</a></li>
-                                <li><a href="#menu">Menu</a></li>
+                                <!-- <li><a href="#menu">Menu</a></li> -->
                                 <li><a href="#review">Reviews</a></li>
-                                <li><a href="#lomap">Location on map</a></li>
+                                <!-- <li><a href="#lomap">Location on map</a></li> -->
                             </ul>
                         </nav>
                     </div>
@@ -125,55 +127,55 @@
                     </div>
                     
                     <div class="listing-menu-area mt-100" id="menu">
-                        <h4>Menu</h4>
+                        <h4>You can check availability</h4>
                         <!-- Single Listing Menu -->
-                        <div class="single-listing-menu d-flex justify-content-between">
+                        <!-- <div class="single-listing-menu d-flex justify-content-between"> -->
                             <!-- Listing Menu Title -->
-                            <div class="listing-menu-title">
+                            <!-- <div class="listing-menu-title">
                                 <h6>Lorem ipsum dolor sit.</h6>
                                 <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ratione, sint?</p>
-                            </div>
+                            </div> -->
                             <!-- Listing Menu Price -->
-                            <div class="listing-menu-price">
+                            <!-- <div class="listing-menu-price">
                                 <h6>$9,90</h6>
-                            </div>
-                        </div>
+                            </div> -->
+                        <!-- </div> -->
                         <!-- Single Listing Menu -->
-                        <div class="single-listing-menu d-flex justify-content-between">
+                        <!-- <div class="single-listing-menu d-flex justify-content-between"> -->
                             <!-- Listing Menu Title -->
-                            <div class="listing-menu-title">
+                            <!-- <div class="listing-menu-title">
                                 <h6>Lorem ipsum dolor sit.</h6>
                                 <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ratione, sint?</p>
-                            </div>
+                            </div> -->
                             <!-- Listing Menu Price -->
-                            <div class="listing-menu-price">
+                            <!-- <div class="listing-menu-price">
                                 <h6>$9,90</h6>
-                            </div>
-                        </div>
+                            </div> -->
+                        <!-- </div> -->
                         <!-- Single Listing Menu -->
-                        <div class="single-listing-menu d-flex justify-content-between">
+                        <!-- <div class="single-listing-menu d-flex justify-content-between"> -->
                             <!-- Listing Menu Title -->
-                            <div class="listing-menu-title">
+                            <!-- <div class="listing-menu-title">
                                 <h6>Lorem ipsum dolor sit.</h6>
                                 <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ratione, sint?</p>
-                            </div>
+                            </div> -->
                             <!-- Listing Menu Price -->
-                            <div class="listing-menu-price">
+                            <!-- <div class="listing-menu-price">
                                 <h6>$9,90</h6>
-                            </div>
-                        </div>
+                            </div> -->
+                        <!-- </div> -->
                         <!-- Single Listing Menu -->
-                        <div class="single-listing-menu d-flex justify-content-between">
+                        <!-- <div class="single-listing-menu d-flex justify-content-between"> -->
                             <!-- Listing Menu Title -->
-                            <div class="listing-menu-title">
+                            <!-- <div class="listing-menu-title">
                                 <h6>Lorem ipsum dolor sit.</h6>
                                 <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ratione, sint?</p>
-                            </div>
+                            </div> -->
                             <!-- Listing Menu Price -->
-                            <div class="listing-menu-price">
+                            <!-- <div class="listing-menu-price">
                                 <h6>$9,90</h6>
-                            </div>
-                        </div>
+                            </div> -->
+                        <!-- </div> -->
                         <a href="{% url 'event-booking' event.id %}" class="btn dorne-btn mt-50">Check Availability</a>
                     </div>
                     <div class="listing-reviews-area mt-100" id="review">
@@ -209,14 +211,47 @@
                                 {% else %}
                                 <p>No Reviews</p>
                                 {% endif %}
-                            </div>
+                            </div><br>
                             
-                            <div class="location-on-map mt-50" id="lomap">
+                            <!-- <div class="location-on-map mt-50" id="lomap">
                                 <h4>Location on map</h4>
                                 <div class="location-map">
                                     <div id="locationMap"></div>
                         </div>
-                    </div>
+                    </div> -->
+
+                {% if user.id not in user_review %}
+                <div class="dorne-contact-area d-md-flex">
+                    <div id="write_review" class="contact-form">
+                        <div class="contact-form-title">
+                            <h6>Write A Review</h6>
+                            {% if messages %}
+                              {% for message in messages %}
+                                {{message}}
+                              {% endfor %}
+                            {% endif %}
+                        </div>
+                            <form action="" method="POST" enctype="multipart/form-data">
+                                {% csrf_token %}
+                                <h3>{{ review_form.non_field_errors }}</h3>
+                                <div class="row">
+                                    <div class="col-12">
+                                        {{ review_form.body.errors }}
+                                        <label for="{{ e_form.category.id_for_label }}"></label>
+                                        {{ review_form.body }}
+                                    </div>
+                                    <div class="col-12">
+                                        <p>{{ review_form.rating.errors }}</p>
+                                        <label for=""></label>
+                                        {{ review_form.rating }}
+                                    </div>
+                                    <div class="col-12">
+                                        <button type="submit" class="btn dorne-btn">Submit</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div></div>
+                        {% endif %}
 
                 </div>
             </div>

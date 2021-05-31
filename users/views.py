@@ -3,6 +3,7 @@ from .forms import UserRegisterForm, UserProfileForm, VendorLoginForm
 from django.contrib import messages
 from django.contrib.auth import authenticate, login
 from events.models import Event
+from .models import Profile
 
 # Create your views here.
 
@@ -53,6 +54,16 @@ def user_login(request):
     context = {'form':form}
 
     return render(request, 'users/login.html', context)
+
+def acc_details(request):
+    user = request.user
+    profile = Profile.objects.get(user=user.id)
+
+    content = {
+        'profile' : profile
+    }
+
+    return render(request, 'users/profile.html', content)
 
 def add_favourites(request, pk):
     event = get_object_or_404(Event, id=pk)

@@ -56,6 +56,19 @@ def event_details(request, pk):
     reviews = Review.objects.filter(event=pk)
     rating = Review.objects.average_ratings(event)
     user_review = Review.objects.user_review(event,user)
+    review_form = EventReviewForm()
+
+    if user.profile.is_admin :
+        messages.warning(request,"You need customer account")
+    else:
+        if request.method == 'POST':
+            review_form = EventReviewForm(request.POST)
+            if review_form.is_valid():
+                instance = review_form.save(commit=False)
+                instance.customer = user
+                instance.event = event
+                instance.save()
+                return redirect('event-details', pk=pk)
 
     content = {
         'user': user,
@@ -63,31 +76,32 @@ def event_details(request, pk):
         'img' : image,
         'reviews' : reviews,
         'rating' : rating,
-        'user_review' : user_review
+        'user_review' : user_review,
+        "review_form" : review_form,
     }
     return render(request, 'events/event_details.html', content)
 
-@login_required
-def add_review(request, pk):
-    user = request.user
-    event = Event.objects.get(id=pk)
-    if user.profile.is_admin :
-        messages.warning(request,"You need customer account")
-    else:
-        if request.method == 'POST':
-            form = EventReviewForm(request.POST)
-            if form.is_valid():
-                instance = form.save(commit=False)
-                instance.customer = user
-                instance.event = event
-                instance.save()
-                return redirect('event-details', pk=pk)
+# @login_required
+# def add_review(request, pk):
+#     user = request.user
+#     event = Event.objects.get(id=pk)
+#     if user.profile.is_admin :
+#         messages.warning(request,"You need customer account")
+#     else:
+#         if request.method == 'POST':
+#             review_form = EventReviewForm(request.POST)
+#             if review_form.is_valid():
+#                 instance = review_form.save(commit=False)
+#                 instance.customer = user
+#                 instance.event = event
+#                 instance.save()
+#                 return redirect('event-details', pk=pk)
 
-    form = EventReviewForm()
-    content = {
-        "form" : form,
-    }
-    return render(request, 'events/review.html', content)
+#     review_form = EventReviewForm()
+#     content = {
+#         "review_form" : review_form,
+#     }
+#     return render(request, 'events/event_details.html', content)
 
 @login_required
 def event_create(request):
