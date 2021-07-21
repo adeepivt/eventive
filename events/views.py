@@ -78,6 +78,7 @@ def event_details(request, pk):
         'rating' : rating,
         'user_review' : user_review,
         "review_form" : review_form,
+        "total_reviews" : len(reviews),
     }
     return render(request, 'events/event_details.html', content)
 

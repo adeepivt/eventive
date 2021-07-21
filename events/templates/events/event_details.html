@@ -25,7 +25,7 @@
                 <div class="breadcumb-content">
                     <div class="map-ratings-review-area d-flex">
                         <a href="" style="cursor: default;"><div class="Stars" style="--rating: {{rating}};padding: 2px;margin: auto;width: auto;" aria-label="Rating of this product is 2.3 out of 5."></div></a>
-                        <a href="#">{{rating}} / <small>5</small></a>
+                        <a href="#">{{rating}} / <small>5</small> out of {{total_reviews}} reviews</a>
                         {% if user.id not in user_review %}
                         <a href="#write_review">Write a review</a>
                         {% else %}
