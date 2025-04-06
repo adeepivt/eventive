@@ -6,7 +6,8 @@ __pycache__/
 *~
 Pipfile
 *.log
-*.sql 
+*.sql
+*.pot
 
 # Environment variables
 .env

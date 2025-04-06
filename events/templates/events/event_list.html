@@ -1,0 +1,83 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+
+
+
+
+  <!-- ***** Breadcumb Area Start ***** -->
+  <div class="breadcumb-area bg-img bg-overlay" style="background-image: url({% static 'img/bg-img/hero-1.jpg' %})"></div>
+  <!-- ***** Breadcumb Area End ***** -->
+
+  <!-- ***** Listing Destinations Area Start ***** -->
+  <section class="dorne-listing-destinations-area section-padding-100-50">
+      <div class="container">
+          <div class="row">
+              <div class="col-12">
+                  <div class="section-heading dark text-center">
+                      <span></span>
+                      {% if request.user.profile.is_admin %}
+                        <h4>Your Registered Events</h4>
+                        <p>Update / Delete</p>
+                      {% else %}
+                        <h4>You need an Admin account to view this page.</h4>
+                      {% endif %}
+                  </div>
+              </div>
+          </div>
+          <div class="row">
+            {% for event in events %}
+              <!-- Single Features Area -->
+              <div class="col-12 col-sm-6 col-lg-4">
+                  <div class="single-features-area mb-50">
+                      <img class="search-img" src="{{ event.image.url }}" alt="">
+                      <!-- Price -->
+                      <div class="price-start">
+                          <a href="{% url 'event-delete' event.pk %}" class="confirm-delete"
+                          data-name="{{ event.name|escapejs }}"><p>Delete</p></a>
+                      </div>
+                      <div class="e-update">
+                        <a href="{% url 'event-update' event.pk %}"><p>Update</p></a>
+                    </div>
+                      <div class="feature-content d-flex align-items-center justify-content-between">
+                          <div class="feature-title">
+                              <a href="#"><h5>{{event.name}}</h5></a>
+                              <p>{{event.place}}</p>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+            {% endfor %}
+          </div>
+      </div>
+  </section>
+
+  <script>
+    // Wait for the DOM to be fully loaded
+    document.addEventListener('DOMContentLoaded', function() {
+  
+      // Select all elements with the 'confirm-delete' class
+      const deleteButtons = document.querySelectorAll('.confirm-delete');
+  
+      deleteButtons.forEach(button => {
+        button.addEventListener('click', function(event) {
+          // Get the item name from the data attribute
+          const itemName = button.getAttribute('data-name') || 'this item'; // Fallback message
+          const message = `Are you sure you want to delete '${itemName}'?`;
+  
+          // Show the confirmation dialog
+          if (!confirm(message)) {
+            // If user clicks 'Cancel', prevent the default action
+            // (e.g., following the link's href or submitting the form)
+            event.preventDefault();
+          }
+          // If user clicks 'OK', the default action proceeds automatically
+        });
+      });
+  
+    });
+  </script>
+  <!-- ***** Listing Destinations Area End ***** -->
+
+{% endblock content %}

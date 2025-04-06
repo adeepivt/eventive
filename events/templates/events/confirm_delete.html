@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+  
+<div class="breadcumb-area bg-img bg-overlay" style="background-image: url({% static 'img/bg-img/hero-1.jpg' %})"></div>
+<br>
+<section class="dorne-about-area section-padding-0-100">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="about-content text-center">
+                    {% comment %} {% if messages %} {% endcomment %}
+                        {% comment %} {% for message in messages %} {% endcomment %}
+                            <h3>{{message}}</h3>
+                        {% comment %} {% endfor %} {% endcomment %}
+                    {% comment %} {% else %} {% endcomment %}
+                        {% comment %} <h3>Delete <span>{{object.name}}??</span></h3>
+                        <form action="" method="POST">
+                            {% csrf_token %}
+                            <h3>Are you sure you want to delete?</h3>
+                            <button class="btn dorne-btn" type="submit">Delete</button>
+                        </form> {% endcomment %}
+                        <div class="mt-4">
+                        <a class="btn dorne-btn"
+                            href="{% url 'event-create' %}">
+                            Add new event
+                        </a>
+                        <a class="btn dorne-btn"
+                            href="{% url 'event-list' %}">
+                            View all events
+                        </a>
+                        </div>
+                    {% comment %} {% endif %} {% endcomment %}
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock content %}

@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+     <!-- ***** Breadcumb Area Start ***** -->
+     <div class="breadcumb-area bg-img bg-overlay" style="background-image: url({% static 'img/bg-img/hero-1.jpg' %})"></div>
+     <!-- ***** Breadcumb Area End ***** -->
+ 
+     <!-- ***** Listing Destinations Area Start ***** -->
+     <section class="dorne-listing-destinations-area section-padding-100-50">
+         <div class="container">
+             <div class="row">
+                 <div class="col-12">
+                     <div class="section-heading dark text-center">
+                         <span></span>
+                     {% if not favourites %}
+                        {% if messages %}
+                            {% for message in messages  %}
+                                <h4>{{message}}</h4>
+                            {% endfor %}
+                        {% else %}
+                         <h4>No Saved Vendors</h4>
+                        {% endif %}
+                     {% else %}
+                         <h4>Saved Vendors</h4>
+                     {% endif %}
+                     </div>
+                 </div>
+             </div>
+             <div class="row">
+                 {% if favourites %}
+                   {% for event in favourites %}
+                     <div class="col-12 col-sm-6 col-lg-4">
+                         <div class="single-features-area mb-50">
+                             <img width="600" height="337" class="search-img" src="{{event.image.url}}" alt="">
+                             <!-- Price -->
+                             <div class="price-start">
+                                 <p>FROM &#8377; {{ event.price|floatformat }}</p>
+                             </div>
+                             <div class="feature-content d-flex align-items-center justify-content-between">
+                                 <div class="feature-title">
+                                     <h5>{{event.name|truncatewords:2}}</h5>
+                                     <a href="{% url 'event-details' event.id %}"><p>View Details</p></a>
+                                 </div>
+                                 <div class="feature-favourite">
+                                     <a href="{% url 'add_favourites' event.id %}" title="Remove"><i class="fa fa-heart blue-color" aria-hidden="true"></i></a>
+                                 </div>
+                             </div>
+                         </div>
+                     </div>    
+                   {% endfor %}
+                 {% endif %}
+             </div>
+         </div>
+     </section>
+     <!-- ***** Listing Destinations Area End ***** -->
+
+{% endblock content %}

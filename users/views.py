@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib import messages
-from django.shortcuts import redirect
+from django.shortcuts import redirect, get_object_or_404, HttpResponseRedirect
 from .forms import UserRegisterForm, UserProfileForm, VendorLoginForm
 from django.contrib.auth import authenticate, login
 from .models import Profile, PasswordReset
@@ -12,6 +12,7 @@ from django.core.mail import EmailMessage
 from django.utils import timezone
 from django.contrib.auth.password_validation import validate_password
 from django.core.exceptions import ValidationError
+from events.models import Event
 
 # Create your views here.
 
@@ -53,7 +54,7 @@ def user_login(request):
                 else:
                     if valuenext == '':
                         login(request, account)
-                        return redirect('register')
+                        return redirect('event-home')
                     else:
                         login(request, account)
                         return redirect(valuenext)
@@ -109,7 +110,7 @@ def vendor_login(request):
         if account is not None:
             if account.profile.is_admin:
                 login(request, account)
-                return redirect('register')
+                return redirect('event-home')
             messages.warning(request,f'username or password is incorrect')
         else:
             messages.warning(request,f'username or password is incorrect')
@@ -232,3 +233,19 @@ def PasswordResetSent(request):
         # redirect to forgot password page if code does not exist
         messages.error(request, 'Invalid reset id')
         return redirect('forgot-password')
+
+def add_favourites(request, pk):
+    event = get_object_or_404(Event, id=pk)
+    user = request.user
+    if event.favourites.filter(id=user.id).exists():
+        event.favourites.remove(request.user)
+    else:
+        event.favourites.add(request.user)
+    return HttpResponseRedirect(request.META['HTTP_REFERER'])
+
+def favourites_list(request):
+    user = request.user
+    if user.profile.is_admin:
+         messages.warning(request,f'You are at wrong place!')
+    favourites = Event.objects.filter(favourites=request.user)
+    return render(request, 'users/favourites.html', {'favourites': favourites})

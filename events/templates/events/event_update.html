@@ -1,0 +1,87 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+<div class="breadcumb-area bg-img bg-overlay" style="background-image: url({% static 'img/bg-img/hero-1.jpg' %})"></div>
+<br>
+<section class="dorne-about-area section-padding-0-100">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="about-content text-center">
+                    <h2>Update Your Buisiness with <br><span>Eventive</span></h2>
+                    <!-- <p>Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Fusce quis tempus elit. Sed efficitur tortor neque, vitae aliquet urna varius sit amet. Ut rhoncus, nunc nec tincidunt volutpat, ex libero.</p> -->
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div class="contact-form">
+    <div class="contact-form-title">
+        <h6>Update {{object.name}} -- {{object.category}}</h6>
+    </div>
+        <form action="" method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <h3 style="text-align: center;">{{ form.non_field_errors }}</h3>
+            <br>
+            <div class="row">
+                <div class="col-12 col-md-6">
+                    {{ form.name.errors }}
+                    <label for="{{ form.name.id_for_label }}">Name</label>
+                    {{ form.name }}
+                </div>
+                <div class="col-12 col-md-6">
+                    {{ form.place.errors }}
+                    <label for="{{ form.place.id_for_label }}">Place</label>
+                    {{ form.place }}
+                </div>
+                <div class="col-12 col-md-6">
+                    {{ form.price.errors }}
+                    <label for="{{ form.price.id_for_label }}">Price</label>
+                    {{ form.price }}
+                </div>
+                <div class="col-12 col-md-6">
+                    {{ form.details.errors }}
+                    <label for="{{ form.details.id_for_label }}">Details</label>
+                    {{ form.details }}
+                </div>
+                <div class="col-12 col-md-6 button-wrap">
+                    {{ form.image.errors }}
+                    {{ form.image }}
+                    <label class="new-button" for="{{ form.image.id_for_label }}">Choose File</label>
+                </div>
+                <div class="col-12 col-md-6">
+                    <img id='c_image' src="{{form.instance.image.url}}" alt="">
+                </div>
+                <div class="col-12">
+                    <button type="submit" class="btn dorne-btn">Update</button>
+                </div>
+            </div>
+        </form>
+    </div>
+<br>
+
+<script>
+
+    function readURL(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+    
+            reader.onload = function (e) {
+                $('#c_image').attr('src', e.target.result);
+            }
+    
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+    
+    $("#id_image").change(function(){
+        readURL(this);
+    });
+
+</script>
+
+{% endblock content %}
+

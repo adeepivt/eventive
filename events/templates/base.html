@@ -1,0 +1,132 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="description" content="">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- The above 4 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+
+    <!-- Title -->
+    <title>Eventive - Wedding Planners KERALA</title>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <!-- Favicon -->
+    <link rel="icon" href="{% static 'img/core-img/Eventive.png' %}">
+
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/smoothness/jquery-ui.css">
+    <script src="//code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="//code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+    <!-- Core Stylesheet -->
+    <link href="{% static 'style.css' %}" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'main.css' %}">
+
+
+    <!-- Responsive CSS -->
+    <link href="{% static 'css/responsive/responsive.css' %}" rel="stylesheet">
+
+</head>
+<body>
+        <!-- ***** Header Area Start ***** -->
+    <header class="header_area" id="header">
+        <div class="container-fluid h-100">
+            <div class="row h-100">
+                <div class="col-12 h-100">
+                    <nav class="h-100 navbar navbar-expand-lg">
+                        <a class="navbar-brand" href="{% url 'event-home' %}"><img src="{% static 'img/core-img/logo1.png' %}" alt=""></a>
+                        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#dorneNav" aria-controls="dorneNav" aria-expanded="false" aria-label="Toggle navigation"><span class="fa fa-bars"></span></button>
+                        <!-- Nav -->
+                        <div class="collapse navbar-collapse" id="dorneNav">
+                            <ul class="navbar-nav mr-auto" id="dorneMenu">
+                                <li class="nav-item active">
+                                    <a class="nav-link" href="{% url 'event-home' %}">Home <span class="sr-only">(current)</span></a>
+                                </li>
+                            </ul>
+                            <!-- Search btn -->
+                            <!-- <div class="dorne-search-btn">
+                                <a id="search-btn" href="#"><i class="fa fa-search" aria-hidden="true"></i> Search</a>
+                            </div> -->
+                            <!-- Signin btn -->
+                            <div class="dorne-signin-btn">
+                                {% if user.is_authenticated %}
+                                    {% if user.profile.is_admin %}
+                                    <a class="nav-link" href="{% url 'event-create' %}">Add New</a>
+                                    <a class="nav-link" href="{% url 'event-list' %}">Your Services</a>
+                                    {% comment %} <a class="nav-link" href="{% url 'logout' %}">logout</a> {% endcomment %}
+                                    <form method="post" style="display: inline-block;margin: 0;padding: 0;" action="{% url 'logout'%}">
+                                        {% csrf_token %}
+                                        <button type="submit" class="nav-link text-light"
+                                        style="border:none; background:none;font-weight: 600;"
+                                        >Logout</button>
+                                    </form>
+                                    {% else %}
+                                        <a href="{% url 'favourites_list' %}">Favourites</a>
+                                        <form method="post" style="display: inline-block;margin: 0;padding: 0;" action="{% url 'logout'%}">
+                                            {% csrf_token %}
+                                            <button type="submit" class="nav-link text-light"
+                                            style="border:none; background:none;font-weight: 600;"
+                                            >Logout</button>
+                                        </form>
+                                    {% endif %}
+                                {% else %}
+                                    <a href="{% url 'login' %}">Sign in  or Register</a>
+
+                            </div>
+                                <!-- Add listings btn -->
+                                <div class="dorne-add-listings-btn">
+                                    <a href="{% url 'vendor_login' %}" class="btn dorne-btn">+ Partner With Us.</a>
+                                </div>
+                                {% endif %}
+                        </div>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </header>
+    <!-- ***** Header Area End ***** -->
+
+    {% block content %}{% endblock content %}
+
+        <!-- ****** Footer Area Start ****** -->
+        <footer class="dorne-footer-area">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-12 d-md-flex align-items-center justify-content-between">
+                        <div class="footer-text">
+                            <p>
+                                <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+    Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="fa fa-heart-o" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
+    <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                            </p>
+                        </div>
+                        <div class="footer-social-btns">
+                            <a href="#"><i class="fa fa-linkedin" aria-haspopup="true"></i></a>
+                            <a href="#"><i class="fa fa-behance" aria-hidden="true"></i></a>
+                            <a href="#"><i class="fa fa-dribbble" aria-hidden="true"></i></a>
+                            <a href="#"><i class="fa fa-twitter" aria-haspopup="true"></i></a>
+                            <a href="#"><i class="fa fa-facebook" aria-haspopup="true"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </footer>
+        <!-- ****** Footer Area End ****** -->
+
+        <!-- Popper js -->
+        <!-- <script src="{% static 'js/bootstrap/popper.min.js ' %}"></script> -->
+        <!-- Bootstrap-4 js -->
+        <!-- <script src="{% static 'js/bootstrap/bootstrap.min.js' %}"></script> -->
+        <!-- All Plugins js -->
+        <script src="{% static 'js/others/plugins.js' %}"></script>
+        <!-- Active JS -->
+        <script src="{% static 'js/active.js' %}"></script>
+
+</body>
+</html>
