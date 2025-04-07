@@ -15,7 +15,6 @@ Pipfile
 # Static and media files
 /staticfiles/
 /media/
-/static/
 /media/
 /eventive_v2
 

@@ -76,7 +76,7 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'Eventive.wsgi.application'
-
+CSRF_TRUSTED_ORIGINS = ['https://eventive.up.railway.app']
 
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
