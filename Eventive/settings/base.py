@@ -45,6 +45,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'cloudinary_storage',
+    'cloudinary',
     'users',
     'events',
 ]
@@ -133,8 +135,17 @@ STATICFILES_DIRS = [
 ]
 
 MEDIA_URL = '/media/'
-MEDIA_ROOT = BASE_DIR / 'media'
+if env('DJANGO_ENVIRONMENT') == 'prod':
+    print('envronment', env('DJANGO_ENVIRONMENT'))
+    DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 
+    CLOUDINARY_STORAGE = {
+        'CLOUD_NAME': env('CLOUDINARY_CLOUD_NAME'),
+        'API_KEY': env('CLOUDINARY_API_KEY'),
+        'API_SECRET': env('CLOUDINARY_API_SECRET'),
+    }
+else:
+    MEDIA_ROOT = BASE_DIR / 'media'
 LOGIN_REDIRECT_URL = 'event-home'
 LOGIN_URL = 'login'
 LOGOUT_REDIRECT_URL = '/'
