@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<div class="breadcumb-area bg-img bg-overlay" style="background-image: url({% static 'img/bg-img/hero-1.jpg' %})"></div>
+<br>
+<div class="container mt-4">
+    <div class="card">
+        <div class="card-header">
+            <h3>Booking Details</h3>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-6">
+                    <h5>Vendor Information</h5>
+                    <p><strong>Name:</strong> {{ booking.event.name }}</p>
+                    <p><strong>Contact:</strong> {{ booking.event.user.phone }}</p>
+                    <p><strong>Email:</strong> {{ booking.event.user.email }}</p>
+                </div>
+                <div class="col-md-6">
+                    <h5>Customer Information</h5>
+                    <p><strong>Name:</strong> {{ booking.customer.username|default:booking.customer.username }}</p>
+                    <p><strong>Email:</strong> {{ booking.customer.email }}</p>
+                </div>
+            </div>
+            <hr>
+            <div class="row">
+                <div class="col-md-12">
+                    <h5>Booking Information</h5>
+                    <p><strong>Booking Date:</strong> {{ booking.start_date|date:"M d, Y" }}</p>
+                    <p><strong>Status:</strong> 
+                        <span class="badge badge-{% if booking.status == 'confirmed' %}success{% elif booking.status == 'pending' %}warning{% elif booking.status == 'cancelled' %}danger{% else %}info{% endif %}">
+                            {{ booking.get_status_display }}
+                        </span>
+                    </p>
+                    <p><strong>Booked on:</strong> {{ booking.created|date:"M d, Y H:i" }}</p>
+                    {% if booking.notes %}
+                    <p><strong>Notes:</strong> {{ booking.notes }}</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        <div class="card-footer">
+            <a href="javascript:history.back()" class="btn btn-secondary">Go Back</a>
+            {% if request.user == booking.vendor.owner and booking.status == 'pending' %}
+                <a href="{% url 'confirm_booking' booking.id %}" class="btn btn-success">Confirm Booking</a>
+            {% endif %}
+        </div>
+    </div>
+</div>
+<br/>
+{% endblock %}

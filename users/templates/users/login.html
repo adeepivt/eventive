@@ -24,7 +24,7 @@
                 <div class="signin-image">
                     <figure><img src="{% static 'register_page/images/signin-image.jpg' %}" alt="sign up image"></figure>
                         {% if user_type == 'vendor' %}
-                            <a href="{% url 'vendor_register' %}" class="signup-image-link">Create an account</a>
+                            <a href="{% url 'vendor_register' %}" class="signup-image-link">Create Partner account</a>
                         {% else %}
                             <a href="{% url 'register' %}" class="signup-image-link">Create an account</a>
                             
@@ -58,14 +58,18 @@
                             <input type="hidden" name="next" value="{{ request.GET.next }}">
                             <input type="submit" name="signin" id="signin" class="form-submit" value="Log in"/>
                             <small class="text-muted" style="padding-left:20px;">
-                                <a href="{% url 'forgot-password' %}">Forgot Password?</a>
+                                {% if user_type == 'vendor' %}
+                                    <a href="{% url 'forgot-password' %}?type=vendor">Forgot Password?</a>
+                                {% else %}
+                                    <a href="{% url 'forgot-password' %}?type=user">Forgot Password?</a>
+                                {% endif %}
                             </small>
                         </div>
                     </form>
                     <div class="social-login">
                         <ul class="socials">
-                            <li><a href="{% url 'register' %}">Home</a></li>
-                            {% if user_type != 'vendor' %}<li><a href="{% url 'vendor_login' %}">Vendor</a></li>{% endif %}
+                            <li><a href="{% url 'event-home' %}">Home</a></li>
+                            <!-- {% if user_type != 'vendor' %}<li><a href="{% url 'vendor_login' %}">Vendor</a></li>{% endif %} -->
                         </ul>
                     </div>
                 </div>

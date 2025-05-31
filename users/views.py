@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib import messages
 from django.shortcuts import redirect, get_object_or_404, HttpResponseRedirect
+from django.http import HttpResponseForbidden
 from .forms import UserRegisterForm, UserProfileForm, VendorLoginForm
 from django.contrib.auth import authenticate, login
 from .models import Profile, PasswordReset
@@ -13,6 +14,9 @@ from django.utils import timezone
 from django.contrib.auth.password_validation import validate_password
 from django.core.exceptions import ValidationError
 from events.models import Event
+from events.models import Booking
+from django.contrib.auth.decorators import login_required
+from django.core.paginator import Paginator
 
 # Create your views here.
 
@@ -81,13 +85,19 @@ def vendor_register(request):
         u_form = UserRegisterForm(request.POST)
         v_form = UserProfileForm(request.POST, request.FILES)
         if u_form.is_valid() and v_form.is_valid():
-            new_user = u_form.save()
+            new_user = u_form.save(commit=False)
+            new_user.is_active = False
+            new_user.save()
             profile = v_form.save(commit=False)
             if profile.user_id is None:
                 profile.user_id = new_user.id
                 profile.is_admin = True
+                profile.user_type = 'vendor'
+                profile.approval_status = 'pending'
             profile.save()
-            messages.success(request,f'profile created')
+            messages.success(request, 'Thank you for registering! Your vendor' \
+                    ' account is now pending approval. You will be notified once it has been reviewed.')
+            print(new_user.is_active)
             return redirect('vendor_login')
     else:
         u_form = UserRegisterForm()
@@ -106,15 +116,24 @@ def vendor_login(request):
     if request.method == 'POST':
         username = request.POST['username']
         password = request.POST['password']
-        account = authenticate(username=username, password=password)
-        if account is not None:
-            if account.profile.is_admin:
-                login(request, account)
-                return redirect('event-home')
-            messages.warning(request,f'username or password is incorrect')
-        else:
-            messages.warning(request,f'username or password is incorrect')
-
+        try:
+            user = User.objects.get(username=username)
+            
+            if user.check_password(password):
+                if hasattr(user, 'profile') and user.profile.is_admin:
+                    if user.is_active:
+                        login(request, user)
+                        return redirect('event-home')
+                    else:
+                        messages.warning(request, 'Your vendor account is pending approval.')
+                else:
+                    messages.error(request, 'You are not authorized as a vendor.')
+            else:
+                messages.error(request, 'Invalid username or password.')
+                
+        except User.DoesNotExist:
+            messages.error(request, 'Invalid username or password.')
+            
     form = VendorLoginForm()
 
     context = {
@@ -171,8 +190,8 @@ def ForgotPassword(request):
             return redirect('forgot-password')
     
     context = {
-        'email_sent': email_sent,
-        'email': sent_to_email
+        # 'email_sent': email_sent,
+        # 'email': sent_to_email,
     }
     return render(request, 'users/forgot_password.html')
 
@@ -249,3 +268,57 @@ def favourites_list(request):
          messages.warning(request,f'You are at wrong place!')
     favourites = Event.objects.filter(favourites=request.user)
     return render(request, 'users/favourites.html', {'favourites': favourites})
+
+@login_required
+def user_bookings(request):
+    """View for users to see their bookings"""
+    bookings = Booking.objects.filter(customer=request.user).order_by('-created')
+    
+    # Add pagination if needed
+    paginator = Paginator(bookings, 10)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+    
+    context = {
+        'bookings': page_obj,
+        'title': 'My Bookings'
+    }
+    return render(request, 'users/user_bookings.html', context)
+
+@login_required
+def booking_detail(request, booking_id):
+    """Detailed view of a specific booking"""
+    booking = get_object_or_404(Booking, id=booking_id)
+    
+    # Check if user has permission to view this booking
+    if request.user != booking.customer and request.user != booking.event.user:
+        return HttpResponseForbidden("You don't have permission to view this booking.")
+    
+    context = {
+        'booking': booking,
+    }
+    return render(request, 'users/booking_detail.html', context)
+
+@login_required
+def vendor_bookings(request):
+    """View for vendors to see bookings for their services"""
+    try:
+        # Assuming you have a way to identify if user is a vendor
+        vendor = Event.objects.filter(user=request.user)  # Adjust based on your model
+        bookings = Booking.objects.filter(event__in=vendor).order_by('-created')
+        
+        # Add pagination if needed
+        paginator = Paginator(bookings, 10)
+        page_number = request.GET.get('page')
+        page_obj = paginator.get_page(page_number)
+        
+        context = {
+            'bookings': page_obj,
+            'vendor': vendor,
+            'title': 'Received Bookings'
+        }
+        return render(request, 'users/vendor_bookings.html', context)
+    except Event.DoesNotExist:
+
+        # Handle case where user is not a vendor
+        return render(request, 'users/not_vendor.html')

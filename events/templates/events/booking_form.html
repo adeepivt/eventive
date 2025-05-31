@@ -1,0 +1,130 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+<div class="breadcumb-area bg-img bg-overlay" style="background-image: url({% static 'img/bg-img/hero-1.jpg' %})"></div>
+<br>
+<div class="card" id="booking_card">
+    <div class="card-header text-white" style="background-color: rgba(14, 2, 35, 0.9);">
+        <h5 class="mb-0" style="color: white;">
+            <i class="fa fa-calendar-plus"></i> Book {{ event.title }}
+        </h5>
+        <small id="date-display" class="text-muted">
+            <i class="fa fa-calendar"></i> Date: {{ selected_date|date:'F d, Y' }}
+        </small>
+    </div>
+    <div class="card-body">
+        {% if message %}
+            <div class="alert alert-danger">
+                <i class="fa fa-exclamation-triangle"></i> {{ message }}
+            </div>
+        {% endif %}
+        <form action="" method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <input type="hidden" name="selected_date" value="{{ selected_date }}">
+            
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <label for="{{ form.customer_name.id_for_label }}" class="form-label">
+                            <i class="fa fa-user"></i> Full Name *
+                        </label>
+                        {{ form.customer_name }}
+                        {% if form.customer_name.errors %}
+                            <div class="text-danger small">{{ form.customer_name.errors.0 }}</div>
+                        {% endif %}
+                    </div>
+                </div>
+                
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <label for="{{ form.customer_email.id_for_label }}" class="form-label">
+                            <i class="fa fa-envelope"></i> Email Address *
+                        </label>
+                        {{ form.customer_email }}
+                        {% if form.customer_email.errors %}
+                            <div class="text-danger small">{{ form.customer_email.errors.0 }}</div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <label for="{{ form.customer_phone.id_for_label }}" class="form-label">
+                            <i class="fa fa-phone"></i> Phone Number *
+                        </label>
+                        {{ form.customer_phone }}
+                        {% if form.customer_phone.errors %}
+                            <div class="text-danger small">{{ form.customer_phone.errors.0 }}</div>
+                        {% endif %}
+                    </div>
+                </div>
+                
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <label for="{{ form.start_date.id_for_label }}" class="form-label">
+                            <i class="fa fa-users"></i> Date *
+                        </label>
+                        {{ form.start_date }}
+                        {% if form.start_date.errors %}
+                            <div class="text-danger small">{{ form.start_date.errors.0 }}</div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            
+            <div class="mb-3">
+                <label for="{{ form.special_requests.id_for_label }}" class="form-label">
+                    <i class="fa fa-comment"></i> Special Requests
+                </label>
+                {{ form.special_requests }}
+                {% if form.special_requests.errors %}
+                    <div class="text-danger small">{{ form.special_requests.errors.0 }}</div>
+                {% endif %}
+            </div>
+            
+            <!-- Event Summary -->
+            <div class="card bg-light mb-3">
+                <div class="card-body">
+                    <h6 class="card-title">Booking Summary</h6>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <strong>Event:</strong> {{ event.name }}
+                        </div>
+                        <div class="col-sm-6">
+                            <strong>Date:</strong> <span id="target2">{{ selected_date|date:'F d, Y' }}</span>
+                        </div>
+                    </div>
+                    {% if event.price %}
+                    <div class="row mt-2">
+                        <div class="col-sm-6">
+                            <strong>Base Price:</strong> ₹{{ event.price }}
+                        </div>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+            
+            <div class="d-flex justify-content-between">
+                <button 
+                    type="button" 
+                    class="btn btn-secondary"
+                    onclick="document.getElementById('booking-form-container').innerHTML = ''"
+                >
+                    <i class="fa fa-times"></i> Cancel
+                </button>
+                
+                <button type="submit" class="btn btn-success" id="target3">
+                    <i class="fa fa-paper-plane"></i> Submit Booking Request
+                </button>
+
+        
+</div>
+            </div>
+        </form>
+    </div>
+</div>
+<div id="booking-form-container" class="mt-4"></div>
+
+{% endblock content %}

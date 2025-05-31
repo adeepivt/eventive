@@ -1,0 +1,525 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}My Bookings{% endblock %}
+
+{% block content %}
+<div class="breadcumb-area bg-img bg-overlay" style="background-image: url({% static 'img/bg-img/hero-1.jpg' %})"></div>
+<br>
+    <div class="container-fluid mt-4">
+        <!-- Statistics Cards -->
+        <div class="row mb-4">
+            <div class="col-lg-9">
+                <div class="row">
+                    <div class="col-md-3 mb-3">
+                        <div class="card stats-card total shadow-sm">
+                            <div class="card-body text-center">
+                                <h3 class="text-secondary">{{ stats.total }}</h3>
+                                <p class="mb-0 text-muted">Total Bookings</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <div class="card stats-card pending shadow-sm">
+                            <div class="card-body text-center">
+                                <h3 class="text-warning">{{ stats.pending }}</h3>
+                                <p class="mb-0 text-muted">Pending</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <div class="card stats-card confirmed shadow-sm">
+                            <div class="card-body text-center">
+                                <h3 class="text-success">{{ stats.confirmed }}</h3>
+                                <p class="mb-0 text-muted">Confirmed</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <div class="card stats-card completed shadow-sm">
+                            <div class="card-body text-center">
+                                <h3 class="text-info">{{ stats.completed }}</h3>
+                                <p class="mb-0 text-muted">Completed</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <!-- Main Content -->
+            <div class="col-lg-9">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h2><i class="fas fa-calendar-alt me-2"></i>Booking Management</h2>
+                    <!-- <div class="d-flex gap-2">
+                        <button class="btn btn-outline-success" onclick="exportBookings()">
+                            <i class="fas fa-file-excel me-1"></i>Export
+                        </button>
+                        <button class="btn btn-outline-primary" onclick="printBookings()">
+                            <i class="fas fa-print me-1"></i>Print
+                        </button>
+                    </div> -->
+                </div>
+
+                <!-- Bookings Table -->
+                <div class="card shadow-sm">
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th>Customer</th>
+                                        <th>Date & Time</th>
+                                        <th>Service</th>
+                                        <th>Status</th>
+                                        <th>Amount</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for booking in bookings %}
+                                    <tr>
+                                        <td>
+                                            <div class="d-flex align-items-center">
+                                                <div class="avatar-sm bg-primary rounded-circle d-flex align-items-center justify-content-center me-3">
+                                                    <i class="fas fa-user text-white"></i>
+                                                </div>
+                                                <div>
+                                                    <h6 class="mb-0">{{ booking.customer_name }}</h6>
+                                                    <small class="text-muted">{{ booking.customer_email }}</small>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div>
+                                                <div class="fw-bold">{{ booking.start_date|date:"M d, Y" }}</div>
+                                                <!-- <small class="text-muted">{{ booking.booking_time|time:"g:i A" }}</small> -->
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div>
+                                                {% if booking.event.category %}
+                                                    <span class="badge bg-light text-dark">{{ booking.event.category }}</span>
+                                                {% endif %}
+                                                {% if booking.notes %}
+                                                    <div class="text-muted small mt-1">{{ booking.notes|truncatewords:5 }}</div>
+                                                {% endif %}
+                                            </div>
+                                        </td>
+                                        <td>
+                                            {% if booking.status == 'pending' %}
+                                                <span class="badge bg-warning text-dark">
+                                                    <i class="fas fa-clock me-1"></i>Pending
+                                                </span>
+                                            {% elif booking.status == 'confirmed' %}
+                                                <span class="badge bg-success">
+                                                    <i class="fas fa-check me-1"></i>Confirmed
+                                                </span>
+                                            {% elif booking.status == 'completed' %}
+                                                <span class="badge bg-info">
+                                                    <i class="fas fa-check-double me-1"></i>Completed
+                                                </span>
+                                            {% elif booking.status == 'cancelled' %}
+                                                <span class="badge bg-danger">
+                                                    <i class="fas fa-times me-1"></i>Cancelled
+                                                </span>
+                                            {% endif %}
+                                        </td>
+                                        <td>
+                                            {% if booking.total_amount %}
+                                                <span class="fw-bold text-success">${{ booking.total_amount }}</span>
+                                            {% else %}
+                                                <span class="text-muted">-</span>
+                                            {% endif %}
+                                        </td>
+                                        <td>
+                                            <div class="dropdown">
+                                                <button class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                                                    Actions
+                                                </button>
+                                                <ul class="dropdown-menu">
+                                                    <li>
+                                                        <a class="dropdown-item" href="{% url 'booking_detail' booking.id %}">
+                                                            <i class="fas fa-eye me-2"></i>View Details
+                                                        </a>
+                                                    </li>
+                                                    {% if booking.status == 'pending' %}
+                                                    <li>
+                                                        <button class="dropdown-item" onclick="updateBookingStatus({{ booking.id }}, 'confirmed')">
+                                                            <i class="fas fa-check me-2"></i>Confirm
+                                                        </button>
+                                                    </li>
+                                                    <li>
+                                                        <button class="dropdown-item text-danger" onclick="updateBookingStatus({{ booking.id }}, 'cancelled')">
+                                                            <i class="fas fa-times me-2"></i>Cancel
+                                                        </button>
+                                                    </li>
+                                                    {% elif booking.status == 'confirmed' %}
+                                                    <li>
+                                                        <button class="dropdown-item" onclick="updateBookingStatus({{ booking.id }}, 'completed')">
+                                                            <i class="fas fa-check-double me-2"></i>Mark Complete
+                                                        </button>
+                                                    </li>
+                                                    {% endif %}
+                                                    <li><hr class="dropdown-divider"></li>
+                                                    <li>
+                                                        <button class="dropdown-item" onclick="contactCustomer('{{ booking.user.email }}')">
+                                                            <i class="fas fa-envelope me-2"></i>Contact Customer
+                                                        </button>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    {% empty %}
+                                    <tr>
+                                        <td colspan="6" class="text-center py-5">
+                                            <i class="fas fa-calendar-times fa-3x text-muted mb-3"></i>
+                                            <h5 class="text-muted">No bookings found</h5>
+                                            <p class="text-muted">No bookings match your current filters.</p>
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Pagination -->
+                {% if bookings.has_other_pages %}
+                <nav aria-label="Bookings pagination" class="mt-4">
+                    <ul class="pagination justify-content-center">
+                        {% if bookings.has_previous %}
+                            <li class="page-item">
+                                <a class="page-link" href="?page={{ bookings.previous_page_number }}{% for key, value in request.GET.items %}{% if key != 'page' %}&{{ key }}={{ value }}{% endif %}{% endfor %}">
+                                    <i class="fas fa-chevron-left"></i> Previous
+                                </a>
+                            </li>
+                        {% endif %}
+                        
+                        {% for num in bookings.paginator.page_range %}
+                            {% if bookings.number == num %}
+                                <li class="page-item active">
+                                    <span class="page-link">{{ num }}</span>
+                                </li>
+                            {% elif num > bookings.number|add:'-3' and num < bookings.number|add:'3' %}
+                                <li class="page-item">
+                                    <a class="page-link" href="?page={{ num }}{% for key, value in request.GET.items %}{% if key != 'page' %}&{{ key }}={{ value }}{% endif %}{% endfor %}">
+                                        {{ num }}
+                                    </a>
+                                </li>
+                            {% endif %}
+                        {% endfor %}
+                        
+                        {% if bookings.has_next %}
+                            <li class="page-item">
+                                <a class="page-link" href="?page={{ bookings.next_page_number }}{% for key, value in request.GET.items %}{% if key != 'page' %}&{{ key }}={{ value }}{% endif %}{% endfor %}">
+                                    Next <i class="fas fa-chevron-right"></i>
+                                </a>
+                            </li>
+                        {% endif %}
+                    </ul>
+                </nav>
+                {% endif %}
+            </div>
+
+            <!-- Sidebar Filters -->
+            <div class="col-lg-3 book-a-table-widget">
+                <div class="card border-0 shadow-sm sticky-top" style="top: 2rem;">
+                    <div class="card-header bg-white border-bottom">
+                        <h6 class="mb-0" style="color:#7643ea;">
+                            <i class="fas fa-filter"></i> Filters & Search
+                        </h6>
+                    </div>
+                    <div class="card-body">
+                        <form method="GET" id="filterForm">
+                            <!-- Status Filter -->
+                            <div class="mb-4">
+                                <label class="form-label small font-weight-bold text-muted">STATUS</label>
+                                <div class="list-group list-group-flush">
+                                    <a href="?status=all{% for key, value in request.GET.items %}{% if key != 'status' %}&{{ key }}={{ value }}{% endif %}{% endfor %}" 
+                                       class="list-group-item list-group-item-action border-0 px-0 py-2 {% if current_filters.status == 'all' %}active{% endif %}">
+                                        <div class="d-flex justify-content-between">
+                                            <span>All Bookings</span>
+                                            <span class="badge bg-secondary">{{ stats.total }}</span>
+                                        </div>
+                                    </a>
+                                    <a href="?status=pending{% for key, value in request.GET.items %}{% if key != 'status' %}&{{ key }}={{ value }}{% endif %}{% endfor %}" 
+                                       class="list-group-item list-group-item-action border-0 px-0 py-2 {% if current_filters.status == 'pending' %}active{% endif %}">
+                                        <div class="d-flex justify-content-between">
+                                            <span><i class="fas fa-clock text-warning me-2"></i>Pending</span>
+                                            <span class="badge bg-warning">{{ stats.pending }}</span>
+                                        </div>
+                                    </a>
+                                    <a href="?status=confirmed{% for key, value in request.GET.items %}{% if key != 'status' %}&{{ key }}={{ value }}{% endif %}{% endfor %}" 
+                                       class="list-group-item list-group-item-action border-0 px-0 py-2 {% if current_filters.status == 'confirmed' %}active{% endif %}">
+                                        <div class="d-flex justify-content-between">
+                                            <span><i class="fas fa-check text-success me-2"></i>Confirmed</span>
+                                            <span class="badge bg-success">{{ stats.confirmed }}</span>
+                                        </div>
+                                    </a>
+                                    <a href="?status=completed{% for key, value in request.GET.items %}{% if key != 'status' %}&{{ key }}={{ value }}{% endif %}{% endfor %}" 
+                                       class="list-group-item list-group-item-action border-0 px-0 py-2 {% if current_filters.status == 'completed' %}active{% endif %}">
+                                        <div class="d-flex justify-content-between">
+                                            <span><i class="fas fa-check-double text-info me-2"></i>Completed</span>
+                                            <span class="badge bg-info">{{ stats.completed }}</span>
+                                        </div>
+                                    </a>
+                                    <a href="?status=cancelled{% for key, value in request.GET.items %}{% if key != 'status' %}&{{ key }}={{ value }}{% endif %}{% endfor %}" 
+                                       class="list-group-item list-group-item-action border-0 px-0 py-2 {% if current_filters.status == 'cancelled' %}active{% endif %}">
+                                        <div class="d-flex justify-content-between">
+                                            <span><i class="fas fa-times text-danger me-2"></i>Cancelled</span>
+                                            <span class="badge bg-danger">{{ stats.cancelled }}</span>
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+
+                            <!-- Customer Search -->
+                            <div class="mb-4">
+                                <label class="form-label small font-weight-bold text-muted">CUSTOMER SEARCH</label>
+                                <div class="input-group">
+                                    <input type="text" name="customer_search" class="form-control form-control-sm" 
+                                           value="{{ current_filters.customer_search }}" 
+                                           placeholder="Search by name or email...">
+                                    <button class="btn btn-outline-secondary btn-sm" type="submit">
+                                        <i class="fas fa-search"></i>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Date Range Filter -->
+                            <div class="mb-4">
+                                <label class="form-label small font-weight-bold text-muted">DATE RANGE</label>
+                                <div class="row g-2">
+                                    <div class="col-6">
+                                        <input type="date" name="date_from" class="form-control form-control-sm" 
+                                               value="{{ current_filters.date_from }}" placeholder="From">
+                                    </div>
+                                    <div class="col-6">
+                                        <input type="date" name="date_to" class="form-control form-control-sm" 
+                                               value="{{ current_filters.date_to }}" placeholder="To">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Quick Date Filters -->
+                            <div class="mb-4">
+                                <label class="form-label small font-weight-bold text-muted">QUICK FILTERS</label>
+                                <div class="d-grid gap-2">
+                                    <button type="button" class="btn btn-outline-secondary btn-sm" onclick="setDateFilter('today')">
+                                        <i class="fas fa-calendar-day me-1"></i>Today
+                                    </button>
+                                    <button type="button" class="btn btn-outline-secondary btn-sm" onclick="setDateFilter('tomorrow')">
+                                        <i class="fas fa-calendar-plus me-1"></i>Tomorrow
+                                    </button>
+                                    <button type="button" class="btn btn-outline-secondary btn-sm" onclick="setDateFilter('week')">
+                                        <i class="fas fa-calendar-week me-1"></i>This Week
+                                    </button>
+                                    <button type="button" class="btn btn-outline-secondary btn-sm" onclick="setDateFilter('month')">
+                                        <i class="fas fa-calendar-alt me-1"></i>This Month
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Service Type Filter (if applicable) -->
+                            {% if booking_type_choices %}
+                            <div class="mb-4">
+                                <label class="form-label small font-weight-bold text-muted">SERVICE TYPE</label>
+                                <select name="booking_type" class="form-select form-select-sm">
+                                    <option value="">All Services</option>
+                                    {% for type_key, type_label in booking_type_choices %}
+                                    <option value="{{ type_key }}" {% if current_filters.booking_type == type_key %}selected{% endif %}>
+                                        {{ type_label }}
+                                    </option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            {% endif %}
+
+                            <!-- Sort Options -->
+                            <div class="mb-4">
+                                <label class="form-label small font-weight-bold text-muted">SORT BY</label>
+                                <select name="sort_by" class="form-select form-select-sm">
+                                    <option value="-created_at" {% if current_filters.sort_by == '-created_at' %}selected{% endif %}>
+                                        Newest First
+                                    </option>
+                                    <option value="created_at" {% if current_filters.sort_by == 'created_at' %}selected{% endif %}>
+                                        Oldest First
+                                    </option>
+                                    <option value="booking_date" {% if current_filters.sort_by == 'booking_date' %}selected{% endif %}>
+                                        Booking Date (Earliest)
+                                    </option>
+                                    <option value="-booking_date" {% if current_filters.sort_by == '-booking_date' %}selected{% endif %}>
+                                        Booking Date (Latest)
+                                    </option>
+                                </select>
+                            </div>
+
+                            <!-- Action Buttons -->
+                            <div class="d-grid gap-2">
+                                <button type="submit" class="btn btn-sm" style="background-color:#7643ea; color: #ffffff;">
+                                    <i class="fas fa-search me-2"></i>Apply Filters
+                                </button>
+                                <a href="{% url 'vendor_bookings' %}" class="btn btn-outline-secondary btn-sm">
+                                    <i class="fas fa-times me-2"></i>Clear All
+                                </a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Recent Activity Card -->
+                <div class="card border-0 shadow-sm mt-3">
+                    <div class="card-header bg-white border-bottom">
+                        <h6 class="mb-0 text-primary">
+                            <i class="fas fa-clock"></i> Recent Activity
+                        </h6>
+                    </div>
+                    <div class="card-body">
+                        <div class="small">
+                            <div class="d-flex justify-content-between mb-2">
+                                <span class="text-muted">Today's Bookings:</span>
+                                <span class="badge bg-primary">{{ today_bookings|default:0 }}</span>
+                            </div>
+                            <div class="d-flex justify-content-between mb-2">
+                                <span class="text-muted">This Week:</span>
+                                <span class="badge bg-success">{{ week_bookings|default:0 }}</span>
+                            </div>
+                            <div class="d-flex justify-content-between">
+                                <span class="text-muted">This Month:</span>
+                                <span class="badge bg-info">{{ month_bookings|default:0 }}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+<br/>
+    
+    <script>
+        function setDateFilter(period) {
+            const today = new Date();
+            let fromDate, toDate;
+            
+            switch(period) {
+                case 'today':
+                    fromDate = toDate = today.toISOString().split('T')[0];
+                    break;
+                case 'tomorrow':
+                    const tomorrow = new Date(today);
+                    tomorrow.setDate(tomorrow.getDate() + 1);
+                    fromDate = toDate = tomorrow.toISOString().split('T')[0];
+                    break;
+                case 'week':
+                    const weekStart = new Date(today.setDate(today.getDate() - today.getDay()));
+                    fromDate = weekStart.toISOString().split('T')[0];
+                    toDate = new Date().toISOString().split('T')[0];
+                    break;
+                case 'month':
+                    fromDate = new Date(today.getFullYear(), today.getMonth(), 1).toISOString().split('T')[0];
+                    toDate = new Date().toISOString().split('T')[0];
+                    break;
+            }
+            
+            document.querySelector('input[name="date_from"]').value = fromDate;
+            document.querySelector('input[name="date_to"]').value = toDate;
+            document.getElementById('filterForm').submit();
+        }
+
+        function updateBookingStatus(bookingId, status) {
+            const statusText = {
+                'confirmed': 'confirm',
+                'cancelled': 'cancel',
+                'completed': 'mark as complete'
+            };
+            
+            if (confirm(`Are you sure you want to ${statusText[status]} this booking?`)) {
+                fetch(`/bookings/${bookingId}/update-status/`, {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value,
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        'status': status
+                    })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        location.reload();
+                    } else {
+                        alert('Error updating booking status: ' + (data.error || 'Unknown error'));
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Error updating booking status');
+                });
+            }
+        }
+
+        function bulkAction(action) {
+            const selectedBookings = Array.from(document.querySelectorAll('.booking-checkbox:checked'))
+                .map(cb => cb.value);
+            
+            if (selectedBookings.length === 0) {
+                alert('Please select at least one booking');
+                return;
+            }
+            
+            const actionText = action === 'confirm' ? 'confirm' : 'mark as complete';
+            if (confirm(`Are you sure you want to ${actionText} ${selectedBookings.length} booking(s)?`)) {
+                fetch('/bookings/bulk-update/', {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value,
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        'booking_ids': selectedBookings,
+                        'action': action
+                    })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        location.reload();
+                    } else {
+                        alert('Error performing bulk action: ' + (data.error || 'Unknown error'));
+                    }
+                });
+            }
+        }
+
+        function toggleAll() {
+            const selectAll = document.getElementById('selectAll');
+            const checkboxes = document.querySelectorAll('.booking-checkbox');
+            checkboxes.forEach(cb => cb.checked = selectAll.checked);
+        }
+
+        function contactCustomer(email) {
+            window.location.href = `mailto:${email}`;
+        }
+
+        function exportBookings() {
+            const params = new URLSearchParams(window.location.search);
+            params.append('export', 'csv');
+            window.location.href = '?' + params.toString();
+        }
+
+        function printBookings() {
+            window.print();
+        }
+
+        // Auto-submit form on filter change
+        document.querySelectorAll('select[name="booking_type"], select[name="sort_by"]').forEach(select => {
+            select.addEventListener('change', () => {
+                document.getElementById('filterForm').submit();
+            });
+        });
+    </script>
+{% endblock %}

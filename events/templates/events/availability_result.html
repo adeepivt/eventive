@@ -1,0 +1,23 @@
+{% if error %}
+    <div class="alert alert-danger" style="background-color:rgb(255, 251, 14); color: #212529;">
+        <i class="fa fa-exclamation-circle"></i> {{ error }}
+    </div>
+{% elif is_available %}
+    <div class="alert alert-success" style="background-color:rgb(255, 251, 14); color: #212529;">
+        <i class="fa fa-check-circle"></i> 
+        <strong>Available!</strong> You can book this event for {{ selected_date|date:"F d, Y" }}
+    </div>
+    <div class="text-center mt-3">
+        <div class="d-flex justify-content-center">
+            <a href="{% url 'create_booking' event.id %}" class="btn dorne-btn w-100 mt-3 text-center fw-bold fs-5" style="background-color:rgb(255, 251, 14); color: #212529;">
+                <i class="fa fa-calendar-check-o pr-3"></i> Book Now
+            </a>
+        </div>
+    </div>
+{% elif selected_date %}
+    <div class="alert alert-warning">
+        <i class="fas fa-calendar-times"></i> 
+        <strong>Not Available</strong> - No vendors available for {{ selected_date|date:"F d, Y" }}
+        <p class="mb-0 mt-2">Please try a different date.</p>
+    </div>
+{% endif %}

@@ -97,15 +97,34 @@ class BookingManager(models.Manager):
         return set(dates)
 
 class Booking(models.Model):
+    BOOKING_STATUS = [
+        ('pending', 'Pending'),
+        ('confirmed', 'Confirmed'),
+        ('cancelled', 'Cancelled'),
+        ('refunded', 'Refunded'),
+    ]
     customer = models.ForeignKey(User, on_delete=models.CASCADE, related_name='customer')
+    customer_name = models.CharField(max_length=100)
+    customer_email = models.EmailField()
+    customer_phone = models.CharField(max_length=20)  
     event = models.ForeignKey(Event, on_delete=models.CASCADE, related_name='event')
     start_date = models.DateField(default=None)
     end_date = models.DateField(default=None)
-    status = models.BooleanField(default=False)
+    status = models.CharField(choices=BOOKING_STATUS, default='pending')
     updated = models.DateTimeField(auto_now=True)
+    total_amount = models.DecimalField(max_digits=10, decimal_places=2)
     created = models.DateTimeField(auto_now_add=True)
+    special_requirements = models.TextField(blank=True, null=True)
 
     objects = BookingManager()
+
+    class Meta:
+        ordering = ['-created']
+    
+    def save(self, *args, **kwargs):
+        if not self.total_amount:
+            self.total_amount = self.event.price
+        super().save(*args, **kwargs)
 
     def __str__(self):
         return f"{self.customer} -- {self.event} -- {self.status}"

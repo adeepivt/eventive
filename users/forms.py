@@ -3,6 +3,7 @@ from .models import Profile
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.forms import AuthenticationForm
+from django.core.exceptions import ValidationError
 
 class UserRegisterForm(UserCreationForm):
     class Meta:
@@ -18,6 +19,12 @@ class UserRegisterForm(UserCreationForm):
                 visible.field.widget.attrs['placeholder'] = 'confirm Password'
             else:
                 visible.field.widget.attrs['placeholder'] = visible.name
+
+    def clean_email(self):
+        email = self.cleaned_data['email']
+        if User.objects.filter(email=email).exists():
+            raise ValidationError("A user with this email already exists.")
+        return email
 
 class UserProfileForm(forms.ModelForm):
     class Meta:

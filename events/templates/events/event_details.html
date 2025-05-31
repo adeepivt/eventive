@@ -246,7 +246,7 @@
                                         {{ review_form.rating }}
                                     </div>
                                     <div class="col-12">
-                                        <button type="submit" class="btn dorne-btn">Submit</button>
+                                        <button type="submit" name="review_submit" class="btn dorne-btn">Submit</button>
                                     </div>
                                 </div>
                             </form>
@@ -266,33 +266,71 @@
                     </div>
 
                     <!-- Book A Table Widget -->
-                    <!-- <div class="book-a-table-widget mt-50">
+                     <div class="book-a-table-widget mt-50">
                         <h6>Check Availability</h6>
-                        {% for message in messages  %}
-                        <h4 style="color: red;">{{message}}</h4>
-                        {% endfor %}
-                        <form action="#" method="POST" autocomplete="off">
-                            {% csrf_token %}
-                            <select class="custom-select" id="destinations">
-                                <option selected>From</option> -->
-                                <!-- <option value="1">New York</option>
-                                    <option value="2">Latvia</option>
-                                    <option value="3">Dhaka</option>
-                                    <option value="4">Melbourne</option>
-                                    <option value="5">London</option> -->
-                                    <!-- </select>
-                                        <select class="custom-select" id="catagories">
-                                            <option selected>To</option> -->
-                                            <!-- <option value="1">Guest 2</option>
-                                                <option value="3">Guest 3</option>
-                                                <option value="3">Guest 4</option> -->
-                                                <!-- </select>
-                                                    <button type="submit" class="btn dorne-btn bg-white text-dark"><i class="fa fa-search pr-2" aria-hidden="true"></i> Search</button>
-                                                </form>
-                                            </div> -->
+                        <!-- {% for message in messages  %}
+                        <h6 class="w-100" style="color:rgb(255, 251, 14);">{{message}}</h6>
+                        {% if availability_result %}
+                            {% if user.is_authenticated %}
+                                 {% if availability_result.is_available %}
+                                    <div class="d-flex justify-content-center">
+                                        <a href="#" class="btn dorne-btn w-100 mt-3 text-center fw-bold fs-5" style="background-color:rgb(255, 251, 14); color: #212529;">
+                                            <i class="fas fa-ticket-alt pr-3"></i> Book Now
+                                        </a>
+                                    </div>
+                                {% endif %}
+                            {% endif %}
+                        {% endif %}
+                        {% endfor %} -->
+                        <!-- {% for message in error_messages  %}
+                        {% endfor %} -->
 
-                                            <!-- Opening Hours Widget -->
-                                            <div class="opening-hours-widget mt-50">
+                        <div id="availability-results" class="mt-3"></div>
+                        <form hx-post="{% url 'check_availability_htmx' event.id %}" 
+                            hx-target="#availability-results" 
+                            hx-swap="innerHTML"
+                            hx-indicator="#loading">
+                            {% csrf_token %}
+                            <div class="form-group">
+                                {{ availability_form.event_date.errors }}
+                                    <label for="{{ e_form.event_date.id_for_label }}"></label>
+                                {{ availability_form.event_date }}
+                            </div>
+                            
+                            <button type="submit" class="btn btn-primary">
+                                Check Availability
+                            </button>
+                            
+                            <!-- Loading indicator -->
+                            <div id="loading" class="htmx-indicator">
+                                <span>Checking availability...</span>
+                            </div>
+                        </form>
+
+
+                         <!-- <form action="" method="POST" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            <h6>{{ availability_form.non_field_errors }}</h6>
+                            <div class="row">
+                                    <div class="col-12">
+                                        {{ availability_form.event_date.errors }}
+                                        <label for="{{ e_form.event_date.id_for_label }}"></label>
+                                        {{ availability_form.event_date }}
+                                    </div>
+                                    <div class="col-12">
+                                        <p>{{ availability_form.event_time.errors }}</p>
+                                        <label for="">Give Rating</label>
+                                        {{ availability_form.event_time }}
+                                    </div>
+                                    <div class="col-12">
+                                        <button type="submit" name="availability_submit" class="btn dorne-btn bg-white text-dark"><i class="fa fa-search pr-2" aria-hidden="true"></i> Search</button>
+                                    </div>
+                                </div>
+                        </form> -->
+                    </div> 
+
+                    <!-- Opening Hours Widget -->
+                    <div class="opening-hours-widget mt-50">
                         <h6>Opening Hours</h6>
                         <ul class="opening-hours">
                             <li>

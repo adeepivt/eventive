@@ -12,5 +12,8 @@ urlpatterns = [
     path('password-reset-sent/',auth_views.PasswordResetDoneView.as_view(template_name='users/password_reset_sent.html'), name='password-reset-sent'),
     path('reset-password/<str:reset_id>/', views.ResetPassword, name='reset-password'),
     path('favourites/', views.favourites_list, name='favourites_list'),
+    path('bookings/', views.user_bookings, name='user_bookings'),
+    path('vendor-bookings/', views.vendor_bookings, name='vendor_bookings'),
+    path('booking/<int:booking_id>/', views.booking_detail, name='booking_detail'),
 
 ]
