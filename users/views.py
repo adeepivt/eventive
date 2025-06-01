@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib import messages
 from django.shortcuts import redirect, get_object_or_404, HttpResponseRedirect
-from django.http import HttpResponseForbidden
+from django.http import HttpResponseForbidden, JsonResponse
 from .forms import UserRegisterForm, UserProfileForm, VendorLoginForm
 from django.contrib.auth import authenticate, login
 from .models import Profile, PasswordReset
@@ -17,6 +17,7 @@ from events.models import Event
 from events.models import Booking
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
+from django.views.decorators.http import require_POST
 
 # Create your views here.
 
@@ -322,3 +323,66 @@ def vendor_bookings(request):
 
         # Handle case where user is not a vendor
         return render(request, 'users/not_vendor.html')
+
+@login_required
+@require_POST
+def confirm_booking(request, booking_id):
+    """Confirm a booking"""
+    booking = get_object_or_404(Booking, id=booking_id)
+    
+    # Check if the current user is the vendor for this booking
+    if booking.event.user != request.user:
+        messages.error(request, "You don't have permission to modify this booking.")
+        return redirect('vendor_bookings')
+    try:
+        print(f"Sending approval email to {booking.customer_name} at {booking.customer_email}")
+        email_message = EmailMessage(
+            f'Your Booking on Eventive has been Confirmed!',
+            f'Hello {booking.customer_name},\n\nCongratulations! Your booking for "{booking.event.name}-{booking.event.place}" has been confirmed. '
+            f'You can view your booking details in your account.\n\n'
+            f'Login here: {request.build_absolute_uri("/users/login")}',
+            settings.EMAIL_HOST_USER,
+            [booking.customer_email],
+        )
+        email_message.fail_silently = True
+        email_message.send()
+    except Exception as e:
+        messages.error(request, f"Error sending confirmation email to {booking.customer.username}: {e}")
+    booking.status = 'confirmed'
+    booking.save()
+    
+    # messages.success(request, f"Booking for '{booking.event}' has been confirmed.")
+    
+    # Return JSON response for AJAX requests
+    # if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+    #     return JsonResponse({
+    #         'status': 'success',
+    #         'message': 'Booking confirmed successfully',
+    #         'booking_status': booking.get_status_display()
+    #     })
+    
+    return redirect('vendor_bookings')
+
+@login_required
+@require_POST
+def cancel_booking(request, booking_id):
+    """Cancel a booking"""
+    booking = get_object_or_404(Booking, id=booking_id)
+    
+    # Check if the current user is the vendor for this booking
+    if booking.event.user != request.user:
+        messages.error(request, "You don't have permission to modify this booking.")
+        return redirect('vendor_bookings')
+    
+    booking.status = 'cancelled'
+    booking.save()
+    
+    # # Return JSON response for AJAX requests
+    # if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+    #     return JsonResponse({
+    #         'status': 'success',
+    #         'message': 'Booking cancelled successfully',
+    #         'booking_status': booking.get_status_display()
+    #     })
+    
+    return redirect('vendor_bookings')

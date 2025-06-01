@@ -45,7 +45,7 @@
                 </div>
             </div>
         </div>
-
+        
         <div class="row">
             <!-- Main Content -->
             <div class="col-lg-9">
@@ -145,14 +145,20 @@
                                                     </li>
                                                     {% if booking.status == 'pending' %}
                                                     <li>
-                                                        <button class="dropdown-item" onclick="updateBookingStatus({{ booking.id }}, 'confirmed')">
-                                                            <i class="fas fa-check me-2"></i>Confirm
-                                                        </button>
+                                                       <form method="post" action="{% url 'confirm_booking' booking.id %}" style="display: inline;" class="booking-form">
+                                                            {% csrf_token %}
+                                                            <button type="submit" class="dropdown-item" onclick="return confirm('Are you sure you want to confirm this booking?')">
+                                                                <i class="fas fa-check me-2"></i>Confirm
+                                                            </button>
+                                                        </form>
                                                     </li>
                                                     <li>
-                                                        <button class="dropdown-item text-danger" onclick="updateBookingStatus({{ booking.id }}, 'cancelled')">
-                                                            <i class="fas fa-times me-2"></i>Cancel
-                                                        </button>
+                                                        <form method="post" action="{% url 'cancel_booking' booking.id %}" style="display: inline;" class="booking-form">
+                                                            {% csrf_token %}
+                                                            <button type="submit" class="dropdown-item text-danger" onclick="return confirm('Are you sure you want to cancel this booking?')">
+                                                                <i class="fas fa-times me-2"></i>Cancel
+                                                            </button>
+                                                        </form>
                                                     </li>
                                                     {% elif booking.status == 'confirmed' %}
                                                     <li>
