@@ -5,8 +5,10 @@ from django.db import models
 from django.db import models
 from django.contrib.auth.models import User
 from django.core.validators import FileExtensionValidator
+from django.core.exceptions import ValidationError
 from PIL import Image
 from datetime import date, timedelta
+import os
 # Create your models here.
 
 EVENTS = (
@@ -42,6 +44,21 @@ class EventManager(models.Manager):
             fav_list.append(event.id)
         return fav_list
 
+class Facility(models.Model):
+    """Model to store different types of facilities"""
+    name = models.CharField(max_length=100, unique=True)
+    icon = models.CharField(max_length=50, blank=True, help_text="CSS class or icon name")
+    description = models.TextField(blank=True)
+    is_active = models.BooleanField(default=True)
+    created = models.DateTimeField(auto_now_add=True)
+    
+    class Meta:
+        verbose_name_plural = "Facilities"
+        ordering = ['name']
+    
+    def __str__(self):
+        return self.name
+    
 class Event(models.Model):
     category = models.CharField(choices=EVENTS, max_length=20)
     name = models.CharField(max_length=100)
@@ -55,13 +72,17 @@ class Event(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     image = models.ImageField(upload_to='events/',validators=[FileExtensionValidator(['jpeg','png', 'jpg'])], default='e_logo.jpg')
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='admin')
-
+    facilities = models.ManyToManyField(Facility, blank=True, related_name="events")
+    
     objects = EventManager()
 
     def __str__(self):
         return f"Eventive-{self.user} - {self.category} - {self.price}"
 
-
+    def get_facilities(self):
+        """Get all active facilities for this event"""
+        return self.facilities.filter(is_active=True)
+    
     class Meta:
         ordering = ('-created',)
 
@@ -178,3 +199,63 @@ class Review(models.Model):
     def __str__(self):
         return f'{self.customer}-{self.event.name}'
 
+class EventGallery(models.Model):
+    event = models.ForeignKey(Event, on_delete=models.CASCADE, related_name='gallery_images')
+    image = models.ImageField(
+        upload_to='event_gallery/',
+        validators=[FileExtensionValidator(['jpeg', 'png', 'jpg', 'webp'])]
+    )
+    title = models.CharField(max_length=200, blank=True, help_text="Optional title for the image")
+    description = models.TextField(blank=True, help_text="Optional description of the work")
+    is_featured = models.BooleanField(default=False, help_text="Mark as featured image")
+    order = models.PositiveIntegerField(default=0, help_text="Display order (0 = first)")
+    uploaded_at = models.DateTimeField(auto_now_add=True)
+    MAX_IMAGES_PER_EVENT = 10
+
+    class Meta:
+        ordering = ['order', '-uploaded_at']
+        verbose_name = "Event Gallery Image"
+        verbose_name_plural = "Event Gallery Images"
+
+    def __str__(self):
+        title = self.title if self.title else f"Image {self.id}"
+        return f"{self.event.name} - {title}"
+    
+    def clean(self):
+        """Validate image limits and featured image constraints"""
+        super().clean()
+        
+        # Check image limit for new instances
+        if not self.pk:  # New instance
+            existing_count = EventGallery.objects.filter(event=self.event).count()
+            if existing_count >= self.MAX_IMAGES_PER_EVENT:
+                raise ValidationError(
+                    f"Maximum {self.MAX_IMAGES_PER_EVENT} images allowed per event."
+                )
+        
+        # Ensure only one featured image per event
+        if self.is_featured:
+            existing_featured = EventGallery.objects.filter(
+                event=self.event, 
+                is_featured=True
+            ).exclude(pk=self.pk)
+            
+            if existing_featured.exists():
+                existing_featured.update(is_featured=False)
+
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+        
+        # Optional: Resize image to optimize storage
+        if self.image:
+            img = Image.open(self.image.path)
+            if img.height > 800 or img.width > 800:
+                img.thumbnail((800, 800), Image.LANCZOS)
+                img.save(self.image.path, optimize=True, quality=85)
+
+    def delete(self, *args, **kwargs):
+        # Delete the image file when the model instance is deleted
+        if self.image:
+            if os.path.isfile(self.image.path):
+                os.remove(self.image.path)
+        super().delete(*args, **kwargs)

@@ -1,0 +1,772 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<style>
+    :root {
+        --primary-color: #7643ea;
+        --primary-hover: #7643ea;
+        --secondary-color: #6c757d;
+        --success-color: #28a745;
+        --danger-color: #dc3545;
+        --warning-color: #ffc107;
+        --info-color: #17a2b8;
+        --light-color: #f8f9fa;
+        --dark-color: #343a40;
+        --white: #ffffff;
+        --border-color: #dee2e6;
+        --shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+        --shadow-lg: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+    }
+
+    body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background-color: #f8f9fa;
+        color: #333;
+        line-height: 1.6;
+    }
+
+    /* Breadcrumb Area
+    .breadcumb-area {
+        height: 300px;
+        background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6));
+        background-size: cover;
+        background-position: center;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        margin-bottom: 50px;
+    }
+
+    .breadcumb-content {
+        text-align: center;
+        color: white;
+    }
+
+    .breadcumb-content h1 {
+        font-size: 3rem;
+        font-weight: bold;
+        margin-bottom: 10px;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    }
+
+    .breadcumb-content p {
+        font-size: 1.2rem;
+        opacity: 0.9;
+        text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+    } */
+
+    /* Page Title */
+    /* .page-title {
+        text-align: center;
+        margin-bottom: 40px;
+    }
+
+    .page-title h1 {
+        color: var(--dark-color);
+        font-weight: 700;
+        margin-bottom: 15px;
+        font-size: 2.5rem;
+    }
+
+    .page-title p {
+        color: var(--secondary-color);
+        font-size: 1.1rem;
+    } */
+
+    /* Profile Cards */
+    .profile-card {
+        background: var(--white);
+        border-radius: 15px;
+        box-shadow: var(--shadow-lg);
+        padding: 30px;
+        margin-bottom: 30px;
+        border: 1px solid var(--border-color);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .profile-card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 0.75rem 1.5rem rgba(0, 0, 0, 0.1);
+    }
+
+    /* Profile Header */
+    .profile-header {
+        text-align: center;
+        padding-bottom: 20px;
+        border-bottom: 2px solid var(--light-color);
+        margin-bottom: 30px;
+    }
+
+    .profile-avatar {
+        position: relative;
+        display: inline-block;
+        margin-bottom: 20px;
+    }
+
+    .profile-avatar img {
+        width: 120px;
+        height: 120px;
+        border-radius: 50%;
+        border: 4px solid var(--primary-color);
+        object-fit: cover;
+        transition: transform 0.3s ease;
+    }
+
+    .profile-avatar:hover img {
+        transform: scale(1.05);
+    }
+
+    .avatar-upload {
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        background: var(--primary-color);
+        color: white;
+        border-radius: 50%;
+        width: 35px;
+        height: 35px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+        border: 3px solid white;
+    }
+
+    .avatar-upload:hover {
+        background: var(--primary-hover);
+    }
+
+    .profile-name {
+        color: var(--dark-color);
+        font-weight: 700;
+        margin-bottom: 5px;
+        font-size: 1.8rem;
+    }
+
+    .profile-username {
+        color: var(--secondary-color);
+        font-size: 1.1rem;
+        margin-bottom: 15px;
+    }
+
+    /* Status Badges */
+    /* .status-badge {
+        display: inline-block;
+        padding: 8px 15px;
+        border-radius: 25px;
+        font-size: 0.9rem;
+        font-weight: 600;
+        margin: 0 5px 5px 0;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    } */
+
+    /* .status-admin {
+        background: linear-gradient(45deg, #ffd700, #ffed4e);
+        color: #333;
+    } */
+
+    /* .status-verified {
+        background: linear-gradient(45deg, var(--success-color), #34ce57);
+        color: white;
+    }
+
+    .status-pending {
+        background: linear-gradient(45deg, var(--warning-color), #ffdb4d);
+        color: #333;
+    } */
+
+    /* Form Sections */
+    .form-section {
+        margin-bottom: 40px;
+    }
+
+    .section-title {
+        color: var(--dark-color);
+        font-weight: 700;
+        margin-bottom: 25px;
+        padding-bottom: 10px;
+        border-bottom: 2px solid var(--primary-color);
+        font-size: 1.4rem;
+        display: flex;
+        align-items: center;
+    }
+
+    .section-title i {
+        color: var(--primary-color);
+        margin-right: 10px;
+    }
+
+    /* Form Groups */
+    .form-group {
+        margin-bottom: 25px;
+    }
+
+    .form-label {
+        font-weight: 600;
+        color: var(--dark-color);
+        margin-bottom: 8px;
+        font-size: 1rem;
+        display: flex;
+        align-items: center;
+    }
+
+    .form-label i {
+        color: var(--primary-color);
+        margin-right: 8px;
+        width: 16px;
+    }
+
+    .form-control {
+        border: 2px solid var(--border-color);
+        border-radius: 10px;
+        padding: 12px 15px;
+        font-size: 1rem;
+        transition: all 0.3s ease;
+        background-color: #fafafa;
+    }
+
+    .form-control:focus {
+        border-color: var(--primary-color);
+        box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+        background-color: white;
+    }
+
+    .form-control:hover {
+        border-color: var(--primary-color);
+        background-color: white;
+    }
+
+    /* File Input Styling */
+    .file-input-wrapper {
+        position: relative;
+        overflow: hidden;
+        display: inline-block;
+        width: 100%;
+    }
+
+    .file-input-wrapper input[type=file] {
+        position: absolute;
+        left: -9999px;
+    }
+
+    .file-input-label {
+        display: block;
+        padding: 12px 15px;
+        background: var(--light-color);
+        border: 2px dashed var(--border-color);
+        border-radius: 10px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        text-align: center;
+        color: var(--secondary-color);
+    }
+
+    .file-input-label:hover {
+        border-color: var(--primary-color);
+        background: rgba(0, 123, 255, 0.05);
+        color: var(--primary-color);
+    }
+
+    /* Action Buttons */
+    .action-buttons {
+        text-align: center;
+        margin-top: 40px;
+        display: flex;
+        gap: 15px;
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+
+    .btn-custom {
+        padding: 12px 30px;
+        border-radius: 25px;
+        font-weight: 600;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.3s ease;
+        border: 2px solid transparent;
+        font-size: 1rem;
+        min-width: 150px;
+    }
+
+    .btn-primary-custom {
+        background: linear-gradient(45deg, var(--primary-color), #0056b3);
+        color: white;
+        border-color: var(--primary-color);
+    }
+
+    .btn-primary-custom:hover {
+        background: linear-gradient(45deg, var(--primary-hover), #004085);
+        transform: translateY(-2px);
+        box-shadow: var(--shadow-lg);
+        color: white;
+    }
+
+    .btn-secondary-custom {
+        background: var(--white);
+        color: var(--secondary-color);
+        border-color: var(--secondary-color);
+    }
+
+    .btn-secondary-custom:hover {
+        background: var(--secondary-color);
+        color: white;
+        transform: translateY(-2px);
+        box-shadow: var(--shadow-lg);
+    }
+
+    /* Django Form Errors */
+    .errorlist {
+        list-style: none;
+        padding: 0;
+        margin: 5px 0 0 0;
+    }
+
+    .errorlist li {
+        color: var(--danger-color);
+        font-size: 0.875rem;
+        margin-bottom: 3px;
+    }
+
+    .form-control.is-invalid, 
+    .form-group .errorlist + .form-control {
+        border-color: var(--danger-color);
+        background-color: rgba(220, 53, 69, 0.05);
+    }
+
+    /* Non-field errors */
+    .alert {
+        border-radius: 10px;
+        border: none;
+        font-weight: 500;
+        margin-bottom: 20px;
+    }
+
+    .alert-danger {
+        background: linear-gradient(45deg, rgba(220, 53, 69, 0.1), rgba(248, 85, 85, 0.1));
+        color: var(--danger-color);
+        border-left: 4px solid var(--danger-color);
+    }
+
+    .alert-success {
+        background: linear-gradient(45deg, rgba(40, 167, 69, 0.1), rgba(52, 206, 87, 0.1));
+        color: var(--success-color);
+        border-left: 4px solid var(--success-color);
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+        .breadcumb-content h1 {
+            font-size: 2rem;
+        }
+        
+        .breadcumb-content p {
+            font-size: 1rem;
+        }
+        
+        .page-title h1 {
+            font-size: 2rem;
+        }
+        
+        .profile-card {
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .profile-avatar img {
+            width: 100px;
+            height: 100px;
+        }
+        
+        .action-buttons {
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .btn-custom {
+            width: 100%;
+            max-width: 300px;
+        }
+        
+        .section-title {
+            font-size: 1.2rem;
+        }
+    }
+
+    @media (max-width: 576px) {
+        .breadcumb-area {
+            height: 200px;
+        }
+        
+        .profile-card {
+            padding: 15px;
+        }
+        
+        .form-control {
+            padding: 10px 12px;
+        }
+    }
+
+    /* Animation */
+    .profile-card {
+        animation: fadeInUp 0.6s ease-out;
+    }
+
+    @keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+</style>
+
+ <!-- ***** Breadcumb Area Start ***** -->
+     <div class="breadcumb-area bg-img bg-overlay" style="background-image: url({% static 'img/bg-img/hero-1.jpg' %})"></div>
+     <!-- ***** Breadcumb Area End ***** -->
+
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-12 col-md-10 col-lg-8">
+            <!-- Page Title -->
+            <div class="page-title">
+                <h1>Edit Your Profile</h1>
+                <p>Keep your information up to date</p>
+            </div>
+
+            <!-- Display Messages -->
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                        <i class="fas fa-{% if message.tags == 'success' %}check-circle{% elif message.tags == 'error' %}exclamation-circle{% elif message.tags == 'warning' %}exclamation-triangle{% else %}info-circle{% endif %} me-2"></i>
+                        {{ message }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                {% endfor %}
+            {% endif %}
+
+            <!-- Profile Header Card -->
+            <div class="profile-card">
+                <div class="profile-header">
+                    <div class="profile-avatar">
+                        <img src="{% if profile.img %}{{ profile.img.url }}{% else %}{% static 'img/default-avatar.jpg' %}{% endif %}" 
+                             alt="{{ user.username }}'s Profile Picture" id="profileImage">
+                        <div class="avatar-upload" onclick="document.getElementById('profileImageInput').click()">
+                            <i class="fas fa-camera"></i>
+                        </div>
+                    </div>
+                    
+                    <h2 class="profile-name">
+                        {% if user.first_name or user.last_name %}
+                            {{ user.first_name }} {{ user.last_name }}
+                        {% else %}
+                            {{ user.username }}
+                        {% endif %}
+                    </h2>
+                    
+                    <p class="profile-username">@{{ user.username }}</p>
+
+                    <!-- Status Badges -->
+                    <div class="mb-3">
+                        {% if profile.is_admin %}
+                            <span class="status-badge status-admin">
+                                <i class="fas fa-crown me-1"></i> Administrator
+                            </span>
+                        {% endif %}
+                        
+                        {% if profile.approval_status == 'approved' %}
+                            <span class="status-badge status-verified">
+                                <i class="fas fa-check-circle me-1"></i> Verified
+                            </span>
+                        {% elif profile.approval_status == 'pending' %}
+                            <span class="status-badge status-pending">
+                                <i class="fas fa-clock me-1"></i> Pending
+                            </span>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+
+            <!-- Update Form -->
+            <form method="post" enctype="multipart/form-data" id="profileUpdateForm">
+                {% csrf_token %}
+                
+                <!-- Display non-field errors -->
+                {% if user_form.non_field_errors or profile_form.non_field_errors %}
+                    <div class="alert alert-danger">
+                        {% for error in user_form.non_field_errors %}
+                            <div>{{ error }}</div>
+                        {% endfor %}
+                        {% for error in profile_form.non_field_errors %}
+                            <div>{{ error }}</div>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+
+                <!-- Profile Picture Section -->
+                <div class="profile-card">
+                    <div class="form-section">
+                        <h3 class="section-title">
+                            <i class="fas fa-image"></i>
+                            Profile Picture
+                        </h3>
+                        
+                        <div class="form-group">
+                            <label class="form-label">
+                                <i class="fas fa-upload"></i>
+                                Upload New Picture
+                            </label>
+                            <div class="file-input-wrapper">
+                                <input type="file" id="profileImageInput" name="img" accept="image/*" onchange="previewImage(this)">
+                                <label for="profileImageInput" class="file-input-label">
+                                    <i class="fas fa-cloud-upload-alt me-2"></i>
+                                    Choose an image file
+                                </label>
+                            </div>
+                            {% if profile_form.img.errors %}
+                                <ul class="errorlist">
+                                    {% for error in profile_form.img.errors %}
+                                        <li>{{ error }}</li>
+                                    {% endfor %}
+                                </ul>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Basic Information -->
+                <div class="profile-card">
+                    <div class="form-section">
+                        <h3 class="section-title">
+                            <i class="fas fa-user"></i>
+                            Basic Information
+                        </h3>
+                        
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="form-label" for="{{ user_form.username.id_for_label }}">
+                                        <i class="fas fa-at"></i>
+                                        {{ user_form.username.label }}
+                                    </label>
+                                    {{ user_form.username }}
+                                    {% if user_form.username.errors %}
+                                        <ul class="errorlist">
+                                            {% for error in user_form.username.errors %}
+                                                <li>{{ error }}</li>
+                                            {% endfor %}
+                                        </ul>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="form-label" for="{{ user_form.email.id_for_label }}">
+                                        <i class="fas fa-envelope"></i>
+                                        {{ user_form.email.label }}
+                                    </label>
+                                    {{ user_form.email }}
+                                    {% if user_form.email.errors %}
+                                        <ul class="errorlist">
+                                            {% for error in user_form.email.errors %}
+                                                <li>{{ error }}</li>
+                                            {% endfor %}
+                                        </ul>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="form-label" for="{{ user_form.first_name.id_for_label }}">
+                                        <i class="fas fa-user-circle"></i>
+                                        {{ user_form.first_name.label }}
+                                    </label>
+                                    {{ user_form.first_name }}
+                                    {% if user_form.first_name.errors %}
+                                        <ul class="errorlist">
+                                            {% for error in user_form.first_name.errors %}
+                                                <li>{{ error }}</li>
+                                            {% endfor %}
+                                        </ul>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="form-label" for="{{ user_form.last_name.id_for_label }}">
+                                        <i class="fas fa-user-circle"></i>
+                                        {{ user_form.last_name.label }}
+                                    </label>
+                                    {{ user_form.last_name }}
+                                    {% if user_form.last_name.errors %}
+                                        <ul class="errorlist">
+                                            {% for error in user_form.last_name.errors %}
+                                                <li>{{ error }}</li>
+                                            {% endfor %}
+                                        </ul>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Contact Information (if you have a ProfileForm) -->
+                {% if profile_form %}
+                <div class="profile-card">
+                    <div class="form-section">
+                        <h3 class="section-title">
+                            <i class="fas fa-address-card"></i>
+                            Contact Information
+                        </h3>
+                        
+                        <div class="row">
+                            {% if profile_form.mobile %}
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="form-label" for="{{ profile_form.mobile.id_for_label }}">
+                                        <i class="fas fa-phone"></i>
+                                        {{ profile_form.mobile.label }}
+                                    </label>
+                                    {{ profile_form.mobile }}
+                                    {% if profile_form.mobile.errors %}
+                                        <ul class="errorlist">
+                                            {% for error in profile_form.mobile.errors %}
+                                                <li>{{ error }}</li>
+                                            {% endfor %}
+                                        </ul>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            {% endif %}
+                            
+                            {% if profile_form.location %}
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="form-label" for="{{ profile_form.location.id_for_label }}">
+                                        <i class="fas fa-map-marker-alt"></i>
+                                        {{ profile_form.location.label }}
+                                    </label>
+                                    {{ profile_form.location }}
+                                    {% if profile_form.location.errors %}
+                                        <ul class="errorlist">
+                                            {% for error in profile_form.location.errors %}
+                                                <li>{{ error }}</li>
+                                            {% endfor %}
+                                        </ul>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+
+                <!-- Action Buttons -->
+                <div class="action-buttons">
+                    <button type="submit" class="btn-custom btn-primary-custom">
+                        <i class="fas fa-save me-2"></i>
+                        Save Changes
+                    </button>
+                    
+                    <a href="{% url 'profile' %}" class="btn-custom btn-secondary-custom">
+                        <i class="fas fa-times me-2"></i>
+                        Cancel
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Image preview functionality
+    function previewImage(input) {
+        if (input.files && input.files[0]) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                document.getElementById('profileImage').src = e.target.result;
+            };
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+
+    // Add Bootstrap classes to Django form fields
+    document.addEventListener('DOMContentLoaded', function() {
+        // Add form-control class to all input fields
+        const inputs = document.querySelectorAll('input[type="text"], input[type="email"], input[type="tel"], textarea, select');
+        inputs.forEach(function(input) {
+            if (!input.classList.contains('form-control')) {
+                input.classList.add('form-control');
+            }
+        });
+
+        // Handle form validation styling
+        const fieldsWithErrors = document.querySelectorAll('.errorlist');
+        fieldsWithErrors.forEach(function(errorList) {
+            const formControl = errorList.nextElementSibling || errorList.previousElementSibling;
+            if (formControl && formControl.classList.contains('form-control')) {
+                formControl.classList.add('is-invalid');
+            }
+        });
+    });
+
+    // Form submission handling
+    document.getElementById('profileUpdateForm').addEventListener('submit', function(e) {
+        // Add loading state to submit button
+        const submitBtn = this.querySelector('button[type="submit"]');
+        const originalText = submitBtn.innerHTML;
+        submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Saving...';
+        submitBtn.disabled = true;
+
+        // Re-enable button after a delay (in case of client-side validation errors)
+        setTimeout(function() {
+            if (submitBtn.disabled) {
+                submitBtn.innerHTML = originalText;
+                submitBtn.disabled = false;
+            }
+        }, 5000);
+    });
+
+    // Real-time validation feedback
+    const inputs = document.querySelectorAll('.form-control');
+    inputs.forEach(function(input) {
+        input.addEventListener('blur', function() {
+            // Remove error styling when user starts correcting
+            if (this.classList.contains('is-invalid') && this.value.trim() !== '') {
+                this.classList.remove('is-invalid');
+                const errorList = this.parentNode.querySelector('.errorlist');
+                if (errorList) {
+                    errorList.style.display = 'none';
+                }
+            }
+        });
+
+        input.addEventListener('focus', function() {
+            // Add focus styling
+            this.classList.add('focused');
+        });
+
+        input.addEventListener('blur', function() {
+            // Remove focus styling
+            this.classList.remove('focused');
+        });
+    });
+</script>
+
+{% endblock content %}

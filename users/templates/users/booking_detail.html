@@ -41,28 +41,28 @@
         </div>
         <div class="card-footer">
             {% if request.user == booking.event.user %}
-            {% if booking.status == 'pending' %}
-            <div class="booking-actions">
-                        <a href="javascript:history.back()" class="btn btn-secondary">Go Back</a>
-                        <form method="post" action="{% url 'confirm_booking' booking.id %}" style="display: inline;" class="booking-form">
-                            {% csrf_token %}
-                            <button type="submit" class="btn btn-success" onclick="return confirm('Are you sure you want to confirm this booking?')">
-                                Confirm Booking
-                            </button>
-                        </form>
-                        
-                        <form method="post" action="{% url 'cancel_booking' booking.id %}" style="display: inline;" class="booking-form">
-                            {% csrf_token %}
-                            <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to cancel this booking?')">
-                                Cancel Booking
-                            </button>
-                        </form>
-                    </div>
-                {% elif booking.status == 'confirmed' %}
-                    <p style="color: #28a745; font-weight: bold;">✓ This booking has been confirmed</p>
-                {% elif booking.status == 'cancelled' %}
-                    <p style="color: #dc3545; font-weight: bold;">✗ This booking has been cancelled</p>
-                {% endif %}
+                {% if booking.status == 'pending' %}
+                <div class="booking-actions">
+                            <a href="javascript:history.back()" class="btn btn-secondary">Go Back</a>
+                            <form method="post" action="{% url 'confirm_booking' booking.id %}" style="display: inline;" class="booking-form">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-success" onclick="return confirm('Are you sure you want to confirm this booking?')">
+                                    Confirm Booking
+                                </button>
+                            </form>
+                            
+                            <form method="post" action="{% url 'cancel_booking' booking.id %}" style="display: inline;" class="booking-form">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to cancel this booking?')">
+                                    Cancel Booking
+                                </button>
+                            </form>
+                        </div>
+                    {% elif booking.status == 'confirmed' %}
+                        <p style="color: #28a745; font-weight: bold;">✓ This booking has been confirmed</p>
+                    {% elif booking.status == 'cancelled' %}
+                        <p style="color: #dc3545; font-weight: bold;">✗ This booking has been cancelled</p>
+                    {% endif %}
             {% endif %}
         </div>
     </div>

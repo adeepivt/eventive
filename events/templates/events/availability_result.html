@@ -17,7 +17,7 @@
 {% elif selected_date %}
     <div class="alert alert-warning">
         <i class="fas fa-calendar-times"></i> 
-        <strong>Not Available</strong> - No vendors available for {{ selected_date|date:"F d, Y" }}
+        <strong>Not Available</strong> - This vendor is not available on {{ selected_date|date:"F d, Y" }}
         <p class="mb-0 mt-2">Please try a different date.</p>
     </div>
 {% endif %}

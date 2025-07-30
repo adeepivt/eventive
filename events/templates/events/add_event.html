@@ -1,99 +1,1022 @@
 {% extends 'base.html' %}
 {% load static %}
-{% block content %}
 
-<div class="breadcumb-area bg-img bg-overlay" style="background-image: url({% static 'img/bg-img/hero-1.jpg' %})"></div>
-<br>
-<section class="dorne-about-area section-padding-0-100">
+{% block custom_css %}
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box !important;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif !important;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1000px !important;
+            margin: 0 auto !important;
+            background: white;
+            border-radius: 20px !important;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            overflow: hidden !important;
+            /* Add this to ensure no gaps */
+            padding: 0 !important;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #8b5cf6, #6d28d9);
+            color: white !important;
+            padding: 40px;
+            text-align: center;
+            position: relative !important;
+            /* Add these lines to fix connection */
+            margin: 0 !important;
+            border-radius: 0 !important; /* Remove any individual border-radius */
+        }
+
+        .form-container {
+            padding: 50px;
+            /* Add these lines to fix connection */
+            margin: 0 !important;
+            border-radius: 0 !important; /* Remove any individual border-radius */
+            background: white; /* Ensure white background */
+        }
+
+        .header::before {
+            content: '';
+            position: absolute !important;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            /* background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.1'%3E%3Ccircle cx='7' cy='7' r='7'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E") repeat; */
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            color: white;;
+            font-weight: 700;
+            margin-bottom: 10px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .header p {
+            color: white;
+            font-size: 1.1rem;
+            opacity: 0.9;
+            position: relative;
+            z-index: 1;
+        }
+
+        .error-messages {
+            background: #fee2e2;
+            border: 1px solid #fecaca;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 30px;
+            color: #dc2626;
+        }
+
+        .error-messages h3 {
+            margin: 0;
+            font-size: 1.1rem;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .form-group {
+            position: relative;
+        }
+
+        .form-group.full-width {
+            grid-column: 1 / -1;
+        }
+
+        .form-label {
+            display: block;
+            font-weight: 600;
+            color: #374151;
+            margin-bottom: 8px;
+            font-size: 0.95rem;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #e5e7eb;
+            border-radius: 12px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background: #fafafa;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: #8b5cf6;
+            background: white;
+            box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1);
+        }
+
+        .form-input::placeholder {
+            color: #9ca3af;
+        }
+
+        textarea.form-input {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        /* Django form field styling */
+        input[type="text"], 
+        input[type="email"], 
+        input[type="tel"], 
+        input[type="number"], 
+        textarea, 
+        select {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #e5e7eb;
+            border-radius: 12px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background: #fafafa;
+        }
+
+        input[type="text"]:focus, 
+        input[type="email"]:focus, 
+        input[type="tel"]:focus, 
+        input[type="number"]:focus, 
+        textarea:focus, 
+        select:focus {
+            outline: none;
+            border-color: #8b5cf6;
+            background: white;
+            box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1);
+        }
+
+        .select-wrapper {
+            position: relative;
+        }
+
+        .select-wrapper::after {
+            content: '\f107';
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #6b7280;
+            pointer-events: none;
+        }
+
+        select {
+            appearance: none;
+            background-image: none;
+            padding-right: 45px;
+        }
+
+        .file-upload {
+            position: relative;
+            display: inline-block;
+            cursor: pointer;
+            width: 100%;
+        }
+
+        .file-upload input[type=file] {
+            position: absolute;
+            left: -9999px;
+        }
+
+        .file-upload-label {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            border: 2px dashed #8b5cf6;
+            border-radius: 12px;
+            background: #f8faff;
+            color: #8b5cf6;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .file-upload-label:hover {
+            background: #8b5cf6;
+            color: white;
+        }
+
+        .file-upload-label i {
+            margin-right: 10px;
+            font-size: 1.2rem;
+        }
+
+        .facilities-section {
+            background: #f8faff;
+            padding: 30px;
+            border-radius: 16px;
+            border: 1px solid #e0e7ff;
+        }
+
+        .facilities-title {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+            color: #4c1d95;
+            font-weight: 700;
+            font-size: 1.2rem;
+        }
+
+        .facilities-title i {
+            margin-right: 10px;
+            color: #8b5cf6;
+        }
+
+        .facilities-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+
+        .facility-checkbox-item {
+            position: relative;
+        }
+
+        .facility-checkbox-item input[type="checkbox"] {
+            position: absolute;
+            opacity: 0;
+        }
+
+        .facility-checkbox-item label {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            background: white;
+            border: 2px solid #e5e7eb;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .facility-checkbox-item label:hover {
+            border-color: #8b5cf6;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(139, 92, 246, 0.15);
+        }
+
+        .facility-checkbox-item input[type="checkbox"]:checked + label {
+            background: linear-gradient(135deg, #8b5cf6, #6d28d9);
+            color: white;
+            border-color: #8b5cf6;
+        }
+
+        .facility-icon {
+            margin-right: 12px;
+            font-size: 1.1rem;
+            width: 20px;
+            text-align: center;
+        }
+
+        .portfolio-section {
+            background: #fafafa;
+            padding: 30px;
+            border-radius: 16px;
+            border: 1px solid #e5e7eb;
+        }
+
+        .portfolio-title {
+            color: #374151;
+            font-weight: 700;
+            margin-bottom: 10px;
+            font-size: 1.2rem;
+        }
+
+        .portfolio-subtitle {
+            color: #6b7280;
+            margin-bottom: 20px;
+        }
+
+        .image-preview {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .preview-item {
+            position: relative;
+            aspect-ratio: 1;
+            border-radius: 8px;
+            overflow: hidden;
+            border: 2px solid #e5e7eb;
+        }
+
+        .preview-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .submit-section {
+            text-align: center;
+            margin-top: 40px;
+            padding-top: 30px;
+            border-top: 1px solid #e5e7eb;
+        }
+
+        .submit-btn {
+            background: linear-gradient(135deg, #8b5cf6, #6d28d9);
+            color: white;
+            border: none;
+            padding: 18px 50px;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(139, 92, 246, 0.3);
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(139, 92, 246, 0.4);
+        }
+
+        .submit-btn:active {
+            transform: translateY(0);
+        }
+
+        .form-errors {
+            color: #dc2626;
+            font-size: 0.875rem;
+            margin-top: 5px;
+            background: #fee2e2;
+            padding: 8px 12px;
+            border-radius: 8px;
+            border-left: 4px solid #dc2626;
+        }
+
+        .form-errors ul {
+            margin: 0;
+            padding-left: 20px;
+        }
+
+        .current-image {
+            max-width: 200px;
+            border-radius: 12px;
+            margin-top: 15px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+         .validation-message {
+            display: none;
+            color: #dc2626;
+            font-size: 0.875rem;
+            margin-top: 5px;
+            padding: 8px 12px;
+            background: #fee2e2;
+            border-radius: 8px;
+            border-left: 4px solid #dc2626;
+            animation: slideDown 0.3s ease-out;
+        }
+
+        .validation-message.show {
+            display: block;
+        }
+
+        .validation-message.success {
+            color: #10b981;
+            background: #f0fdf4;
+            border-left-color: #10b981;
+        }
+
+
+        @media (max-width: 768px) {
+            .form-container {
+                padding: 30px 20px;
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .header {
+                padding: 30px 20px;
+            }
+
+            .header h1 {
+                font-size: 2rem;
+            }
+
+            .facilities-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+{% endblock custom_css %}
+
+
+{% block content %}
+    <div class="breadcumb-area bg-img bg-overlay" style="background-image: url({% static 'img/bg-img/hero-1.jpg' %})"></div>
+    <br>
     <div class="container">
-        <div class="row">
-            <div class="col-12">
-                <div class="about-content text-center">
-                    <h2>Register Your Buisiness With <br><span>Eventive</span></h2>
-                    <!-- <p>Add your </p> -->
+        <div class="header">
+            <h1><i class="fas fa-calendar-plus"></i> Register Your Event</h1>
+            <p>Create an amazing event experience for your audience</p>
+        </div>
+
+        <div class="form-container">
+            <!-- Non-field errors -->
+            {% if e_form.non_field_errors %}
+                <div class="error-messages">
+                    <h3>{{ e_form.non_field_errors }}</h3>
                 </div>
-            </div>
+            {% endif %}
+
+            <form action="" method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                
+                <div class="form-grid">
+                    <!-- Category -->
+                    <div class="form-group full-width">
+                        <label class="form-label required" for="{{ e_form.category.id_for_label }}">
+                            <i class="fas fa-tags"></i> Event Category
+                        </label>
+                        <div class="select-wrapper">
+                            {{ e_form.category }}
+                        </div>
+                        {% if e_form.category.errors %}
+                            <div class="form-errors">{{ e_form.category.errors }}</div>
+                        {% endif %}
+                        <div class="validation-message" id="category-validation"></div>
+                    </div>
+
+                    <!-- Name -->
+                    <div class="form-group">
+                        <label class="form-label required" for="{{ e_form.name.id_for_label }}">
+                            <i class="fas fa-user"></i> Full Name
+                        </label>
+                        {{ e_form.name }}
+                        {% if e_form.name.errors %}
+                            <div class="form-errors">{{ e_form.name.errors }}</div>
+                        {% endif %}
+                        <div class="validation-message" id="name-validation"></div>
+                    </div>
+
+                    <!-- Mobile -->
+                    <div class="form-group">
+                        <label class="form-label required" for="{{ e_form.mobile.id_for_label }}">
+                            <i class="fas fa-phone"></i> Mobile Number
+                        </label>
+                        {{ e_form.mobile }}
+                        {% if e_form.mobile.errors %}
+                            <div class="form-errors">{{ e_form.mobile.errors }}</div>
+                        {% endif %}
+                        <div class="validation-message" id="mobile-validation"></div>
+                    </div>
+
+                    <!-- Place -->
+                    <div class="form-group">
+                        <label class="form-label required" for="{{ e_form.place.id_for_label }}">
+                            <i class="fas fa-map-marker-alt"></i> Event Location
+                        </label>
+                        {{ e_form.place }}
+                        {% if e_form.place.errors %}
+                            <div class="form-errors">{{ e_form.place.errors }}</div>
+                        {% endif %}
+                        <div class="validation-message" id="place-validation"></div>
+                    </div>
+
+                    <!-- Price -->
+                    <div class="form-group">
+                        <label class="form-label required" for="{{ e_form.price.id_for_label }}">
+                            <i class="fas fa-rupee-sign"></i> Event Budget
+                        </label>
+                        {{ e_form.price }}
+                        {% if e_form.price.errors %}
+                            <div class="form-errors">{{ e_form.price.errors }}</div>
+                        {% endif %}
+                        <div class="validation-message" id="price-validation"></div>
+                    </div>
+
+                    <!-- Address -->
+                    <div class="form-group">
+                        <label class="form-label" for="{{ e_form.address.id_for_label }}">
+                            <i class="fas fa-location-dot"></i> Complete Address
+                        </label>
+                        {{ e_form.address }}
+                        {% if e_form.address.errors %}
+                            <div class="form-errors">{{ e_form.address.errors }}</div>
+                        {% endif %}
+                        <div class="validation-message" id="address-validation"></div>
+                    </div>
+
+                    <!-- Details -->
+                    <div class="form-group">
+                        <label class="form-label" for="{{ e_form.details.id_for_label }}">
+                            <i class="fas fa-info-circle"></i> Event Details
+                        </label>
+                        {{ e_form.details }}
+                        {% if e_form.details.errors %}
+                            <div class="form-errors">{{ e_form.details.errors }}</div>
+                        {% endif %}
+                        <div class="validation-message" id="details-validation"></div>
+                    </div>
+
+                    <!-- Main Event Image -->
+                    <div class="form-group">
+                        <label class="form-label" for="{{ e_form.image.id_for_label }}">
+                            <i class="fas fa-image"></i> Main Event Image
+                        </label>
+                        <div class="file-upload">
+                            {{ e_form.image }}
+                            <label for="{{ e_form.image.id_for_label }}" class="file-upload-label">
+                                <i class="fas fa-cloud-upload-alt"></i>
+                                Choose Main Image
+                            </label>
+                        </div>
+                        {% if e_form.image.errors %}
+                            <div class="form-errors">{{ e_form.image.errors }}</div>
+                        {% endif %}
+                        <div class="validation-message" id="image-validation"></div>
+                    </div>
+
+                    <!-- Current Image Display -->
+                    <div class="form-group">
+                        {% if e_form.instance.image %}
+                            <img id='c_image' src="{{ e_form.instance.image.url }}" alt="Current image" class="current-image">
+                        {% else %}
+                            <img id='c_image' src="" alt="" class="current-image" style="display: none;">
+                        {% endif %}
+                    </div>
+
+                    <!-- Facilities -->
+                    <div class="form-group full-width">
+                        <div class="facilities-section">
+                            <div class="facilities-title">
+                                <i class="fas fa-list-check"></i>
+                                Available Facilities
+                            </div>
+                            <p class="portfolio-subtitle">Select all facilities available at your event</p>
+                            
+                            {% if e_form.facilities.errors %}
+                                <div class="form-errors">{{ e_form.facilities.errors }}</div>
+                            {% endif %}
+                            
+                            <div class="facilities-grid">
+                                {% for facility in e_form.facilities.field.queryset %}
+                                    <div class="facility-checkbox-item">
+                                        <input type="checkbox" 
+                                            name="{{ e_form.facilities.html_name }}" 
+                                            value="{{ facility.id }}" 
+                                            id="facility_{{ facility.id }}"
+                                            {% if facility in e_form.facilities.value %}checked{% endif %}>
+                                        <label for="facility_{{ facility.id }}">
+                                            <i class="{{ facility.icon }} facility-icon"></i>
+                                            <span class="facility-name">{{ facility.name }}</span>
+                                        </label>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Portfolio Gallery -->
+                    <div class="form-group full-width">
+                        <div class="portfolio-section">
+                            <div class="portfolio-title">
+                                <i class="fas fa-images"></i> Portfolio Gallery
+                            </div>
+                            <p class="portfolio-subtitle">Upload images of your previous work to showcase your portfolio</p>
+                            
+                            <div class="file-upload">
+                                {{ upload_form.images }}
+                                <label for="{{ upload_form.images.id_for_label }}" class="file-upload-label">
+                                    <i class="fas fa-plus-circle"></i>
+                                    Add Gallery Images (Optional)
+                                </label>
+                            </div>
+                            
+                            <div class="form-text" style="color: #6b7280; font-size: 0.9rem; margin-top: 10px;">
+                                {{ upload_form.images.help_text }}<br>
+                                Maximum 10 images, 5MB each. Supported formats: JPEG, PNG, WebP
+                            </div>
+                            
+                            {% if upload_form.images.errors %}
+                                <div class="form-errors">{{ upload_form.images.errors }}</div>
+                            {% endif %}
+                            <div class="validation-message" id="gallery-validation"></div>
+                            <!-- Image Preview Container -->
+                            <div id="imagePreview" class="image-preview"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="submit-section">
+                    <button type="submit" class="submit-btn">
+                        <i class="fas fa-paper-plane"></i>
+                        Submit Event Registration
+                    </button>
+                </div>
+            </form>
         </div>
     </div>
-</section>
-
-<div class="contact-form">
-    <div class="contact-form-title">
-        <h6>Register Your Event</h6>
-    </div>
-        <form action="" method="POST" enctype="multipart/form-data">
-            {% csrf_token %}
-            <h3>{{ e_form.non_field_errors }}</h3>
-            <div class="row">
-                <div class="col-12">
-                    {{ e_form.category.errors }}
-                    <label for="{{ e_form.category.id_for_label }}">category</label>
-                    {{ e_form.category }}
-                </div>
-                <div class="col-12 col-md-6">
-                    {{ e_form.name.errors }}
-                    <label for="{{ e_form.name.id_for_label }}">Name</label>
-                    {{ e_form.name }}
-                </div>
-                <div class="col-12 col-md-6">
-                    {{ e_form.mobile.errors }}
-                    <label for="{{ e_form.mobile.id_for_label }}">Mobile</label>
-                    {{ e_form.mobile }}
-                </div>
-                <div class="col-12 col-md-6">
-                    {{ e_form.place.errors }}
-                    <label for="{{ e_form.place.id_for_label }}">Place</label>
-                    {{ e_form.place }}
-                </div>
-                <div class="col-12 col-md-6">
-                    {{ e_form.price.errors }}
-                    <label for="{{ e_form.price.id_for_label }}">Price</label>
-                    {{ e_form.price }}
-                </div>
-                <div class="col-12 col-md-6">
-                    {{ e_form.address.errors }}
-                    <label for="{{ e_form.address.id_for_label }}">Address</label>
-                    {{ e_form.address }}
-                </div>
-                <div class="col-12 col-md-6">
-                    {{ e_form.details.errors }}
-                    <label for="{{ e_form.details.id_for_label }}">Details</label>
-                    {{ e_form.details }}
-                </div>
-                <div class="col-12 col-md-6 button-wrap">
-                    {{ e_form.image.errors }}
-                    {{ e_form.image }}
-                    <label class="new-button" for="{{ e_form.image.id_for_label }}">Choose An Image</label>
-                </div>
-                <div class="col-12 col-md-6">
-                    <img id='c_image' src="{{form.instance.image.url}}" alt="">
-                </div>
-                <div class="col-12">
-                    <button type="submit" class="btn dorne-btn">Submit</button>
-                </div>
-            </div>
-        </form>
-    </div>
-<br>
-
-<script>
-
-    function readURL(input) {
-        if (input.files && input.files[0]) {
-            var reader = new FileReader();
-    
-            reader.onload = function (e) {
-                $('#c_image').attr('src', e.target.result);
-            }
-    
-            reader.readAsDataURL(input.files[0]);
-        }
-    }
-    
-    $("#id_image").change(function(){
-        readURL(this);
-    });
-
-</script>
-
 {% endblock content %}
+
+{% block custom_js %}
+    <script>
+        // Image preview functionality for gallery
+        // Image preview functionality for gallery
+       document.addEventListener('DOMContentLoaded', function() {
+            // Form validation functions
+            function validateField(field, validationElementId, validationType = 'required') {
+                const validationElement = document.getElementById(validationElementId);
+                const formGroup = field.closest('.form-group');
+                
+                if (!validationElement || !formGroup) return true;
+                
+                let isValid = true;
+                let message = '';
+                
+                // Remove previous validation classes
+                formGroup.classList.remove('has-error', 'has-success');
+                validationElement.classList.remove('show', 'success');
+                
+                switch (validationType) {
+                    case 'required':
+                        if (!field.value.trim()) {
+                            isValid = false;
+                            message = 'This field is required.';
+                        }
+                        break;
+                    case 'mobile':
+                        const mobileRegex = /^[\+]?[1-9]?[\d]{9,15}$/;
+                        if (field.value.trim() && !mobileRegex.test(field.value.replace(/\s+/g, ''))) {
+                            isValid = false;
+                            message = 'Please enter a valid mobile number.';
+                        } else if (!field.value.trim()) {
+                            isValid = false;
+                            message = 'Mobile number is required.';
+                        }
+                        break;
+                    case 'price':
+                        if (field.value.trim() && (isNaN(field.value) || parseFloat(field.value) <= 0)) {
+                            isValid = false;
+                            message = 'Please enter a valid price.';
+                        } else if (!field.value.trim()) {
+                            isValid = false;
+                            message = 'Price is required.';
+                        }
+                        break;
+                    case 'select':
+                        if (!field.value || field.value === '') {
+                            isValid = false;
+                            message = 'Please select a category.';
+                        }
+                        break;
+                }
+                
+                if (!isValid) {
+                    formGroup.classList.add('has-error');
+                    validationElement.textContent = message;
+                    validationElement.classList.add('show');
+                } else if (field.value.trim()) {
+                    formGroup.classList.add('has-success');
+                    validationElement.textContent = 'Looks good!';
+                    validationElement.classList.add('show', 'success');
+                }
+                
+                return isValid;
+            }
+            
+            // Setup validation for individual fields
+            function setupFieldValidation() {
+                const validationRules = [
+                    { selector: 'select[name="category"]', validationId: 'category-validation', type: 'select' },
+                    { selector: 'input[name="name"]', validationId: 'name-validation', type: 'required' },
+                    { selector: 'input[name="mobile"]', validationId: 'mobile-validation', type: 'mobile' },
+                    { selector: 'input[name="place"]', validationId: 'place-validation', type: 'required' },
+                    { selector: 'input[name="price"]', validationId: 'price-validation', type: 'price' }
+                ];
+                
+                validationRules.forEach(rule => {
+                    const field = document.querySelector(rule.selector);
+                    if (field) {
+                        // Validate on blur
+                        field.addEventListener('blur', function() {
+                            validateField(this, rule.validationId, rule.type);
+                        });
+                        
+                        // Clear validation on focus
+                        field.addEventListener('focus', function() {
+                            const validationElement = document.getElementById(rule.validationId);
+                            const formGroup = this.closest('.form-group');
+                            if (validationElement && formGroup) {
+                                validationElement.classList.remove('show');
+                                formGroup.classList.remove('has-error');
+                            }
+                        });
+                        
+                        // Real-time validation for some fields
+                        if (rule.type === 'mobile' || rule.type === 'price') {
+                            field.addEventListener('input', function() {
+                                if (this.value.trim()) {
+                                    setTimeout(() => {
+                                        validateField(this, rule.validationId, rule.type);
+                                    }, 500);
+                                }
+                            });
+                        }
+                    }
+                });
+            }
+            
+            // Form submission validation
+            function setupFormValidation() {
+                const form = document.querySelector('form');
+                if (form) {
+                    form.addEventListener('submit', function(e) {
+                        let isFormValid = true;
+                        
+                        // Validate required fields
+                        const requiredFields = [
+                            { selector: 'select[name="category"]', validationId: 'category-validation', type: 'select' },
+                            { selector: 'input[name="name"]', validationId: 'name-validation', type: 'required' },
+                            { selector: 'input[name="mobile"]', validationId: 'mobile-validation', type: 'mobile' },
+                            { selector: 'input[name="place"]', validationId: 'place-validation', type: 'required' },
+                            { selector: 'input[name="price"]', validationId: 'price-validation', type: 'price' }
+                        ];
+                        
+                        requiredFields.forEach(field => {
+                            const element = document.querySelector(field.selector);
+                            if (element) {
+                                const fieldValid = validateField(element, field.validationId, field.type);
+                                if (!fieldValid) {
+                                    isFormValid = false;
+                                }
+                            }
+                        });
+                        
+                        // Validate gallery images
+                        const galleryInput = document.querySelector('input[type="file"][multiple]');
+                        if (galleryInput && galleryInput.files.length > 0) {
+                            const maxImages = 10;
+                            const maxFileSize = 5 * 1024 * 1024; // 5MB
+                            
+                            if (galleryInput.files.length > maxImages) {
+                                isFormValid = false;
+                                const validationElement = document.getElementById('gallery-validation');
+                                const formGroup = galleryInput.closest('.form-group');
+                                
+                                if (validationElement && formGroup) {
+                                    formGroup.classList.add('has-error');
+                                    validationElement.textContent = `You can only upload a maximum of ${maxImages} images. Please select ${maxImages} images or fewer.`;
+                                    validationElement.classList.add('show');
+                                }
+                            }
+                            
+                            // Check individual file sizes and types
+                            Array.from(galleryInput.files).forEach(file => {
+                                if (!file.type.startsWith('image/')) {
+                                    isFormValid = false;
+                                    const validationElement = document.getElementById('gallery-validation');
+                                    const formGroup = galleryInput.closest('.form-group');
+                                    
+                                    if (validationElement && formGroup) {
+                                        formGroup.classList.add('has-error');
+                                        validationElement.textContent = `File "${file.name}" is not a valid image format. Please use JPEG, PNG, or WebP.`;
+                                        validationElement.classList.add('show');
+                                    }
+                                }
+                                
+                                if (file.size > maxFileSize) {
+                                    isFormValid = false;
+                                    const validationElement = document.getElementById('gallery-validation');
+                                    const formGroup = galleryInput.closest('.form-group');
+                                    
+                                    if (validationElement && formGroup) {
+                                        formGroup.classList.add('has-error');
+                                        validationElement.textContent = `File "${file.name}" is too large (${(file.size / (1024*1024)).toFixed(1)}MB). Maximum size is 5MB per image.`;
+                                        validationElement.classList.add('show');
+                                    }
+                                }
+                            });
+                        }
+                        
+                        if (!isFormValid) {
+                            e.preventDefault();
+                            
+                            // Scroll to first error
+                            const firstError = document.querySelector('.form-group.has-error');
+                            if (firstError) {
+                                firstError.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                            }
+                            
+                            // Show specific error message for gallery vs general form
+                            const galleryError = document.querySelector('#gallery-validation.show');
+                            if (galleryError) {
+                                alert('Please fix the image upload issues before submitting the form.');
+                            } else {
+                                alert('Please fix the errors in the form before submitting.');
+                            }
+                        }
+                    });
+                }
+            }
+
+            // Gallery image preview with validation
+            function setupGalleryPreview() {
+                const galleryInputs = document.querySelectorAll('input[type="file"][multiple]');
+                
+                galleryInputs.forEach(function(galleryInput, inputIndex) {
+                    
+                    galleryInput.removeEventListener('change', handleGalleryChange);
+                    galleryInput.addEventListener('change', handleGalleryChange);
+                });
+            }
+            
+            function handleGalleryChange(event) {
+                
+                const preview = document.getElementById('imagePreview');
+                const validationElement = document.getElementById('gallery-validation');
+                const formGroup = event.target.closest('.form-group');
+                
+                if (!preview) {
+                    console.error('Preview container not found');
+                    return;
+                }
+                
+                // Clear previous validation
+                if (validationElement && formGroup) {
+                    validationElement.classList.remove('show');
+                    formGroup.classList.remove('has-error', 'has-success');
+                }
+                
+                preview.innerHTML = '';
+                
+                if (event.target.files && event.target.files.length > 0) {
+                    const files = Array.from(event.target.files);
+                    const maxImages = 10;
+                    const maxFileSize = 5 * 1024 * 1024; // 5MB in bytes
+                    
+                    
+                    // Check if exceeds maximum images
+                    if (files.length > maxImages) {
+                        console.log(files.length, 'maaaaaax images');
+                        
+                        if (validationElement && formGroup) {
+                            formGroup.classList.add('has-error');
+                            validationElement.textContent = `You can only upload a maximum of ${maxImages} images. Please select ${maxImages} images or fewer.`;
+                            validationElement.classList.add('show');
+                            console.log(validationElement, 'element----');
+                            
+                        }
+                        
+                        // Clear the file input
+                        event.target.value = '';
+                        return;
+                    }
+                    
+                    let hasInvalidFiles = false;
+                    let invalidFileMessage = '';
+                    
+                    files.forEach((file, index) => {
+                        if (file) {
+                            // Check file type
+                            if (!file.type.startsWith('image/')) {
+                                hasInvalidFiles = true;
+                                invalidFileMessage = `File "${file.name}" is not a valid image format. Please use JPEG, PNG, or WebP.`;
+                                return;
+                            }
+                            
+                            // Check file size
+                            if (file.size > maxFileSize) {
+                                hasInvalidFiles = true;
+                                invalidFileMessage = `File "${file.name}" is too large (${(file.size / (1024*1024)).toFixed(1)}MB). Maximum size is 5MB per image.`;
+                                return;
+                            }
+                            
+                            
+                            const reader = new FileReader();
+                            reader.onload = function(loadEvent) {
+                                const div = document.createElement('div');
+                                div.className = 'preview-item';
+                                
+                                const img = document.createElement('img');
+                                img.src = loadEvent.target.result;
+                                img.alt = `Preview ${index + 1}`;
+                                
+                                div.appendChild(img);
+                                preview.appendChild(div);
+                            };
+                            reader.readAsDataURL(file);
+                        }
+                    });
+                    
+                    // Show validation message for invalid files
+                    if (hasInvalidFiles) {
+                        if (validationElement && formGroup) {
+                            formGroup.classList.add('has-error');
+                            validationElement.textContent = invalidFileMessage;
+                            validationElement.classList.add('show');
+                        }
+                        
+                        // Clear the file input
+                        event.target.value = '';
+                        preview.innerHTML = '';
+                        return;
+                    }
+                    
+                    // Show success message if all files are valid
+                    if (validationElement && formGroup && files.length > 0) {
+                        formGroup.classList.add('has-success');
+                        validationElement.textContent = `${files.length} image${files.length > 1 ? 's' : ''} selected successfully!`;
+                        validationElement.classList.add('show', 'success');
+                    }
+                }
+            }
+
+            // Main image preview
+            function setupMainImagePreview() {
+                const mainImageInputs = document.querySelectorAll('input[type="file"]:not([multiple])');
+                
+                mainImageInputs.forEach(function(mainImageInput) {
+                    mainImageInput.addEventListener('change', function(event) {
+                        const file = event.target.files[0];
+                        const label = document.querySelector('label[for="' + event.target.id + '"]');
+                        const currentImage = document.getElementById('c_image');
+                        
+                        if (file) {
+                            if (label) {
+                                label.innerHTML = `<i class="fas fa-check-circle"></i> ${file.name}`;
+                                label.style.background = '#10b981';
+                                label.style.color = 'white';
+                            }
+                            
+                            if (currentImage) {
+                                const reader = new FileReader();
+                                reader.onload = function(loadEvent) {
+                                    currentImage.src = loadEvent.target.result;
+                                    currentImage.style.display = 'block';
+                                };
+                                reader.readAsDataURL(file);
+                            }
+                        }
+                    });
+                });
+            }
+
+            // Initialize everything
+            setupFieldValidation();
+            setupFormValidation();
+            setupGalleryPreview();
+            setupMainImagePreview();
+
+            // Form field animations
+            document.querySelectorAll('input, textarea, select').forEach(input => {
+                input.addEventListener('focus', function() {
+                    if (this.parentElement) {
+                        this.parentElement.style.transform = 'translateY(-2px)';
+                    }
+                });
+                
+                input.addEventListener('blur', function() {
+                    if (this.parentElement) {
+                        this.parentElement.style.transform = 'translateY(0)';
+                    }
+                });
+            });
+
+            // Add placeholder attributes
+            const placeholders = {
+                'name': 'Enter your full name',
+                'mobile': '+91 98765 43210',
+                'place': 'City, State',
+                'price': 'Enter budget in ₹',
+                'address': 'Enter the complete venue address',
+                'details': 'Describe your event requirements, theme, and special instructions'
+            };
+            
+            Object.keys(placeholders).forEach(fieldName => {
+                const elements = document.querySelectorAll(`input[name="${fieldName}"], textarea[name="${fieldName}"]`);
+                elements.forEach(element => {
+                    if (!element.placeholder) {
+                        element.placeholder = placeholders[fieldName];
+                    }
+                });
+            });
+        });
+    </script>
+{% endblock custom_js %}

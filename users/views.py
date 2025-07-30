@@ -3,7 +3,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib import messages
 from django.shortcuts import redirect, get_object_or_404, HttpResponseRedirect
 from django.http import HttpResponseForbidden, JsonResponse
-from .forms import UserRegisterForm, UserProfileForm, VendorLoginForm
+from .forms import UserRegisterForm, UserProfileForm, VendorLoginForm, UserUpdateForm
 from django.contrib.auth import authenticate, login
 from .models import Profile, PasswordReset
 from django.conf import settings
@@ -232,7 +232,10 @@ def ResetPassword(request, reset_id):
                 password_reset_id.delete()
 
                 messages.success(request, 'Password reset. Proceed to login')
-                return redirect('login')
+                if user.profile.is_admin:
+                    return redirect('vendor_login')
+                else:
+                    return redirect('login')
             else:
                 # redirect back to password reset page and display errors
                 return redirect('reset-password', reset_id=reset_id)
@@ -386,3 +389,43 @@ def cancel_booking(request, booking_id):
     #     })
     
     return redirect('vendor_bookings')
+
+
+@login_required
+def profile_view(request):
+    """Display user profile"""
+    profile, created = Profile.objects.get_or_create(user=request.user)
+    context = {
+        'profile': profile,
+        'user': request.user
+    }
+    return render(request, 'users/profile.html', context)
+
+
+@login_required
+def profile_update(request):
+    """Update user profile"""
+    # Get or create profile for the user
+    profile, created = Profile.objects.get_or_create(user=request.user)
+    
+    if request.method == 'POST':
+        user_form = UserUpdateForm(request.POST, instance=request.user)
+        profile_form = UserProfileForm(request.POST, request.FILES, instance=profile)
+        
+        if user_form.is_valid() and profile_form.is_valid():
+            user_form.save()
+            profile_form.save()
+            messages.success(request, 'Your profile has been updated successfully!')
+            return redirect('profile_update')
+        else:
+            messages.error(request, 'Please correct the errors below.')
+    else:
+        user_form = UserUpdateForm(instance=request.user)
+        profile_form = UserProfileForm(instance=profile)
+    
+    context = {
+        'user_form': user_form,
+        'profile_form': profile_form,
+        'profile': profile
+    }
+    return render(request, 'users/profile_update.html', context)

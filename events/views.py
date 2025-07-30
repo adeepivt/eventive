@@ -1,8 +1,8 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from users.models import Profile
 from django.contrib.auth.models import User
-from .forms import EventCreateForm, EventUpdateForm, BookingForm, EventReviewForm, AvailabilityForm
-from .models import Event, Booking, Review
+from .forms import EventCreateForm, EventUpdateForm, BookingForm, EventReviewForm, AvailabilityForm,EventGalleryForm, MultipleImageUploadForm, EventGalleryFormSet
+from .models import Event, Booking, Review, Facility, EventGallery
 from django.contrib import messages
 from django.views.generic import UpdateView, DeleteView
 from django.contrib.auth.decorators import login_required
@@ -10,10 +10,12 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy, reverse
 from django.http import HttpResponseNotFound, HttpResponse
 from django.db.models import Q
+from django.db import transaction
 import json
 from datetime import date
 from datetime import datetime, timedelta
 from django.views.decorators.http import require_http_methods
+from django import forms
 # Create your views here.
 
 def home_page(request):
@@ -38,19 +40,42 @@ def event_create(request):
     if user.profile.is_admin :
         if request.method == 'POST':
             event_form = EventCreateForm(request.POST, request.FILES)
+            upload_form = MultipleImageUploadForm(request.POST, request.FILES)
             if event_form.is_valid():
                 instance = event_form.save(commit=False)
                 instance.user = user
                 instance.save()
                 post_added = True
+                event_form.save_m2m()
+            
+                # Handle gallery images
+                if upload_form.is_valid():
+                    images = upload_form.cleaned_data.get('images', [])
+                    for i, image in enumerate(images):
+                        EventGallery.objects.create(
+                            event=instance,
+                            image=image,
+                            order=i
+                        )
+                else:
+                    for field, errors in upload_form.errors.items():
+                        for error in errors:
+                            messages.error(request, f"Gallery: {error}")
+                            return render(request, 'events/add_event.html', {
+                            'user' : request.user,
+                            'e_form': event_form,
+                            'upload_form': upload_form
+                        })
                 return redirect('event-home')
     else:
+         
          return HttpResponseNotFound('<h1>404.Page not found</h1>')
     event_form = EventCreateForm()
-
+    upload_form = MultipleImageUploadForm()
     content = {
         'user' : request.user,
         'e_form' : event_form,
+        'upload_form': upload_form,
     }
     return render(request, 'events/add_event.html', content)
 
@@ -74,7 +99,9 @@ def event_details(request, pk):
     user_review = Review.objects.user_review(event,user)
     review_form = EventReviewForm()
     availability_form = AvailabilityForm()
-
+    gallery_images = event.gallery_images.all().order_by(
+        'order', '-is_featured', '-uploaded_at'
+    )
     if user.profile.is_admin :
         messages.warning(request,"You need customer account")
     else:
@@ -129,6 +156,9 @@ def event_details(request, pk):
         "review_form" : review_form,
         "availability_form": availability_form,
         'availability_result': request.session.pop('availability_result', None),
+        'gallery_images': gallery_images,
+        'gallery_count': gallery_images.count(),
+        'featured_images': gallery_images.filter(is_featured=True)[:3],
     }
     return render(request, 'events/event_details.html', content)
 
@@ -247,13 +277,146 @@ class EventUpdateView(LoginRequiredMixin, UpdateView):
     template_name = 'events/event_update.html'
     success_url = reverse_lazy('event-list')
 
-    def form_valid(self, form):
-        user = User.objects.get(username=self.request.user)
-        if form.instance.user == user:
-            return super().form_valid(form)
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        event = self.get_object()
+        
+        # Get existing images
+        existing_images = EventGallery.objects.filter(event=event)
+        
+        # Create individual forms for each image
+        gallery_forms = []
+        for i, image in enumerate(existing_images):
+            if self.request.POST:
+                form = EventGalleryForm(
+                    self.request.POST,
+                    self.request.FILES,
+                    instance=image,
+                    prefix=f'gallery_{i}'
+                )
+            else:
+                form = EventGalleryForm(instance=image, prefix=f'gallery_{i}')
+            
+            # Add a delete checkbox manually
+            form.fields['DELETE'] = forms.BooleanField(required=False, label='Delete this image')
+            if self.request.POST:
+                form.fields['DELETE'].initial = self.request.POST.get(f'gallery_{i}-DELETE', False)
+            
+            gallery_forms.append({
+                'form': form,
+                'image': image,
+                'index': i
+            })
+        
+        # Upload form for new images
+        if self.request.POST:
+            upload_form = MultipleImageUploadForm(self.request.POST, self.request.FILES)
         else:
-            form.add_error(None, 'You need to be the user to Update')
-            return super().form_invalid(form)
+            upload_form = MultipleImageUploadForm()
+        
+        context['gallery_forms'] = gallery_forms
+        context['upload_form'] = upload_form
+        context['existing_count'] = existing_images.count()
+        context['max_images'] = EventGallery.MAX_IMAGES_PER_EVENT
+        context['remaining_slots'] = max(0, EventGallery.MAX_IMAGES_PER_EVENT - existing_images.count())
+        
+        return context
+
+    def form_valid(self, form):
+        # Check if user owns this event
+        if form.instance.user != self.request.user:
+            form.add_error(None, 'You need to be the owner to update this event')
+            return self.form_invalid(form)
+
+        context = self.get_context_data()
+        gallery_forms = context['gallery_forms']
+        upload_form = context['upload_form']
+        
+        # Collect all form validation results
+        all_forms_valid = True
+        updated_images = []
+        images_to_delete = []
+        
+        # Process each gallery form
+        for form_data in gallery_forms:
+            gallery_form = form_data['form']
+            image_instance = form_data['image']
+            
+            if gallery_form.is_valid():
+                # Check if marked for deletion
+                if gallery_form.cleaned_data.get('DELETE', False):
+                    images_to_delete.append(image_instance)
+                else:
+                    # Update the image data
+                    updated_image = gallery_form.save(commit=False)
+                    updated_image.event = self.object if hasattr(self, 'object') else form.instance
+                    updated_images.append(updated_image)
+            else:
+                all_forms_valid = False
+                # Add form errors to context for template display
+                for field, errors in gallery_form.errors.items():
+                    messages.error(self.request, f"Error in image {form_data['index'] + 1} - {field}: {', '.join(errors)}")
+
+        # Validate upload form
+        upload_form_valid = upload_form.is_valid()
+        if not upload_form_valid:
+            all_forms_valid = False
+            for field, errors in upload_form.errors.items():
+                messages.error(self.request, f"Upload error - {field}: {', '.join(errors)}")
+
+        if not all_forms_valid:
+            return self.form_invalid(form)
+
+        # If all forms are valid, save everything in a transaction
+        with transaction.atomic():
+            # Save the main event form
+            self.object = form.save()
+            
+            # Delete marked images
+            for image_to_delete in images_to_delete:
+                image_to_delete.delete()  # This will also delete the file due to your delete method
+                messages.success(self.request, f'Image deleted successfully')
+            
+            # Save updated images
+            for updated_image in updated_images:
+                updated_image.save()
+            
+            # Handle new image uploads
+            new_images = upload_form.cleaned_data.get('images', [])
+            if new_images:
+                # Check total image count
+                current_count = EventGallery.objects.filter(event=self.object).count()
+                
+                if current_count + len(new_images) > EventGallery.MAX_IMAGES_PER_EVENT:
+                    messages.error(self.request, 
+                        f'Cannot add {len(new_images)} images. '
+                        f'Maximum {EventGallery.MAX_IMAGES_PER_EVENT} images allowed per event. '
+                        f'Current count: {current_count}'
+                    )
+                    return self.form_invalid(form)
+                
+                # Save new images
+                for image in new_images:
+                    EventGallery.objects.create(
+                        event=self.object,
+                        image=image
+                    )
+                
+                messages.success(self.request, f'Added {len(new_images)} new images')
+            
+            # Check for featured image constraint
+            featured_images = EventGallery.objects.filter(event=self.object, is_featured=True)
+            if featured_images.count() > 1:
+                # Keep only the first one as featured
+                featured_images.exclude(id=featured_images.first().id).update(is_featured=False)
+                messages.warning(self.request, 'Only one image can be featured. Others have been unmarked.')
+
+        messages.success(self.request, 'Event updated successfully')
+        return super().form_valid(form)
+
+    def form_invalid(self, form):
+        messages.error(self.request, 'There were errors in your form. Please check and try again.')
+        return self.render_to_response(self.get_context_data(form=form))
 
 # class EventDeleteView(LoginRequiredMixin, DeleteView):
 #     model = Event
@@ -523,10 +686,9 @@ def booking_form(request, event_id):
                 'start_date': booking_params.get('event_date_str') if booking_params else None,
                 
             })
-            
             # Try to get phone from user profile if it exists
-            if hasattr(request.user, 'profile') and hasattr(request.user.profile, 'phone'):
-                initial_data['customer_phone'] = request.user.profile.phone
+            if hasattr(request.user, 'profile') and hasattr(request.user.profile, 'mobile'):
+                initial_data['customer_phone'] = request.user.profile.mobile
         
         form = BookingForm(initial=initial_data)
         return render(request, 'events/booking_form.html', {

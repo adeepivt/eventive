@@ -1,87 +1,1486 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block content %}
+{% block custom_css %}
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box !important;
+        }
 
-<div class="breadcumb-area bg-img bg-overlay" style="background-image: url({% static 'img/bg-img/hero-1.jpg' %})"></div>
-<br>
-<section class="dorne-about-area section-padding-0-100">
+        /* Gallery Toggle Styling */
+.gallery-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 30px;
+    background: linear-gradient(135deg, #f8faff, #e0e7ff);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border-radius: 16px 16px 0 0;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.gallery-header:hover {
+    background: linear-gradient(135deg, #e0e7ff, #c7d2fe);
+}
+
+.gallery-title {
+    display: flex;
+    align-items: center;
+    color: #374151;
+    font-weight: 700;
+    font-size: 1.2rem;
+}
+
+.gallery-title i {
+    margin-right: 10px;
+    color: #8b5cf6;
+}
+
+.gallery-badge {
+    background: #8b5cf6;
+    color: white;
+    padding: 4px 8px;
+    border-radius: 12px;
+    font-size: 0.8rem;
+    margin-left: 10px;
+    font-weight: 600;
+}
+
+.gallery-toggle {
+    color: #6b7280;
+    font-size: 1.2rem;
+    transition: transform 0.3s ease;
+}
+
+.gallery-toggle.active {
+    transform: rotate(180deg);
+}
+
+.gallery-content {
+    padding: 30px;
+    background: #fafafa;
+    border-radius: 0 0 16px 16px;
+    animation: slideDown 0.3s ease;
+}
+
+/* Section Titles */
+.section-title {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    color: #374151;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 2px dashed #e5e7eb;
+}
+
+.btn-toggle-all {
+    background: #8b5cf6;
+    color: white;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.btn-toggle-all:hover {
+    background: #7c3aed;
+    transform: translateY(-1px);
+}
+
+/* Compact Image Cards */
+.compact-card {
+    transition: all 0.3s ease;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.image-preview {
+    position: relative;
+    cursor: pointer;
+    background: white;
+}
+
+.image-preview img {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.image-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(139, 92, 246, 0.9);
+    color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.image-preview:hover .image-overlay {
+    opacity: 1;
+}
+
+.image-preview:hover img {
+    transform: scale(1.05);
+}
+
+.image-overlay i {
+    font-size: 2rem;
+    margin-bottom: 5px;
+}
+
+.image-quick-info {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(transparent, rgba(0, 0, 0, 0.7));
+    color: white;
+    padding: 15px 10px 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.image-title {
+    font-size: 0.9rem;
+    font-weight: 600;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    flex: 1;
+}
+
+.featured-star {
+    color: #f59e0b;
+    font-size: 1rem;
+    margin-left: 8px;
+}
+
+.add-images-section {
+    border-top: 2px dashed #e5e7eb;
+    padding-top: 20px;
+    margin-top: 30px;
+}
+
+/* Animations */
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        max-height: 0;
+        padding: 0 30px;
+    }
+    to {
+        opacity: 1;
+        max-height: 2000px;
+        padding: 30px;
+    }
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 1;
+        max-height: 2000px;
+        padding: 30px;
+    }
+    to {
+        opacity: 0;
+        max-height: 0;
+        padding: 0 30px;
+    }
+}
+
+
+        /* Fix featured checkbox area */
+.featured-checkbox-container {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    padding-top: 25px; /* Align with order field */
+    border: none !important;
+    background: none !important;
+    box-shadow: none !important;
+}
+
+.featured-label {
+    display: flex !important;
+    align-items: center !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border: none !important;
+    background: none !important;
+    box-shadow: none !important;
+    font-weight: 600 !important;
+    color: #374151 !important;
+    cursor: pointer;
+}
+
+.featured-text {
+    margin-left: 8px;
+    color: #374151;
+    font-size: 0.9rem;
+}
+
+.featured-text i {
+    color: #9ca3af; /* Gray color when not featured */
+    margin-right: 4px;
+    transition: color 0.3s ease; /* Smooth color transition */
+}
+input[name*="is_featured"]:checked + .featured-text i,
+input[name*="is_featured"]:checked ~ .featured-text i {
+    color: #f59e0b; /* Golden color when featured */
+}
+
+/* Style the actual checkbox */
+input[name*="is_featured"] {
+    display: none;
+    width: auto !important;
+    height: auto !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border: 2px solid #e5e7eb !important;
+    border-radius: 4px !important;
+    background: rgb(231, 16, 16) !important;
+    box-shadow: none !important;
+    outline: none !important;
+}
+
+input[name*="is_featured"]:checked {
+    background: #8b5cf6 !important;
+    border-color: #8b5cf6 !important;
+}
+
+/* Remove any unwanted borders from the grid container */
+.image-card-content > div[style*="grid-template-columns"] {
+    border: none !important;
+    background: none !important;
+    box-shadow: none !important;
+    outline: none !important;
+}
+
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif !important;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1000px !important;
+            margin: 0 auto !important;
+            background: white;
+            border-radius: 20px !important;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            overflow: hidden !important;
+            padding: 0 !important;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #8b5cf6, #6d28d9);
+            color: white !important;
+            padding: 40px;
+            text-align: center;
+            position: relative !important;
+            margin: 0 !important;
+            border-radius: 0 !important;
+        }
+
+        .form-container {
+            padding: 50px;
+            margin: 0 !important;
+            border-radius: 0 !important;
+            background: white;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            color: white;
+            font-weight: 700;
+            margin-bottom: 10px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .header p {
+            color: white;
+            font-size: 1.1rem;
+            opacity: 0.9;
+            position: relative;
+            z-index: 1;
+        }
+
+        .error-messages {
+            background: #fee2e2;
+            border: 1px solid #fecaca;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 30px;
+            color: #dc2626;
+        }
+
+        .error-messages h3 {
+            margin: 0;
+            font-size: 1.1rem;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .form-group {
+            position: relative;
+        }
+
+        .form-group.full-width {
+            grid-column: 1 / -1;
+        }
+
+        .form-label {
+            display: block;
+            font-weight: 600;
+            color: #374151;
+            margin-bottom: 8px;
+            font-size: 0.95rem;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #e5e7eb;
+            border-radius: 12px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background: #fafafa;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: #8b5cf6;
+            background: white;
+            box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1);
+        }
+
+        .form-input::placeholder {
+            color: #9ca3af;
+        }
+
+        textarea.form-input {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        /* Django form field styling */
+        input[type="text"], 
+        input[type="email"], 
+        input[type="tel"], 
+        input[type="number"], 
+        textarea, 
+        select {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #e5e7eb;
+            border-radius: 12px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background: #fafafa;
+        }
+
+        input[type="text"]:focus, 
+        input[type="email"]:focus, 
+        input[type="tel"]:focus, 
+        input[type="number"]:focus, 
+        textarea:focus, 
+        select:focus {
+            outline: none;
+            border-color: #8b5cf6;
+            background: white;
+            box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1);
+        }
+
+        .file-upload {
+            position: relative;
+            display: inline-block;
+            cursor: pointer;
+            width: 100%;
+        }
+
+        .file-upload input[type=file] {
+            position: absolute;
+            left: -9999px;
+            display: none;
+        }
+
+        .file-upload-label {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            border: 2px dashed #8b5cf6;
+            border-radius: 12px;
+            background: #f8faff;
+            color: #8b5cf6;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .file-upload-label:hover {
+            background: #8b5cf6;
+            color: white;
+        }
+
+        .file-upload-label i {
+            margin-right: 10px;
+            font-size: 1.2rem;
+        }
+
+        .facilities-section {
+            background: #f8faff;
+            padding: 30px;
+            border-radius: 16px;
+            border: 1px solid #e0e7ff;
+        }
+
+        .facilities-title {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+            color: #4c1d95;
+            font-weight: 700;
+            font-size: 1.2rem;
+        }
+
+        .facilities-title i {
+            margin-right: 10px;
+            color: #8b5cf6;
+        }
+
+        .facilities-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+
+        .facility-checkbox-item {
+            position: relative;
+        }
+
+        .facility-checkbox-item input[type="checkbox"] {
+            position: absolute;
+            opacity: 0;
+        }
+
+        .facility-checkbox-item label {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            background: white;
+            border: 2px solid #e5e7eb;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .facility-checkbox-item label:hover {
+            border-color: #8b5cf6;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(139, 92, 246, 0.15);
+        }
+
+        .facility-checkbox-item input[type="checkbox"]:checked + label {
+            background: linear-gradient(135deg, #8b5cf6, #6d28d9);
+            color: white;
+            border-color: #8b5cf6;
+        }
+
+        .facility-icon {
+            margin-right: 12px;
+            font-size: 1.1rem;
+            width: 20px;
+            text-align: center;
+        }
+
+        .gallery-section {
+            background: #fafafa;
+            padding: 30px;
+            border-radius: 16px;
+            border: 1px solid #e5e7eb;
+            margin-bottom: 30px;
+        }
+
+        
+
+        .gallery-subtitle {
+            color: #6b7280;
+            margin-bottom: 20px;
+        }
+
+        .existing-images-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .image-card {
+            background: white;
+            border: 2px solid #e5e7eb;
+            border-radius: 16px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .image-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+            border-color: #8b5cf6;
+        }
+
+        .image-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .image-card-content {
+            padding: 20px;
+        }
+
+        .image-form-group {
+            margin-bottom: 15px;
+        }
+
+        .image-form-group label {
+            display: block;
+            font-weight: 600;
+            color: #374151;
+            margin-bottom: 5px;
+            font-size: 0.9rem;
+        }
+
+        .image-form-group input,
+        .image-form-group textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            background: #fafafa;
+        }
+
+        .image-form-group input:focus,
+        .image-form-group textarea:focus {
+            outline: none;
+            border-color: #8b5cf6;
+            background: white;
+        }
+
+        .image-form-group textarea {
+            min-height: 60px;
+            resize: vertical;
+        }
+
+        .delete-checkbox {
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            background: #fee2e2;
+            border-radius: 8px;
+            margin-top: 10px;
+        }
+
+        .delete-checkbox input {
+            margin-right: 8px;
+            width: auto !important;
+        }
+
+        .delete-checkbox label {
+            color: #dc2626 !important;
+            font-weight: 600 !important;
+            margin: 0 !important;
+        }
+
+        .current-image {
+            max-width: 100%;
+            border-radius: 12px;
+            margin-top: 15px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .submit-section {
+            text-align: center;
+            margin-top: 40px;
+            padding-top: 30px;
+            border-top: 1px solid #e5e7eb;
+        }
+
+        .submit-btn {
+            background: linear-gradient(135deg, #8b5cf6, #6d28d9);
+            color: white;
+            border: none;
+            padding: 18px 50px;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(139, 92, 246, 0.3);
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(139, 92, 246, 0.4);
+        }
+
+        .submit-btn:active {
+            transform: translateY(0);
+        }
+
+        .form-errors {
+            color: #dc2626;
+            font-size: 0.875rem;
+            margin-top: 5px;
+            background: #fee2e2;
+            padding: 8px 12px;
+            border-radius: 8px;
+            border-left: 4px solid #dc2626;
+        }
+
+        .form-errors ul {
+            margin: 0;
+            padding-left: 20px;
+        }
+
+        .alert-warning {
+            background: #fef3cd;
+            border: 1px solid #ffeaa7;
+            color: #b45309;
+            padding: 15px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+        }
+
+        .help-text {
+            color: #6b7280;
+            font-size: 0.9rem;
+            margin-top: 5px;
+        }
+
+        @media (max-width: 768px) {
+            .gallery-header {
+                padding: 15px 20px;
+            }
+            
+            .gallery-content {
+                padding: 20px;
+            }
+            
+            .btn-toggle-all {
+                padding: 4px 8px;
+                font-size: 0.7rem;
+            }
+            .form-container {
+                padding: 30px 20px;
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .header {
+                padding: 30px 20px;
+            }
+
+            .header h1 {
+                font-size: 2rem;
+            }
+
+            .existing-images-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .facilities-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+{% endblock custom_css %}
+
+{% block content %}
+    <div class="breadcumb-area bg-img bg-overlay" style="background-image: url({% static 'img/bg-img/hero-1.jpg' %})"></div>
+    <br>
+    
     <div class="container">
-        <div class="row">
-            <div class="col-12">
-                <div class="about-content text-center">
-                    <h2>Update Your Buisiness with <br><span>Eventive</span></h2>
-                    <!-- <p>Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Fusce quis tempus elit. Sed efficitur tortor neque, vitae aliquet urna varius sit amet. Ut rhoncus, nunc nec tincidunt volutpat, ex libero.</p> -->
+        <div class="header">
+            <h1><i class="fas fa-edit"></i> Update Your Event</h1>
+            <p>Modify your event details and showcase your latest work</p>
+        </div>
+
+        <div class="form-container">
+            <!-- Non-field errors -->
+            {% if form.non_field_errors %}
+                <div class="error-messages">
+                    <h3>{{ form.non_field_errors }}</h3>
                 </div>
-            </div>
+            {% endif %}
+
+            <form action="" method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                
+                <div class="form-grid">
+                    <!-- Name -->
+                    <div class="form-group">
+                        <label class="form-label" for="{{ form.name.id_for_label }}">
+                            <i class="fas fa-user"></i> Full Name
+                        </label>
+                        {{ form.name }}
+                        {% if form.name.errors %}
+                            <div class="form-errors">{{ form.name.errors }}</div>
+                        {% endif %}
+                    </div>
+
+                    <!-- Place -->
+                    <div class="form-group">
+                        <label class="form-label" for="{{ form.place.id_for_label }}">
+                            <i class="fas fa-map-marker-alt"></i> Event Location
+                        </label>
+                        {{ form.place }}
+                        {% if form.place.errors %}
+                            <div class="form-errors">{{ form.place.errors }}</div>
+                        {% endif %}
+                    </div>
+
+                    <!-- Price -->
+                    <div class="form-group">
+                        <label class="form-label" for="{{ form.price.id_for_label }}">
+                            <i class="fas fa-rupee-sign"></i> Event Budget
+                        </label>
+                        {{ form.price }}
+                        {% if form.price.errors %}
+                            <div class="form-errors">{{ form.price.errors }}</div>
+                        {% endif %}
+                    </div>
+
+                    <!-- Details -->
+                    <div class="form-group">
+                        <label class="form-label" for="{{ form.details.id_for_label }}">
+                            <i class="fas fa-info-circle"></i> Event Details
+                        </label>
+                        {{ form.details }}
+                        {% if form.details.errors %}
+                            <div class="form-errors">{{ form.details.errors }}</div>
+                        {% endif %}
+                    </div>
+
+                    <!-- Main Event Image -->
+                    <div class="form-group">
+                        <label class="form-label" for="{{ form.image.id_for_label }}">
+                            <i class="fas fa-image"></i> Main Event Image
+                        </label>
+                        <div class="file-upload">
+                            {{ form.image }}
+                            <label for="{{ form.image.id_for_label }}" class="file-upload-label">
+                                <i class="fas fa-cloud-upload-alt"></i>
+                                Choose New Main Image
+                            </label>
+                        </div>
+                        {% if form.image.errors %}
+                            <div class="form-errors">{{ form.image.errors }}</div>
+                        {% endif %}
+                    </div>
+
+                    <!-- Current Image Display -->
+                    <div class="form-group">
+                        {% if form.instance.image %}
+                            <img id='c_image' src="{{ form.instance.image.url }}" alt="Current image" class="current-image">
+                        {% else %}
+                            <img id='c_image' src="" alt="" class="current-image" style="display: none;">
+                        {% endif %}
+                    </div>
+
+                    <!-- Facilities -->
+                    <div class="form-group full-width">
+                        <div class="facilities-section">
+                            <div class="facilities-title">
+                                <i class="fas fa-list-check"></i>
+                                Available Facilities
+                            </div>
+                            <p class="gallery-subtitle">Select all facilities available at your event</p>
+                            
+                            {% if form.facilities.errors %}
+                                <div class="form-errors">{{ form.facilities.errors }}</div>
+                            {% endif %}
+                            
+                            <div class="facilities-grid">
+                                {% for facility in form.facilities.field.queryset %}
+                                    <div class="facility-checkbox-item">
+                                        <input type="checkbox" 
+                                            name="{{ form.facilities.html_name }}" 
+                                            value="{{ facility.id }}" 
+                                            id="facility_{{ facility.id }}"
+                                            {% if facility in form.facilities.value or facility in form.facilities.initial or facility in event.facilities.all %}checked{% endif %}>
+                                        <label for="facility_{{ facility.id }}">
+                                            <i class="{{ facility.icon }} facility-icon"></i>
+                                            <span class="facility-name">{{ facility.name }}</span>
+                                        </label>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Gallery Management Section -->
+                <div class="gallery-section">
+    <!-- Collapsible Header -->
+    <div class="gallery-header" onclick="toggleGallery()">
+        <div class="gallery-title">
+            <i class="fas fa-images"></i>
+            Portfolio Gallery Management
+            <span class="gallery-badge"> {{ existing_count }}/{{ max_images }}</span>
+        </div>
+        <div class="gallery-toggle">
+            <i class="fas fa-chevron-down" id="galleryToggleIcon"></i>
         </div>
     </div>
-</section>
 
-<div class="contact-form">
-    <div class="contact-form-title">
-        <h6>Update {{object.name}} -- {{object.category}}</h6>
-    </div>
-        <form action="" method="POST" enctype="multipart/form-data">
-            {% csrf_token %}
-            <h3 style="text-align: center;">{{ form.non_field_errors }}</h3>
-            <br>
-            <div class="row">
-                <div class="col-12 col-md-6">
-                    {{ form.name.errors }}
-                    <label for="{{ form.name.id_for_label }}">Name</label>
-                    {{ form.name }}
-                </div>
-                <div class="col-12 col-md-6">
-                    {{ form.place.errors }}
-                    <label for="{{ form.place.id_for_label }}">Place</label>
-                    {{ form.place }}
-                </div>
-                <div class="col-12 col-md-6">
-                    {{ form.price.errors }}
-                    <label for="{{ form.price.id_for_label }}">Price</label>
-                    {{ form.price }}
-                </div>
-                <div class="col-12 col-md-6">
-                    {{ form.details.errors }}
-                    <label for="{{ form.details.id_for_label }}">Details</label>
-                    {{ form.details }}
-                </div>
-                <div class="col-12 col-md-6 button-wrap">
-                    {{ form.image.errors }}
-                    {{ form.image }}
-                    <label class="new-button" for="{{ form.image.id_for_label }}">Choose File</label>
-                </div>
-                <div class="col-12 col-md-6">
-                    <img id='c_image' src="{{form.instance.image.url}}" alt="">
-                </div>
-                <div class="col-12">
-                    <button type="submit" class="btn dorne-btn">Update</button>
+    <!-- Collapsible Content -->
+    <div class="gallery-content" id="galleryContent" style="display: none;">
+        <p class="gallery-subtitle">Manage your existing images and add new ones</p>
+        
+        {% if gallery_forms %}
+            <div class="existing-images-section">
+                <h4 class="section-title">
+                    <span>
+                        <i class="fas fa-edit" style="color: #8b5cf6; margin-right: 8px;"></i>
+                        Existing Images
+                    </span>
+                    <button type="button" class="btn-toggle-all" onclick="toggleAllImageCards()" id="toggleAllBtn">
+                        <i class="fas fa-expand-alt"></i> Expand All
+                    </button>
+                </h4>
+                
+                <div class="existing-images-grid">
+                    {% for form_data in gallery_forms %}
+                        {% with form=form_data.form image=form_data.image index=form_data.index %}
+                            <div class="image-card compact-card">
+                                <!-- Image Preview Area -->
+                                <div class="image-preview" onclick="toggleImageCard(this)">
+                                    {% if image.image %}
+                                        <img src="{{ image.image.url }}" alt="Gallery Image {{ index }}">
+                                        <div class="image-overlay">
+                                            <i class="fas fa-edit"></i>
+                                            <span>Click to Edit</span>
+                                        </div>
+                                    {% endif %}
+                                    <div class="image-quick-info">
+                                        <span class="image-title">{{ image.title|default:"Untitled" }}</span>
+                                        {% if image.is_featured %}
+                                            <i class="fas fa-star featured-star"></i>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                                
+                                <!-- Collapsible Form Content -->
+                                <div class="image-card-content" style="display: none;">
+                                    <!-- Hidden fields -->
+                                    {% for hidden in form.hidden_fields %}
+                                        {{ hidden }}
+                                    {% endfor %}
+                                    
+                                    <!-- Image replacement field -->
+                                    <div class="image-form-group">
+                                        <label for="{{ form.image.id_for_label }}">
+                                            <i class="fas fa-upload"></i> Replace Image
+                                        </label>
+                                        {{ form.image }}
+                                        {% if form.image.errors %}
+                                            <div class="form-errors">{{ form.image.errors }}</div>
+                                        {% endif %}
+                                        <div class="help-text">Leave empty to keep current image</div>
+                                    </div>
+                                    
+                                    <!-- Title field -->
+                                    <div class="image-form-group">
+                                        <label for="{{ form.title.id_for_label }}">
+                                            <i class="fas fa-heading"></i> Title
+                                        </label>
+                                        {{ form.title }}
+                                        {% if form.title.errors %}
+                                            <div class="form-errors">{{ form.title.errors }}</div>
+                                        {% endif %}
+                                    </div>
+                                    
+                                    <!-- Description field -->
+                                    <div class="image-form-group">
+                                        <label for="{{ form.description.id_for_label }}">
+                                            <i class="fas fa-align-left"></i> Description
+                                        </label>
+                                        {{ form.description }}
+                                        {% if form.description.errors %}
+                                            <div class="form-errors">{{ form.description.errors }}</div>
+                                        {% endif %}
+                                    </div>
+                                    
+                                    <!-- Order and Featured in same row -->
+                                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+                                        <div class="image-form-group">
+                                            <label for="{{ form.order.id_for_label }}">
+                                                <i class="fas fa-sort-numeric-up"></i> Order
+                                            </label>
+                                            {{ form.order }}
+                                            {% if form.order.errors %}
+                                                <div class="form-errors">{{ form.order.errors }}</div>
+                                            {% endif %}
+                                        </div>
+                                        
+                                        <!-- Clean featured checkbox styling -->
+                                        <div class="image-form-group featured-checkbox-container">
+                                            <label class="featured-label">
+                                                {{ form.is_featured }}
+                                                <span class="featured-text">
+                                                    <i class="fas fa-star"></i> Featured
+                                                </span>
+                                            </label>
+                                            {% if form.is_featured.errors %}
+                                                <div class="form-errors">{{ form.is_featured.errors }}</div>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- Delete checkbox -->
+                                    <div class="delete-checkbox">
+                                        {{ form.DELETE }}
+                                        <label for="{{ form.DELETE.id_for_label }}">
+                                            <i class="fas fa-trash"></i> Delete this image
+                                        </label>
+                                        {% if form.DELETE.errors %}
+                                            <div class="form-errors">{{ form.DELETE.errors }}</div>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                        {% endwith %}
+                    {% endfor %}
                 </div>
             </div>
-        </form>
+        {% else %}
+            <div style="text-align: center; padding: 40px; color: #6b7280;">
+                <i class="fas fa-image" style="font-size: 3rem; margin-bottom: 20px; opacity: 0.3;"></i>
+                <p>No images uploaded yet.</p>
+            </div>
+        {% endif %}
+
+        <!-- Add New Images Section -->
+        {% if remaining_slots > 0 %}
+            <div class="add-images-section">
+                <h4 class="section-title">
+                    <span>
+                        <i class="fas fa-plus-circle" style="color: #10b981; margin-right: 8px;"></i>
+                        Add New Images ({{ remaining_slots }} slots remaining)
+                    </span>
+                </h4>
+                
+                <div class="file-upload">
+                    {{ upload_form.images }}
+                    <label for="{{ upload_form.images.id_for_label }}" class="file-upload-label">
+                        <i class="fas fa-plus-circle"></i>
+                        Add New Gallery Images
+                    </label>
+                </div>
+                
+                <div class="help-text" style="margin-top: 10px;">
+                    {{ upload_form.images.help_text }}<br>
+                    Maximum 10 images total, 5MB each. Supported formats: JPEG, PNG, WebP
+                </div>
+                
+                {% if upload_form.images.errors %}
+                    <div class="form-errors" style="margin-top: 10px;">
+                        {{ upload_form.images.errors }}
+                    </div>
+                {% endif %}
+            </div>
+        {% else %}
+            <div class="alert-warning">
+                <i class="fas fa-exclamation-triangle" style="margin-right: 8px;"></i>
+                Maximum number of images reached ({{ max_images }}). Delete some existing images to add new ones.
+            </div>
+        {% endif %}
     </div>
-<br>
+</div>
 
-<script>
 
-    function readURL(input) {
-        if (input.files && input.files[0]) {
-            var reader = new FileReader();
-    
-            reader.onload = function (e) {
-                $('#c_image').attr('src', e.target.result);
-            }
-    
-            reader.readAsDataURL(input.files[0]);
-        }
-    }
-    
-    $("#id_image").change(function(){
-        readURL(this);
-    });
-
-</script>
-
+                <div class="submit-section">
+                    <button type="submit" class="submit-btn">
+                        <i class="fas fa-save"></i>
+                        Update Event Details
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
 {% endblock content %}
 
+{% block custom_js %}
+    <script>
+
+        function toggleGallery() {
+    const content = document.getElementById('galleryContent');
+    const icon = document.getElementById('galleryToggleIcon');
+    const toggle = document.querySelector('.gallery-toggle');
+    
+    if (content.style.display === 'none' || !content.style.display) {
+        content.style.display = 'block';
+        content.style.animation = 'slideDown 0.3s ease';
+        toggle.classList.add('active');
+        
+        // Save state to localStorage
+        localStorage.setItem('galleryExpanded', 'true');
+    } else {
+        content.style.animation = 'slideUp 0.3s ease';
+        setTimeout(() => {
+            content.style.display = 'none';
+        }, 300);
+        toggle.classList.remove('active');
+        localStorage.setItem('galleryExpanded', 'false');
+    }
+}
+
+function toggleImageCard(element) {
+    const card = element.closest('.image-card');
+    const content = card.querySelector('.image-card-content');
+    const preview = card.querySelector('.image-preview');
+    
+    if (content.style.display === 'none' || !content.style.display) {
+        content.style.display = 'block';
+        card.style.boxShadow = '0 8px 25px rgba(139, 92, 246, 0.2)';
+        card.style.transform = 'translateY(-2px)';
+        preview.style.borderBottom = '3px solid #8b5cf6';
+    } else {
+        content.style.display = 'none';
+        card.style.boxShadow = '0 2px 8px rgba(0, 0, 0, 0.1)';
+        card.style.transform = 'translateY(0)';
+        preview.style.borderBottom = 'none';
+    }
+}
+
+function toggleAllImageCards() {
+    const cards = document.querySelectorAll('.compact-card');
+    const button = document.getElementById('toggleAllBtn');
+    const isExpanding = button.innerHTML.includes('Expand');
+    
+    cards.forEach(card => {
+        const content = card.querySelector('.image-card-content');
+        const preview = card.querySelector('.image-preview');
+        
+        if (isExpanding) {
+            content.style.display = 'block';
+            card.style.boxShadow = '0 8px 25px rgba(139, 92, 246, 0.2)';
+            card.style.transform = 'translateY(-2px)';
+            preview.style.borderBottom = '3px solid #8b5cf6';
+        } else {
+            content.style.display = 'none';
+            card.style.boxShadow = '0 2px 8px rgba(0, 0, 0, 0.1)';
+            card.style.transform = 'translateY(0)';
+            preview.style.borderBottom = 'none';
+        }
+    });
+    
+    if (isExpanding) {
+        button.innerHTML = '<i class="fas fa-compress-alt"></i> Collapse All';
+    } else {
+        button.innerHTML = '<i class="fas fa-expand-alt"></i> Expand All';
+    }
+}
+
+    document.addEventListener('DOMContentLoaded', function() {
+        
+        // Main image preview functionality
+        function setupMainImagePreview() {
+            const mainImageInput = document.querySelector('input[name="image"]');
+            if (mainImageInput) {
+                mainImageInput.addEventListener('change', function(event) {
+                    const file = event.target.files[0];
+                    const label = document.querySelector('label[for="' + event.target.id + '"]');
+                    const currentImage = document.getElementById('c_image');
+                    
+                    if (file) {
+                        if (label) {
+                            label.innerHTML = `<i class="fas fa-check-circle"></i> ${file.name}`;
+                            label.style.background = '#10b981';
+                            label.style.color = 'white';
+                        }
+                        
+                        if (currentImage) {
+                            const reader = new FileReader();
+                            reader.onload = function(loadEvent) {
+                                currentImage.src = loadEvent.target.result;
+                                currentImage.style.display = 'block';
+                            };
+                            reader.readAsDataURL(file);
+                        }
+                    }
+                });
+            }
+        }
+
+        // Gallery image replacement preview
+        function setupGalleryImagePreviews() {
+            const galleryInputs = document.querySelectorAll('input[type="file"][name*="image"]:not([name="image"])');
+            
+            galleryInputs.forEach(function(input) {
+                input.addEventListener('change', function(event) {
+                    const file = event.target.files[0];
+                    if (file) {
+                        const imageCard = this.closest('.image-card');
+                        const currentImg = imageCard ? imageCard.querySelector('img') : null;
+                        
+                        if (currentImg) {
+                            const reader = new FileReader();
+                            reader.onload = function(loadEvent) {
+                                currentImg.src = loadEvent.target.result;
+                                // Add a visual indicator that this image has been changed
+                                imageCard.style.borderColor = '#10b981';
+                                imageCard.style.borderWidth = '3px';
+                                
+                                // Add "Updated" badge
+                                let badge = imageCard.querySelector('.update-badge');
+                                if (!badge) {
+                                    badge = document.createElement('div');
+                                    badge.className = 'update-badge';
+                                    badge.innerHTML = '<i class="fas fa-check-circle"></i> Updated';
+                                    badge.style.cssText = `
+                                        position: absolute;
+                                        top: 10px;
+                                        right: 10px;
+                                        background: #10b981;
+                                        color: white;
+                                        padding: 5px 10px;
+                                        border-radius: 20px;
+                                        font-size: 0.8rem;
+                                        font-weight: 600;
+                                        z-index: 10;
+                                    `;
+                                    imageCard.style.position = 'relative';
+                                    imageCard.appendChild(badge);
+                                }
+                            };
+                            reader.readAsDataURL(file);
+                        }
+                    }
+                });
+            });
+        }
+
+        // New gallery images preview
+        function setupNewGalleryPreview() {
+            const newGalleryInput = document.querySelector('input[name="images"]');
+            if (newGalleryInput) {
+                newGalleryInput.addEventListener('change', function(event) {
+                    const label = document.querySelector('label[for="' + event.target.id + '"]');
+                    const files = event.target.files;
+                    
+                    if (files && files.length > 0) {
+                        const fileCount = files.length;
+                        if (label) {
+                            label.innerHTML = `<i class="fas fa-check-circle"></i> ${fileCount} image${fileCount > 1 ? 's' : ''} selected`;
+                            label.style.background = '#10b981';
+                            label.style.color = 'white';
+                        }
+                        
+                        // Create preview container if it doesn't exist
+                        let previewContainer = document.getElementById('new-images-preview');
+                        if (!previewContainer) {
+                            previewContainer = document.createElement('div');
+                            previewContainer.id = 'new-images-preview';
+                            previewContainer.style.cssText = `
+                                display: grid;
+                                grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+                                gap: 15px;
+                                margin-top: 20px;
+                                padding: 20px;
+                                background: white;
+                                border-radius: 12px;
+                                border: 2px dashed #10b981;
+                            `;
+                            this.parentNode.parentNode.appendChild(previewContainer);
+                        }
+                        
+                        // Clear previous previews
+                        previewContainer.innerHTML = '<h5 style="grid-column: 1/-1; margin: 0 0 10px 0; color: #10b981;"><i class="fas fa-eye"></i> Preview of New Images:</h5>';
+                        
+                        // Add preview for each selected file
+                        Array.from(files).forEach((file, index) => {
+                            if (file && file.type.startsWith('image/')) {
+                                const reader = new FileReader();
+                                reader.onload = function(loadEvent) {
+                                    const previewDiv = document.createElement('div');
+                                    previewDiv.style.cssText = `
+                                        position: relative;
+                                        aspect-ratio: 1;
+                                        border-radius: 8px;
+                                        overflow: hidden;
+                                        border: 2px solid #e5e7eb;
+                                    `;
+                                    previewDiv.innerHTML = `
+                                        <img src="${loadEvent.target.result}" 
+                                             style="width: 100%; height: 100%; object-fit: cover;" 
+                                             alt="Preview ${index + 1}">
+                                        <div style="position: absolute; bottom: 0; left: 0; right: 0; background: rgba(0,0,0,0.7); color: white; padding: 5px; font-size: 0.7rem; text-align: center;">
+                                            New ${index + 1}
+                                        </div>
+                                    `;
+                                    previewContainer.appendChild(previewDiv);
+                                };
+                                reader.readAsDataURL(file);
+                            }
+                        });
+                    } else {
+                        // Remove preview container if no files selected
+                        const previewContainer = document.getElementById('new-images-preview');
+                        if (previewContainer) {
+                            previewContainer.remove();
+                        }
+                    }
+                });
+            }
+        }
+
+        // Form field animations
+        function setupFieldAnimations() {
+            document.querySelectorAll('input, textarea, select').forEach(input => {
+                input.addEventListener('focus', function() {
+                    const formGroup = this.closest('.form-group') || this.closest('.image-form-group');
+                    if (formGroup) {
+                        formGroup.style.transform = 'translateY(-2px)';
+                        formGroup.style.transition = 'transform 0.2s ease';
+                    }
+                });
+                
+                input.addEventListener('blur', function() {
+                    const formGroup = this.closest('.form-group') || this.closest('.image-form-group');
+                    if (formGroup) {
+                        formGroup.style.transform = 'translateY(0)';
+                    }
+                });
+            });
+        }
+
+        // Delete confirmation with visual feedback
+        function setupDeleteConfirmation() {
+            const deleteCheckboxes = document.querySelectorAll('input[name*="DELETE"]');
+            deleteCheckboxes.forEach(function(checkbox) {
+                checkbox.addEventListener('change', function() {
+                    const imageCard = this.closest('.image-card');
+                    if (this.checked) {
+                        // Confirm deletion
+                        const confirmed = confirm('Are you sure you want to delete this image? This action cannot be undone.');
+                        if (confirmed) {
+                            imageCard.style.opacity = '0.5';
+                            imageCard.style.transform = 'scale(0.95)';
+                            imageCard.style.borderColor = '#dc2626';
+                            imageCard.style.borderWidth = '3px';
+                            imageCard.style.transition = 'all 0.3s ease';
+                            
+                            // Add deletion badge
+                            let badge = imageCard.querySelector('.delete-badge');
+                            if (!badge) {
+                                badge = document.createElement('div');
+                                badge.className = 'delete-badge';
+                                badge.innerHTML = '<i class="fas fa-trash"></i> Will be deleted';
+                                badge.style.cssText = `
+                                    position: absolute;
+                                    top: 10px;
+                                    right: 10px;
+                                    background: #dc2626;
+                                    color: white;
+                                    padding: 5px 10px;
+                                    border-radius: 20px;
+                                    font-size: 0.8rem;
+                                    font-weight: 600;
+                                    z-index: 10;
+                                `;
+                                imageCard.style.position = 'relative';
+                                imageCard.appendChild(badge);
+                            }
+                        } else {
+                            this.checked = false;
+                        }
+                    } else {
+                        imageCard.style.opacity = '1';
+                        imageCard.style.transform = 'scale(1)';
+                        imageCard.style.borderColor = '#e5e7eb';
+                        imageCard.style.borderWidth = '2px';
+                        
+                        // Remove deletion badge
+                        const badge = imageCard.querySelector('.delete-badge');
+                        if (badge) {
+                            badge.remove();
+                        }
+                    }
+                });
+            });
+        }
+
+        // Featured image management (only one can be featured)
+        function setupFeaturedImageManagement() {
+            const featuredCheckboxes = document.querySelectorAll('input[name*="is_featured"]');
+            featuredCheckboxes.forEach(function(checkbox) {
+                checkbox.addEventListener('change', function() {
+                    if (this.checked) {
+                        // Uncheck all other featured checkboxes
+                        featuredCheckboxes.forEach(function(otherCheckbox) {
+                            if (otherCheckbox !== checkbox) {
+                                otherCheckbox.checked = false;
+                            }
+                        });
+                    }
+                });
+            });
+        }
+
+        // Add placeholder attributes
+        function setupPlaceholders() {
+            const placeholders = {
+                'name': 'Enter your full name',
+                'place': 'City, State',
+                'price': 'Enter budget in ₹',
+                'details': 'Describe your event requirements, theme, and special instructions'
+            };
+            
+            Object.keys(placeholders).forEach(fieldName => {
+                const element = document.querySelector(`input[name="${fieldName}"], textarea[name="${fieldName}"]`);
+                if (element && !element.placeholder) {
+                    element.placeholder = placeholders[fieldName];
+                }
+            });
+            
+            // Add placeholders for gallery form fields
+            document.querySelectorAll('input[name*="title"]').forEach(input => {
+                if (!input.placeholder) {
+                    input.placeholder = 'Enter image title (optional)';
+                }
+            });
+            
+            document.querySelectorAll('textarea[name*="description"]').forEach(textarea => {
+                if (!textarea.placeholder) {
+                    textarea.placeholder = 'Describe this work (optional)';
+                }
+            });
+            
+            document.querySelectorAll('input[name*="order"]').forEach(input => {
+                if (!input.placeholder) {
+                    input.placeholder = '0';
+                }
+            });
+        }
+
+        // Form validation before submit
+        function setupFormValidation() {
+            const form = document.querySelector('form');
+            if (form) {
+                form.addEventListener('submit', function(event) {
+                    let isValid = true;
+                    let errorMessage = '';
+                    
+                    // Check if at least one featured image is selected (if images exist)
+                    const featuredCheckboxes = document.querySelectorAll('input[name*="is_featured"]:checked');
+                    const nonDeletedImages = document.querySelectorAll('input[name*="DELETE"]:not(:checked)');
+                    
+                    if (nonDeletedImages.length > 0 && featuredCheckboxes.length === 0) {
+                        errorMessage = 'Please select at least one image as featured.';
+                        isValid = false;
+                    }
+                    
+                    // Check for file size limits on new uploads
+                    const newImageInput = document.querySelector('input[name="images"]');
+                    if (newImageInput && newImageInput.files) {
+                        Array.from(newImageInput.files).forEach(file => {
+                            if (file.size > 5 * 1024 * 1024) { // 5MB
+                                errorMessage = `Image "${file.name}" is too large. Maximum size is 5MB.`;
+                                isValid = false;
+                            }
+                        });
+                    }
+                    
+                    if (!isValid) {
+                        event.preventDefault();
+                        alert(errorMessage);
+                        return false;
+                    }
+                    
+                    // Show loading state
+                    const submitBtn = form.querySelector('.submit-btn');
+                    if (submitBtn) {
+                        submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Updating...';
+                        submitBtn.disabled = true;
+                    }
+                });
+            }
+        }
+        
+        // Initialize all functions
+        setupMainImagePreview();
+        setupGalleryImagePreviews();
+        setupNewGalleryPreview();
+        setupFieldAnimations();
+        setupDeleteConfirmation();
+        setupFeaturedImageManagement();
+        setupPlaceholders();
+        setupFormValidation();
+        
+        // Add smooth scroll to form errors
+        const errorElements = document.querySelectorAll('.form-errors');
+        if (errorElements.length > 0) {
+            errorElements[0].scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+        
+        console.log('Event update form initialized successfully!');
+        
+    });
+    document.addEventListener('DOMContentLoaded', function() {
+    // Check if gallery should be expanded (from localStorage or if there are errors)
+    const isExpanded = localStorage.getItem('galleryExpanded') === 'true';
+    const hasErrors = document.querySelector('.gallery-content .form-errors');
+    
+    if (isExpanded || hasErrors) {
+        toggleGallery();
+    }
+    
+    // Auto-expand cards with errors
+    if (hasErrors) {
+        const cardsWithErrors = document.querySelectorAll('.image-card:has(.form-errors)');
+        cardsWithErrors.forEach(card => {
+            const preview = card.querySelector('.image-preview');
+            if (preview) {
+                toggleImageCard(preview);
+            }
+        });
+    }
+    
+    // Add your existing initialization functions here...
+});
+</script>
+{% endblock custom_js %}

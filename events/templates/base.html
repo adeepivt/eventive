@@ -32,7 +32,8 @@
     <link href="{% static 'style.css' %}" rel="stylesheet">
     <link rel="stylesheet" href="{% static 'main.css' %}">
 
-
+   
+    {% block custom_css %} {% endblock custom_css %}
     <!-- Responsive CSS -->
     <link href="{% static 'css/responsive/responsive.css' %}" rel="stylesheet">
 
@@ -74,6 +75,291 @@
         color: #6c757d;
         background-color: #f8f9fa;
         }
+
+        /* Profile Dropdown Styles */
+        .navbar i{
+            color: #7643ea;
+        }
+        .navbar .dropdown-toggle {
+            color: #ffffff;
+            text-decoration: none;
+        }
+
+        .navbar .dropdown-toggle:hover {
+            color: #e9e7ee;
+            text-decoration: none;
+        }
+
+        .navbar .dropdown-menu {
+            border: none;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            min-width: 180px;
+        }
+
+        .navbar .dropdown-item {
+            padding: 8px 16px;
+            color: #333;
+            border: none;
+            background: none;
+            width: 100%;
+            text-align: left;
+            font-weight: normal;
+        }
+
+        .navbar .dropdown-item:hover {
+            background-color: #f8f9fa;
+            color: #333;
+        }
+
+        .navbar .dropdown-item i {
+            margin-right: 8px;
+            width: 16px;
+        }
+
+        .navbar .dropdown-divider {
+            margin: 4px 0;
+        }
+
+
+        /* profile page css  */
+        .profile-card {
+            background: #ffffff;
+            border: 1px solid #e5e7eb;
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .profile-card:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .profile-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .profile-avatar {
+            position: relative;
+            display: inline-block;
+            margin-bottom: 1rem;
+        }
+
+        .profile-avatar img {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid #e5e7eb;
+            transition: all 0.3s ease;
+        }
+
+        .profile-avatar:hover img {
+            transform: scale(1.05);
+            border-color: #d1d5db;
+        }
+
+        .profile-name {
+            font-size: 2rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            color: #333333;
+        }
+
+        .profile-username {
+            font-size: 1.1rem;
+            color: #6b7280;
+            margin-bottom: 1rem;
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 0.4rem 1rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .status-verified {
+            background: rgba(34, 197, 94, 0.2);
+            color: #22c55e;
+            border: 1px solid rgba(34, 197, 94, 0.3);
+        }
+
+        .status-pending {
+            background: rgba(251, 191, 36, 0.2);
+            color: #fbbf24;
+            border: 1px solid rgba(251, 191, 36, 0.3);
+        }
+
+        .status-admin {
+            background: rgba(249, 115, 22, 0.2);
+            color: #f97316;
+            border: 1px solid rgba(249, 115, 22, 0.3);
+        }
+
+        .info-section {
+            margin-bottom: 2rem;
+        }
+
+        .section-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: #333333;
+            border-bottom: 2px solid #e5e7eb;
+            padding-bottom: 0.5rem;
+        }
+
+        .info-row {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1rem;
+            padding: 0.8rem 0;
+            border-bottom: 1px solid #f3f4f6;
+        }
+
+        .info-row:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+        }
+
+        .info-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            background: #f3f4f6;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 1rem;
+            color: #6b46c1;
+            font-size: 1.1rem;
+        }
+
+        .info-content {
+            flex: 1;
+        }
+
+        .info-label {
+            font-size: 0.85rem;
+            color: #6b7280;
+            margin-bottom: 0.2rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .info-value {
+            font-size: 1rem;
+            font-weight: 500;
+            color: #333333;
+        }
+
+        .action-buttons {
+            text-align: center;
+            margin-top: 2rem;
+        }
+
+        .btn-custom {
+            background: #f8fafc;
+            border: 2px solid #e5e7eb;
+            color: #333333;
+            padding: 0.8rem 2rem;
+            border-radius: 25px;
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-block;
+            margin: 0.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .btn-custom:hover {
+            background: #e5e7eb;
+            border-color: #d1d5db;
+            color: #333333;
+            transform: translateY(-2px);
+            text-decoration: none;
+        }
+
+        .btn-primary-custom {
+            background: #6366f1;
+            border-color: #6366f1;
+            color: white;
+        }
+
+        .btn-primary-custom:hover {
+            background: #4f46e5;
+            border-color: #4f46e5;
+            color: white;
+        }
+
+        .page-title {
+            text-align: center;
+            margin-bottom: 2rem;
+            margin-top: 2rem;
+        }
+
+        .page-title h1 {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #7643ea;
+            margin-bottom: 0.5rem;
+        }
+
+        .page-title p {
+            font-size: 1.1rem;
+            color: #6b7280;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+            
+            .profile-card {
+                padding: 1.5rem;
+            }
+            
+            .profile-name {
+                font-size: 1.8rem;
+            }
+            
+            .page-title h1 {
+                font-size: 2rem;
+            }
+            
+            .info-row {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .info-icon {
+                margin-right: 0;
+                margin-bottom: 0.5rem;
+            }
+        }
+
+        /* Animation for smooth page load */
+        .profile-card {
+            animation: fadeInUp 0.6s ease-out;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
     </style>
 
 </head>
@@ -104,22 +390,49 @@
                                     <a class="nav-link" href="{% url 'event-create' %}">Add New</a>
                                     <a class="nav-link" href="{% url 'event-list' %}">Services</a>
                                     <a class="nav-link" href="{% url 'vendor_bookings' %}">Bookings</a>
-                                    {% comment %} <a class="nav-link" href="{% url 'logout' %}">logout</a> {% endcomment %}
-                                    <form method="post" style="display: inline-block;margin: 0;padding: 0;" action="{% url 'logout'%}">
-                                        {% csrf_token %}
-                                        <button type="submit" class="nav-link text-light"
-                                        style="border:none; background:none;font-weight: 600;"
-                                        >Logout</button>
-                                    </form>
+                                    <div class="nav-item dropdown" style="display: inline-block;">
+                                        <a class="nav-link dropdown-toggle" href="#" id="profileDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            <i class="fa fa-user"></i> {{ user.username }}
+                                        </a>
+                                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="profileDropdown">
+                                            <a class="dropdown-item" href="{% url 'profile' %}">
+                                                <i class="fa fa-user"></i> View Profile
+                                            </a>
+                                            <a class="dropdown-item" href="{% url 'profile_update' %}">
+                                                <i class="fa fa-edit"></i> Edit Profile
+                                            </a>
+                                            <div class="dropdown-divider"></div>
+                                            <form method="post" action="{% url 'logout'%}">
+                                                {% csrf_token %}
+                                                <button type="submit" class="dropdown-item">
+                                                    <i class="fa fa-sign-out"></i> Logout
+                                                </button>
+                                            </form>
+                                        </div>
+                                    </div>
                                     {% else %}
                                         <a href="{% url 'favourites_list' %}">Favourites</a>
                                         <a href="{% url 'user_bookings' %}">Bookings</a>
-                                        <form method="post" style="display: inline-block;margin: 0;padding: 0;" action="{% url 'logout'%}">
-                                            {% csrf_token %}
-                                            <button type="submit" class="nav-link text-light"
-                                            style="border:none; background:none;font-weight: 600;"
-                                            >Logout</button>
-                                        </form>
+                                        <div class="nav-item dropdown" style="display: inline-block;">
+                                            <a class="nav-link dropdown-toggle" href="#" id="profileDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                <i class="fa fa-user"></i> {{ user.username }}
+                                            </a>
+                                            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="profileDropdown">
+                                                <a class="dropdown-item" href="{% url 'profile' %}">
+                                                    <i class="fa fa-user"></i> View Profile
+                                                </a>
+                                                <a class="dropdown-item" href="{% url 'profile_update' %}">
+                                                    <i class="fa fa-edit"></i> Edit Profile
+                                                </a>
+                                                <div class="dropdown-divider"></div>
+                                                <form method="post" action="{% url 'logout'%}">
+                                                    {% csrf_token %}
+                                                    <button type="submit" class="dropdown-item">
+                                                        <i class="fa fa-sign-out"></i> Logout
+                                                    </button>
+                                                </form>
+                                            </div>
+                                        </div>
                                     {% endif %}
                                 {% else %}
                                     <a href="{% url 'login' %}">Sign in  or Register</a>
@@ -173,6 +486,358 @@
         <script src="{% static 'js/others/plugins.js' %}"></script>
         <!-- Active JS -->
         <script src="{% static 'js/active.js' %}"></script>
+        
+        {% block custom_js %} {% endblock custom_js %}
+
+        <script>
+
+           document.addEventListener('DOMContentLoaded', function() {
+    const galleryModal = document.getElementById('galleryModal');
+    const modalDialog = galleryModal.querySelector('.modal-dialog');
+    const carousel = document.getElementById('galleryCarousel');
+    const currentImageNumber = document.getElementById('currentImageNumber');
+    const fullscreenToggle = document.getElementById('fullscreenToggle');
+    const thumbnailContainer = document.getElementById('thumbnailContainer');
+    
+    // Function to open gallery modal at specific slide
+    window.openGalleryModal = function(slideIndex) {
+        // Show the modal
+        const modal = new bootstrap.Modal(galleryModal);
+        modal.show();
+        
+        // Go to specific slide
+        if (carousel) {
+            const carouselInstance = bootstrap.Carousel.getOrCreateInstance(carousel);
+            carouselInstance.to(slideIndex);
+            
+            // Update counter
+            if (currentImageNumber) {
+                currentImageNumber.textContent = slideIndex + 1;
+            }
+            
+            // Update active thumbnail
+            updateActiveThumbnail(slideIndex);
+        }
+    };
+    
+    // Update counter when carousel slides
+    if (carousel) {
+        carousel.addEventListener('slide.bs.carousel', function(event) {
+            if (currentImageNumber) {
+                currentImageNumber.textContent = event.to + 1;
+            }
+            
+            // Update active thumbnail
+            updateActiveThumbnail(event.to);
+        });
+    }
+    
+    // Fullscreen toggle functionality
+    if (fullscreenToggle && modalDialog) {
+        fullscreenToggle.addEventListener('click', function() {
+            // Check if currently in fullscreen
+            const isFullscreen = modalDialog.classList.contains('modal-fullscreen');
+            
+            if (isFullscreen) {
+                // Exit fullscreen
+                modalDialog.classList.remove('modal-fullscreen');
+                modalDialog.classList.add('modal-fullscreen-lg-down', 'modal-xl');
+                this.innerHTML = '<i class="fas fa-expand"></i>';
+                this.setAttribute('title', 'Enter Fullscreen');
+            } else {
+                // Enter fullscreen
+                modalDialog.classList.remove('modal-fullscreen-lg-down', 'modal-xl');
+                modalDialog.classList.add('modal-fullscreen');
+                this.innerHTML = '<i class="fas fa-compress"></i>';
+                this.setAttribute('title', 'Exit Fullscreen');
+            }
+        });
+    }
+    
+    // Thumbnail click handlers
+    const thumbnails = document.querySelectorAll('.thumbnail-item');
+    thumbnails.forEach((thumbnail, index) => {
+        thumbnail.addEventListener('click', function() {
+            const carouselInstance = bootstrap.Carousel.getOrCreateInstance(carousel);
+            carouselInstance.to(index);
+        });
+    });
+    
+    // Thumbnail scrolling functionality
+    const scrollLeft = document.getElementById('scrollLeft');
+    const scrollRight = document.getElementById('scrollRight');
+    
+    if (scrollLeft && scrollRight && thumbnailContainer) {
+        scrollLeft.addEventListener('click', function() {
+            thumbnailContainer.scrollBy({
+                left: -200,
+                behavior: 'smooth'
+            });
+        });
+        
+        scrollRight.addEventListener('click', function() {
+            thumbnailContainer.scrollBy({
+                left: 200,
+                behavior: 'smooth'
+            });
+        });
+    }
+    
+    // Enhanced keyboard navigation
+    galleryModal.addEventListener('keydown', function(event) {
+        const carouselInstance = bootstrap.Carousel.getInstance(carousel);
+        if (carouselInstance) {
+            switch(event.key) {
+                case 'ArrowLeft':
+                    event.preventDefault();
+                    carouselInstance.prev();
+                    break;
+                case 'ArrowRight':
+                    event.preventDefault();
+                    carouselInstance.next();
+                    break;
+                case 'Escape':
+                    bootstrap.Modal.getInstance(galleryModal).hide();
+                    break;
+                case 'f':
+                case 'F':
+                    // Toggle fullscreen with 'F' key
+                    event.preventDefault();
+                    if (fullscreenToggle) {
+                        fullscreenToggle.click();
+                    }
+                    break;
+            }
+        }
+    });
+    
+    // Reset to normal mode when modal is closed
+    galleryModal.addEventListener('hidden.bs.modal', function() {
+        if (modalDialog && fullscreenToggle) {
+            modalDialog.classList.remove('modal-fullscreen');
+            modalDialog.classList.add('modal-fullscreen-lg-down', 'modal-xl');
+            fullscreenToggle.innerHTML = '<i class="fas fa-expand"></i>';
+            fullscreenToggle.setAttribute('title', 'Enter Fullscreen');
+        }
+    });
+    
+    // Add hover effects to gallery thumbnails (keeping your existing functionality)
+    const thumbnails_existing = document.querySelectorAll('.gallery-thumbnail');
+    thumbnails_existing.forEach(function(thumbnail) {
+        thumbnail.addEventListener('mouseenter', function() {
+            this.style.transform = 'scale(1.05)';
+            this.style.transition = 'transform 0.3s ease';
+        });
+        
+        thumbnail.addEventListener('mouseleave', function() {
+            this.style.transform = 'scale(1)';
+        });
+    });
+    
+    // Function to update active thumbnail
+    function updateActiveThumbnail(activeIndex) {
+        const thumbnails = document.querySelectorAll('.thumbnail-item');
+        thumbnails.forEach((thumbnail, index) => {
+            thumbnail.classList.toggle('active', index === activeIndex);
+        });
+        
+        // Scroll active thumbnail into view
+        const activeThumbnail = thumbnails[activeIndex];
+        if (activeThumbnail && thumbnailContainer) {
+            activeThumbnail.scrollIntoView({
+                behavior: 'smooth',
+                block: 'nearest',
+                inline: 'center'
+            });
+        }
+    }
+    
+    // Image zoom functionality (bonus feature)
+    const galleryImages = document.querySelectorAll('.gallery-main-image');
+    galleryImages.forEach(function(image) {
+        let isZoomed = false;
+        let isDragging = false;
+        let startX = 0;
+        let startY = 0;
+        let translateX = 0;
+        let translateY = 0;
+        let currentScale = 1;
+        
+        // Click to zoom
+        image.addEventListener('click', function(e) {
+            if (!isDragging) {
+                if (isZoomed) {
+                    // Zoom out and reset position
+                    currentScale = 1;
+                    translateX = 0;
+                    translateY = 0;
+                    isZoomed = false;
+                    this.style.cursor = 'zoom-in';
+                } else {
+                    // Zoom in at click position
+                    currentScale = 2;
+                    isZoomed = true;
+                    this.style.cursor = 'grab';
+                    
+                    // Calculate zoom center based on click position
+                    const rect = this.getBoundingClientRect();
+                    const centerX = rect.width / 2;
+                    const centerY = rect.height / 2;
+                    const clickX = e.clientX - rect.left;
+                    const clickY = e.clientY - rect.top;
+                    
+                    // Adjust translate to zoom into clicked area
+                    translateX = (centerX - clickX) * 0.5;
+                    translateY = (centerY - clickY) * 0.5;
+                }
+                
+                this.style.transform = `scale(${currentScale}) translate(${translateX}px, ${translateY}px)`;
+                this.style.transition = 'transform 0.3s ease';
+            }
+        });
+        
+        // Mouse drag to pan when zoomed
+        image.addEventListener('mousedown', function(e) {
+            if (isZoomed) {
+                isDragging = true;
+                startX = e.clientX - translateX;
+                startY = e.clientY - translateY;
+                this.style.cursor = 'grabbing';
+                this.style.transition = 'none';
+                e.preventDefault();
+            }
+        });
+        
+        image.addEventListener('mousemove', function(e) {
+            if (isDragging && isZoomed) {
+                translateX = e.clientX - startX;
+                translateY = e.clientY - startY;
+                
+                // Apply boundaries to prevent dragging too far
+                const maxTranslate = 100;
+                translateX = Math.max(-maxTranslate, Math.min(maxTranslate, translateX));
+                translateY = Math.max(-maxTranslate, Math.min(maxTranslate, translateY));
+                
+                this.style.transform = `scale(${currentScale}) translate(${translateX}px, ${translateY}px)`;
+            }
+        });
+        
+        image.addEventListener('mouseup', function() {
+            if (isDragging) {
+                isDragging = false;
+                this.style.cursor = isZoomed ? 'grab' : 'zoom-in';
+                this.style.transition = 'transform 0.1s ease';
+            }
+        });
+        
+        image.addEventListener('mouseleave', function() {
+            if (isDragging) {
+                isDragging = false;
+                this.style.cursor = isZoomed ? 'grab' : 'zoom-in';
+            }
+        });
+        
+        // Touch support for mobile devices
+        let lastTouchX = 0;
+        let lastTouchY = 0;
+        
+        image.addEventListener('touchstart', function(e) {
+            if (isZoomed && e.touches.length === 1) {
+                isDragging = true;
+                const touch = e.touches[0];
+                lastTouchX = touch.clientX;
+                lastTouchY = touch.clientY;
+                startX = touch.clientX - translateX;
+                startY = touch.clientY - translateY;
+                this.style.transition = 'none';
+                e.preventDefault();
+            }
+        });
+        
+        image.addEventListener('touchmove', function(e) {
+            if (isDragging && isZoomed && e.touches.length === 1) {
+                const touch = e.touches[0];
+                translateX = touch.clientX - startX;
+                translateY = touch.clientY - startY;
+                
+                // Apply boundaries
+                const maxTranslate = 100;
+                translateX = Math.max(-maxTranslate, Math.min(maxTranslate, translateX));
+                translateY = Math.max(-maxTranslate, Math.min(maxTranslate, translateY));
+                
+                this.style.transform = `scale(${currentScale}) translate(${translateX}px, ${translateY}px)`;
+                e.preventDefault();
+            }
+        });
+        
+        image.addEventListener('touchend', function() {
+            if (isDragging) {
+                isDragging = false;
+                this.style.transition = 'transform 0.1s ease';
+            }
+        });
+        
+        // Double tap to zoom on mobile
+        let lastTap = 0;
+        image.addEventListener('touchend', function(e) {
+            const currentTime = new Date().getTime();
+            const tapLength = currentTime - lastTap;
+            
+            if (tapLength < 500 && tapLength > 0) {
+                // Double tap detected
+                if (isZoomed) {
+                    // Zoom out
+                    currentScale = 1;
+                    translateX = 0;
+                    translateY = 0;
+                    isZoomed = false;
+                } else {
+                    // Zoom in
+                    currentScale = 2;
+                    isZoomed = true;
+                    translateX = 0;
+                    translateY = 0;
+                }
+                
+                this.style.transform = `scale(${currentScale}) translate(${translateX}px, ${translateY}px)`;
+                this.style.transition = 'transform 0.3s ease';
+                e.preventDefault();
+            }
+            lastTap = currentTime;
+        });
+        
+        // Reset zoom when modal closes or carousel changes
+        const modalElement = image.closest('.modal');
+        if (modalElement) {
+            modalElement.addEventListener('hidden.bs.modal', function() {
+                currentScale = 1;
+                translateX = 0;
+                translateY = 0;
+                isZoomed = false;
+                image.style.transform = 'scale(1) translate(0px, 0px)';
+                image.style.cursor = 'zoom-in';
+                image.style.transition = 'transform 0.3s ease';
+            });
+        }
+        
+        // Reset zoom when carousel slides
+        const carousel = document.getElementById('galleryCarousel');
+        if (carousel) {
+            carousel.addEventListener('slide.bs.carousel', function() {
+                currentScale = 1;
+                translateX = 0;
+                translateY = 0;
+                isZoomed = false;
+                image.style.transform = 'scale(1) translate(0px, 0px)';
+                image.style.cursor = 'zoom-in';
+                image.style.transition = 'transform 0.3s ease';
+            });
+        }
+    });
+});
+
+
+        </script>
 
 </body>
 </html>

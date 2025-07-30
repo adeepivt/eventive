@@ -1,0 +1,150 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+ <!-- ***** Breadcumb Area Start ***** -->
+     <div class="breadcumb-area bg-img bg-overlay" style="background-image: url({% static 'img/bg-img/hero-1.jpg' %})"></div>
+     <!-- ***** Breadcumb Area End ***** -->
+
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-12 col-md-10 col-lg-8">
+                <!-- Page Title -->
+                <div class="page-title">
+                    <h1>User Profile</h1>
+                    <p>Manage your account information and settings</p>
+                </div>
+
+                <!-- Profile Header Card -->
+                <div class="profile-card">
+                    <div class="profile-header">
+                        <div class="profile-avatar">
+                            <img src="{{ profile.img.url }}" alt="{{ user.username }}'s Profile Picture">
+                        </div>
+                        
+                        <h2 class="profile-name">
+                            {% if user.first_name or user.last_name %}
+                                {{ user.first_name }} {{ user.last_name }}
+                            {% else %}
+                                {{ user.username }}
+                            {% endif %}
+                        </h2>
+                        
+                        <p class="profile-username">@{{ user.username }}</p>
+
+                        <!-- Status Badges -->
+                        <div class="mb-3">
+                            {% if profile.is_admin %}
+                                <span class="status-badge status-admin">
+                                    <i class="fas fa-crown me-1"></i> Administrator
+                                </span>
+                            {% endif %}
+                            
+                            {% if profile.approval_status == 'approved' %}
+                                <span class="status-badge status-verified">
+                                    <i class="fas fa-check-circle me-1"></i> Verified
+                                </span>
+                            {% elif profile.approval_status == 'pending' %}
+                                <span class="status-badge status-pending">
+                                    <i class="fas fa-clock me-1"></i> Pending
+                                </span>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Contact Information -->
+                <div class="profile-card">
+                    <div class="info-section">
+                        <h3 class="section-title">
+                            <i class="fas fa-address-card me-2"></i>
+                            Contact Information
+                        </h3>
+                        
+                        <div class="info-row">
+                            <div class="info-icon">
+                                <i class="fas fa-envelope"></i>
+                            </div>
+                            <div class="info-content">
+                                <div class="info-label">Email Address</div>
+                                <div class="info-value">{{ user.email|default:"Not provided" }}</div>
+                            </div>
+                        </div>
+                        
+                        <div class="info-row">
+                            <div class="info-icon">
+                                <i class="fas fa-phone"></i>
+                            </div>
+                            <div class="info-content">
+                                <div class="info-label">Mobile Number</div>
+                                <div class="info-value">{{ profile.mobile|default:"Not provided" }}</div>
+                            </div>
+                        </div>
+                        
+                        <div class="info-row">
+                            <div class="info-icon">
+                                <i class="fas fa-map-marker-alt"></i>
+                            </div>
+                            <div class="info-content">
+                                <div class="info-label">Location</div>
+                                <div class="info-value">{{ profile.location|default:"Not specified" }}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Account Details -->
+                <div class="profile-card">
+                    <div class="info-section">
+                        <h3 class="section-title">
+                            <i class="fas fa-user-cog me-2"></i>
+                            Account Details
+                        </h3>
+                        
+                        <div class="info-row">
+                            <div class="info-icon">
+                                <i class="fas fa-calendar-alt"></i>
+                            </div>
+                            <div class="info-content">
+                                <div class="info-label">Member Since</div>
+                                <div class="info-value">{{ user.date_joined|date:"F j, Y" }}</div>
+                            </div>
+                        </div>
+                        
+                        <div class="info-row">
+                            <div class="info-icon">
+                                <i class="fas fa-user-tag"></i>
+                            </div>
+                            <div class="info-content">
+                                <div class="info-label">Account Type</div>
+                                <div class="info-value">{{ profile.get_user_type_display }}</div>
+                            </div>
+                        </div>
+                        
+                        <div class="info-row">
+                            <div class="info-icon">
+                                <i class="fas fa-shield-alt"></i>
+                            </div>
+                            <div class="info-content">
+                                <div class="info-label">Account Status</div>
+                                <div class="info-value">{{ profile.get_approval_status_display }}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="action-buttons">
+                    <a href="{% url 'profile_update' %}" class="btn-custom btn-primary-custom">
+                        <i class="fas fa-edit me-2"></i>
+                        Edit Profile
+                    </a>
+                    
+                    <a href="{% url 'event-home' %}" class="btn-custom">
+                        <i class="fas fa-home me-2"></i>
+                        Back to Home
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock content %}

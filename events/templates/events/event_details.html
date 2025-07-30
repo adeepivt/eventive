@@ -1,6 +1,260 @@
 {% extends 'base.html' %}
 {% load static %}
 
+{% block custom_css %}
+    
+<style>
+
+/* Enhanced zoom and pan styles */
+.gallery-main-image {
+    transition: transform 0.3s ease;
+    user-select: none;
+    -webkit-user-drag: none;
+    -khtml-user-drag: none;
+    -moz-user-drag: none;
+    -o-user-drag: none;
+    user-drag: none;
+}
+
+.gallery-main-image:active {
+    cursor: grabbing !important;
+}
+
+/* Prevent text selection while dragging */
+.modal-body {
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+}
+
+/* Smooth cursor transitions */
+.gallery-main-image[style*="scale(2)"] {
+    cursor: grab !important;
+}
+
+.gallery-main-image[style*="scale(2)"]:active {
+    cursor: grabbing !important;
+}
+
+.gallery-thumbnail:hover {
+    box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+}
+
+/* Fix modal z-index to appear above navigation */
+#galleryModal {
+    z-index: 9999 !important;
+}
+
+#galleryModal .modal-dialog {
+    z-index: 10000 !important;
+}
+
+#galleryModal .modal-content {
+    z-index: 10001 !important;
+}
+
+/* Ensure modal header and close button are properly positioned */
+#galleryModal .modal-header {
+    position: relative;
+    z-index: 10002 !important;
+    padding: 1rem 1.5rem;
+}
+
+#galleryModal .btn-close {
+    position: relative;
+    z-index: 10003 !important;
+    margin: 0;
+    padding: 0.5rem;
+}
+
+.modal-xl {
+    max-width: 90vw;
+}
+
+.carousel-item img {
+    border-radius: 8px;
+}
+
+.carousel-control-prev,
+.carousel-control-next {
+    width: 5%;
+    z-index: 10000;
+}
+
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+    background-color: rgba(0, 0, 0, 0.5);
+    border-radius: 50%;
+    padding: 20px;
+}
+
+.carousel-indicators {
+    margin-bottom: 20px;
+    z-index: 10000;
+}
+
+.carousel-indicators button {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    margin: 0 5px;
+}
+
+/* Thumbnail Styles */
+.thumbnail-container {
+    max-width: 100%;
+    overflow: hidden;
+}
+
+.thumbnail-wrapper {
+    overflow: hidden;
+    position: relative;
+}
+
+.thumbnail-scroll {
+    overflow-x: auto;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    scroll-behavior: smooth;
+    padding: 5px 0;
+}
+
+.thumbnail-scroll::-webkit-scrollbar {
+    display: none;
+}
+
+.thumbnail-item {
+    position: relative;
+    cursor: pointer;
+    border-radius: 8px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
+    min-width: 80px;
+    height: 60px;
+}
+
+.thumbnail-item:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+.thumbnail-item.active {
+    border-color: #0d6efd;
+    box-shadow: 0 0 0 2px rgba(13, 110, 253, 0.25);
+}
+
+.thumbnail-img {
+    width: 80px;
+    height: 60px;
+    object-fit: cover;
+    transition: all 0.3s ease;
+}
+
+.thumbnail-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.thumbnail-item:hover .thumbnail-overlay {
+    opacity: 1;
+}
+
+.thumbnail-overlay i {
+    color: white;
+    font-size: 16px;
+}
+
+/* Scroll Buttons */
+.thumbnail-scroll-btn {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+
+/* Fix for mobile devices */
+@media (max-width: 768px) {
+    .modal-xl {
+        max-width: 95vw;
+        margin: 1rem auto;
+    }
+    
+    #galleryModal .modal-header {
+        padding: 0.75rem 1rem;
+    }
+    
+    .carousel-item img {
+        height: 300px !important;
+    }
+    
+    .carousel-caption {
+        display: none !important;
+    }
+
+    .thumbnail-item {
+        min-width: 60px;
+        height: 45px;
+    }
+    
+    .thumbnail-img {
+        width: 60px;
+        height: 45px;
+    }
+    
+    .gallery-main-image {
+        max-height: 60vh;
+    }
+}
+@media (max-width: 576px) {
+    .modal-dialog {
+        margin: 0;
+    }
+    
+    .gallery-main-image {
+        max-height: 50vh;
+    }
+    
+    .thumbnail-item {
+        min-width: 50px;
+        height: 40px;
+    }
+    
+    .thumbnail-img {
+        width: 50px;
+        height: 40px;
+    }
+}
+
+/* Additional fix for specific navigation bars */
+.navbar,
+.navbar-fixed-top,
+.fixed-top {
+    z-index: 1030 !important;
+}
+
+/* Ensure modal backdrop doesn't interfere */
+.modal-backdrop {
+    z-index: 9998 !important;
+}
+</style>
+
+{% endblock custom_css %}
+    
 {% block content %}
 {% if user.profile.is_admin %}
 <div class="breadcumb-area bg-img bg-overlay" style="background-image: url({% static 'img/bg-img/hero-1.jpg' %})"></div>
@@ -66,65 +320,191 @@
                     <div class="overview-content mt-50" id="overview">
                         <p id="details">{{event.details}}</p>
                         <p><span class="desc-prof" data-css-changed="1"><svg viewBox="0 0 12 16" version="1.1" width="10" height="14" aria-hidden="true"><path fill-rule="evenodd" d="M6 0C2.69 0 0 2.5 0 5.5 0 10.02 6 16 6 16s6-5.98 6-10.5C12 2.5 9.31 0 6 0zm0 14.55C4.14 12.52 1 8.44 1 5.5 1 3.02 3.25 1 6 1c1.34 0 2.61.48 3.56 1.36.92.86 1.44 1.97 1.44 3.14 0 2.94-3.14 7.02-5 9.05zM8 5.5c0 1.11-.89 2-2 2-1.11 0-2-.89-2-2 0-1.11.89-2 2-2 1.11 0 2 .89 2 2z"></path></svg></span> {{event.address}}</p>
+                        
+
+                         <!-- Gallery Section -->
+    {% if event.gallery_images.exists %}
+    <div class="event-gallery mt-4 mb-4">
+        <h5 class="mb-3">Gallery</h5>
+        <div class="row">
+            {% for gallery_image in event.gallery_images.all|slice:":6" %}
+            <div class="col-md-4 col-sm-6 mb-3">
+                <div class="gallery-item">
+                    <img src="{{ gallery_image.image.url }}" 
+                         alt="{{ gallery_image.title|default:event.name }}" 
+                         class="img-fluid rounded shadow-sm gallery-thumbnail"
+                         style="height: 200px; width: 100%; object-fit: cover; cursor: pointer;"
+                         onclick="openGalleryModal({{ forloop.counter0 }})"
+                         data-image-index="{{ forloop.counter0 }}">
+                    {% if gallery_image.title %}
+                    <small class="text-muted d-block mt-1">{{ gallery_image.title }}</small>
+                    {% endif %}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% if event.gallery_images.count > 6 %}
+        <div class="text-center">
+            <button class="btn btn-outline-primary btn-sm" onclick="openGalleryModal(0)">
+                View All {{ event.gallery_images.count }} Images
+            </button>
+        </div>
+        {% endif %}
+    </div>
+    {% endif %}
+                        
+                        
+                        
                         <div class="row mt-5">
-                            <div class="col-6">
-                                <label class="custom-control custom-checkbox mb-3">
-                                    <input type="checkbox" class="custom-control-input">
-                                    <span class="custom-control-indicator"></span>
-                                    <span class="custom-control-description">Accepts Credit Cards</span>
-                                </label>
+                            {% for facility in event.get_facilities %}
+                                <div class="col-lg-6 mb-3"> <!-- Changed from col-md-6 col-lg-4 -->
+                                    <div class="card facility-card">
+                                        <div class="card-body py-2 px-3">
+                                            <div class="d-flex align-items-center">
+                                                <i class="fas fa-check-circle me-2" style="color: #7643ea;"></i>
+                                                <i class="{{ facility.icon }} me-2" style="color: #848484;"></i>
+                                                <span class="fw-medium" style="color: #848484 !important;">{{ facility.name }}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+
+                    </div>
+                    <!-- Gallery Modal -->
+<div class="modal fade" id="galleryModal" tabindex="-1" aria-labelledby="galleryModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-fullscreen-lg-down modal-xl">
+        <div class="modal-content bg-dark">
+            <!-- Header -->
+            <div class="modal-header border-0 bg-dark text-white position-relative">
+                <div class="d-flex align-items-center w-100">
+                    <h5 class="modal-title text-white mb-0" id="galleryModalLabel">
+                        <i class="fas fa-images me-2"></i>{{ event.name }} Gallery
+                    </h5>
+                    <div class="ms-auto d-flex align-items-center">
+                        <!-- Image Counter -->
+                        <span class="badge bg-primary me-3 px-3 py-2">
+                            <span id="currentImageNumber">1</span> / {{ event.gallery_images.count }}
+                        </span>
+                        <!-- Fullscreen Toggle -->
+                        <button type="button" class="btn btn-outline-light btn-sm me-2" id="fullscreenToggle">
+                            <i class="fas fa-expand"></i>
+                        </button>
+                        <!-- Close Button -->
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Main Image Display -->
+            <div class="modal-body p-0 bg-dark position-relative">
+                <div id="galleryCarousel" class="carousel slide h-100" data-bs-ride="false" data-bs-touch="true">
+                    <div class="carousel-inner h-100">
+                        {% for gallery_image in event.gallery_images.all %}
+                        <div class="carousel-item h-100 {% if forloop.first %}active{% endif %}" data-slide-index="{{ forloop.counter0 }}">
+                            <!-- Image Container -->
+                            <div class="d-flex align-items-center justify-content-center h-100 p-3">
+                                <img src="{{ gallery_image.image.url }}" 
+                                     class="img-fluid gallery-main-image" 
+                                     alt="{{ gallery_image.title|default:event.name }}"
+                                     style="max-height: 70vh; max-width: 100%; object-fit: contain; cursor: zoom-in; border-radius: 8px; box-shadow: 0 4px 20px rgba(0,0,0,0.5);">
                             </div>
-                            <div class="col-6">
-                                <label class="custom-control custom-checkbox mb-3">
-                                    <input type="checkbox" class="custom-control-input">
-                                    <span class="custom-control-indicator"></span>
-                                    <span class="custom-control-description">Bike Parking</span>
-                                </label>
+                            
+                            <!-- Image Caption -->
+                            {% if gallery_image.title or gallery_image.description %}
+                            <div class="position-absolute bottom-0 start-0 end-0 bg-gradient-dark p-4">
+                                <div class="container-fluid">
+                                    <div class="row">
+                                        <div class="col-12">
+                                            {% if gallery_image.title %}
+                                                <h6 class="text-white mb-2 fw-bold">{{ gallery_image.title }}</h6>
+                                            {% endif %}
+                                            {% if gallery_image.description %}
+                                                <p class="text-white-50 mb-0 small">{{ gallery_image.description }}</p>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="col-6">
-                                <label class="custom-control custom-checkbox mb-3">
-                                    <input type="checkbox" class="custom-control-input">
-                                    <span class="custom-control-indicator"></span>
-                                    <span class="custom-control-description">Wireless Internet</span>
-                                </label>
-                            </div>
-                            <div class="col-6">
-                                <label class="custom-control custom-checkbox mb-3">
-                                    <input type="checkbox" class="custom-control-input">
-                                    <span class="custom-control-indicator"></span>
-                                    <span class="custom-control-description">Reservations</span>
-                                </label>
-                            </div>
-                            <div class="col-6">
-                                <label class="custom-control custom-checkbox mb-3">
-                                    <input type="checkbox" class="custom-control-input">
-                                    <span class="custom-control-indicator"></span>
-                                    <span class="custom-control-description">Privat Parking</span>
-                                </label>
-                            </div>
-                            <div class="col-6">
-                                <label class="custom-control custom-checkbox mb-3">
-                                    <input type="checkbox" class="custom-control-input">
-                                    <span class="custom-control-indicator"></span>
-                                    <span class="custom-control-description">Smoking Area</span>
-                                </label>
-                            </div>
-                            <div class="col-6">
-                                <label class="custom-control custom-checkbox mb-3">
-                                    <input type="checkbox" class="custom-control-input">
-                                    <span class="custom-control-indicator"></span>
-                                    <span class="custom-control-description">Wheelchair Accesible</span>
-                                </label>
-                            </div>
-                            <div class="col-6">
-                                <label class="custom-control custom-checkbox mb-3">
-                                    <input type="checkbox" class="custom-control-input">
-                                    <span class="custom-control-indicator"></span>
-                                    <span class="custom-control-description">Coupons</span>
-                                </label>
+                            {% endif %}
+                        </div>
+                        {% endfor %}
+                    </div>
+                    
+                    <!-- Navigation Controls -->
+                    {% if event.gallery_images.count > 1 %}
+                    <button class="carousel-control-prev" type="button" data-bs-target="#galleryCarousel" data-bs-slide="prev">
+                        <div class="carousel-nav-btn">
+                            <i class="fas fa-chevron-left"></i>
+                        </div>
+                        <span class="visually-hidden">Previous</span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#galleryCarousel" data-bs-slide="next">
+                        <div class="carousel-nav-btn">
+                            <i class="fas fa-chevron-right"></i>
+                        </div>
+                        <span class="visually-hidden">Next</span>
+                    </button>
+                    {% endif %}
+                </div>
+                
+                <!-- Loading Spinner -->
+                <div class="position-absolute top-50 start-50 translate-middle d-none" id="imageLoader">
+                    <div class="spinner-border text-primary" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Thumbnail Navigation Footer -->
+            {% if event.gallery_images.count > 1 %}
+            <div class="modal-footer bg-dark border-0 p-3">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-12">
+                            <!-- Thumbnail Container -->
+                            <div class="thumbnail-container">
+                                <div class="d-flex justify-content-center align-items-center">
+                                    <!-- Scroll Left Button -->
+                                    <button class="btn btn-outline-secondary btn-sm me-2 thumbnail-scroll-btn" id="scrollLeft">
+                                        <i class="fas fa-chevron-left"></i>
+                                    </button>
+                                    
+                                    <!-- Thumbnails -->
+                                    <div class="thumbnail-wrapper flex-grow-1">
+                                        <div class="d-flex gap-2 thumbnail-scroll" id="thumbnailContainer">
+                                            {% for gallery_image in event.gallery_images.all %}
+                                            <div class="thumbnail-item {% if forloop.first %}active{% endif %}" 
+                                                 data-bs-target="#galleryCarousel" 
+                                                 data-bs-slide-to="{{ forloop.counter0 }}">
+                                                <img src="{{ gallery_image.image.url }}" 
+                                                     class="thumbnail-img" 
+                                                     alt="Thumbnail {{ forloop.counter }}"
+                                                     loading="lazy">
+                                                <div class="thumbnail-overlay">
+                                                    <i class="fas fa-eye"></i>
+                                                </div>
+                                            </div>
+                                            {% endfor %}
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- Scroll Right Button -->
+                                    <button class="btn btn-outline-secondary btn-sm ms-2 thumbnail-scroll-btn" id="scrollRight">
+                                        <i class="fas fa-chevron-right"></i>
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     </div>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
 
                     <!--<div class="listing-menu-area mt-100" id="menu">-->
                         <!--<h4>You can check availability</h4>-->
@@ -369,7 +749,7 @@
                         <img src="{{event.user.profile.img.url}}" alt="">
                         <div class="authors-name">
                             <h6>{{event.name}}</h6>
-                            <p>The Vendor</p>
+                            <p>{{event.place}}</p>
                         </div>
                     </div>
                 </div>

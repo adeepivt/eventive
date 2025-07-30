@@ -8,6 +8,8 @@ urlpatterns = [
     path('<int:pk>/favourites/', views.add_favourites, name='add_favourites'),
     path('vendor/register', views.vendor_register, name='vendor_register'),
     path('vendor/login', views.vendor_login, name='vendor_login'),
+    path('profile/', views.profile_view, name='profile'),
+    path('profile/update/', views.profile_update, name='profile_update'),
     path('forgot-password/', views.ForgotPassword, name='forgot-password'),
     path('password-reset-sent/',auth_views.PasswordResetDoneView.as_view(template_name='users/password_reset_sent.html'), name='password-reset-sent'),
     path('reset-password/<str:reset_id>/', views.ResetPassword, name='reset-password'),
