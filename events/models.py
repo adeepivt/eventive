@@ -78,7 +78,7 @@ class Event(models.Model):
 
     def __str__(self):
         user_name = self.user.username if self.user else "No User"
-        print(user_name,'ussssssssssername\n\n')
+        print(self.name, user_name,'ussssssssssername\n\n')
         return f"Eventive-{user_name} - {self.category} - {self.price}"
 
     def get_facilities(self):
