@@ -80,7 +80,7 @@ class Event(models.Model):
     objects = EventManager()
 
     def __str__(self):
-        return f"Eventive-{self.user} - {self.category} - {self.price}"
+        return f"Eventive"
 
     def get_facilities(self):
         """Get all active facilities for this event"""
