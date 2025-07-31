@@ -27,6 +27,7 @@ EVENTS = (
     ('CateringService','Catering Service'),
 )
 
+
 PLACES = (
     ('Thiruvananthapuram','Thiruvananthapuram'),
     ('Eranakulam','Eranakulam'),
