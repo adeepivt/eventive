@@ -77,7 +77,9 @@ class Event(models.Model):
     objects = EventManager()
 
     def __str__(self):
-        return f"Eventive-{self.user} - {self.category} - {self.price}"
+        user_name = self.user.username if self.user else "No User"
+        print(user_name,'ussssssssssername\n\n')
+        return f"Eventive-{user_name} - {self.category} - {self.price}"
 
     def get_facilities(self):
         """Get all active facilities for this event"""
@@ -219,6 +221,7 @@ class EventGallery(models.Model):
 
     def __str__(self):
         title = self.title if self.title else f"Image {self.id}"
+        print(self.event.name, title, '----------gallery name')
         return f"{self.event.name} - {title}"
     
     def clean(self):
