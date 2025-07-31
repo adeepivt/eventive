@@ -24,7 +24,7 @@
                 <div class="signin-image">
                     <figure><img src="{% static 'register_page/images/signin-image.jpg' %}" alt="sign up image"></figure>
                         {% if user_type == 'vendor' %}
-                            <a href="{% url 'vendor_register' %}" class="signup-image-link">Create Partner account</a>
+                            <a href="{% url 'vendor_register' %}" class="signup-image-link">Create vendor account</a>
                         {% else %}
                             <a href="{% url 'register' %}" class="signup-image-link">Create an account</a>
                             

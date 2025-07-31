@@ -89,7 +89,7 @@
                   <div class="signup-image">
                       <figure><img src="{% static 'register_page/images/signup-image.jpg' %}" alt="sing up image"></figure>
                         {% if user_type == 'vendor' %}
-                            <a href="{% url 'vendor_login' %}" class="signup-image-link">I am already a Partner</a>
+                            <a href="{% url 'vendor_login' %}" class="signup-image-link">I am already a Vendor</a>
                         {% else %}
                             <a href="{% url 'login' %}" class="signup-image-link">I am already a member</a>
                         {% endif %}
