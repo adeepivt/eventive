@@ -21,8 +21,6 @@ from Eventive.env import env, BASE_DIR
 # BASE_DIR = Path(__file__).resolve().parent.parent
 env.read_env(os.path.join(BASE_DIR, '.env'))
 
-print("BASE_DIR", BASE_DIR)
-print("env", env)
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
@@ -138,7 +136,6 @@ STATICFILES_DIRS = [
 
 MEDIA_URL = '/media/'
 if env('DJANGO_ENVIRONMENT') == 'prod':
-    print('envronment', env('DJANGO_ENVIRONMENT'))
     DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 
     CLOUDINARY_STORAGE = {

@@ -9,6 +9,9 @@ from django.core.exceptions import ValidationError
 from PIL import Image
 from datetime import date, timedelta
 import os
+from io import BytesIO
+from django.core.files.storage import default_storage
+from django.core.files.base import ContentFile
 # Create your models here.
 
 EVENTS = (
@@ -77,9 +80,7 @@ class Event(models.Model):
     objects = EventManager()
 
     def __str__(self):
-        user_name = self.user.username if self.user else "No User"
-        print(self.name, user_name,'ussssssssssername\n\n')
-        return f"Eventive-{user_name} - {self.category} - {self.price}"
+        return f"Eventive-{self.user} - {self.category} - {self.price}"
 
     def get_facilities(self):
         """Get all active facilities for this event"""
@@ -181,7 +182,6 @@ class ReviewManager(models.Manager):
         return event_rating
 
     def user_review(self,event,user):
-        print(event,user)
         users = []
         r = Review.objects.filter(event=event.id)
         for user in r:
@@ -221,7 +221,6 @@ class EventGallery(models.Model):
 
     def __str__(self):
         title = self.title if self.title else f"Image {self.id}"
-        print(self.event.name, title, '----------gallery name')
         return f"{self.event.name} - {title}"
     
     def clean(self):
@@ -249,16 +248,80 @@ class EventGallery(models.Model):
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
         
-        # Optional: Resize image to optimize storage
         if self.image:
-            img = Image.open(self.image.path)
+            try:
+                self._resize_image()
+            except Exception as e:
+                print(f"Image processing error: {e}")
+
+    def _resize_image(self):
+        """Resize image to optimize storage - works with both local and cloud storage"""
+        try:
+            # Check if we can access local path (for local storage)
+            if hasattr(default_storage, 'path') and hasattr(self.image, 'path'):
+                try:
+                    # Try local storage approach first
+                    img = Image.open(self.image.path)
+                    if img.height > 800 or img.width > 800:
+                        img.thumbnail((800, 800), Image.LANCZOS)
+                        img.save(self.image.path, optimize=True, quality=85)
+                    return
+                except (NotImplementedError, AttributeError):
+                    # Fall back to cloud storage approach
+                    pass
+            
+            # Cloud storage approach
+            # Open image from storage
+            image_file = default_storage.open(self.image.name, 'rb')
+            img = Image.open(image_file)
+            image_file.close()
+            
+            # Check if resizing is needed
             if img.height > 800 or img.width > 800:
-                img.thumbnail((800, 800), Image.LANCZOS)
-                img.save(self.image.path, optimize=True, quality=85)
+                # Create a copy for processing
+                img_copy = img.copy()
+                img_copy.thumbnail((800, 800), Image.LANCZOS)
+                
+                # Save to BytesIO
+                temp_file = BytesIO()
+                img_format = img_copy.format or 'JPEG'
+                
+                # Handle different image formats
+                if img_format.upper() == 'PNG':
+                    img_copy.save(temp_file, format='PNG', optimize=True)
+                else:
+                    # Convert to RGB if necessary (for JPEG)
+                    if img_copy.mode in ('RGBA', 'LA', 'P'):
+                        img_copy = img_copy.convert('RGB')
+                    img_copy.save(temp_file, format='JPEG', optimize=True, quality=85)
+                
+                temp_file.seek(0)
+                
+                # Delete old file and save new one
+                old_name = self.image.name
+                default_storage.delete(old_name)
+                
+                # Save the processed image
+                self.image.save(
+                    old_name,
+                    ContentFile(temp_file.read()),
+                    save=False  # Don't trigger another save
+                )
+                temp_file.close()
+                img_copy.close()
+            
+            img.close()
+            
+        except Exception as e:
+            print(f"Error resizing image: {e}")
 
     def delete(self, *args, **kwargs):
         # Delete the image file when the model instance is deleted
         if self.image:
-            if os.path.isfile(self.image.path):
-                os.remove(self.image.path)
+            try:
+                # For both local and cloud storage
+                if default_storage.exists(self.image.name):
+                    default_storage.delete(self.image.name)
+            except Exception as e:
+                print(f"Error deleting image file: {e}")
         super().delete(*args, **kwargs)
