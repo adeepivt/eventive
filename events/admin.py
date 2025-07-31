@@ -21,8 +21,21 @@ class EventGalleryInline(admin.TabularInline):
     
     def image_preview(self, obj):
         if obj.image:
-            return format_html('<img src="{}" width="100" height="100" style="object-fit: cover;" />', obj.image.url)
-        return "No image"
+            try:
+                image_url = obj.image.url
+                return format_html(
+                    '<img src="{}" width="100" height="100" style="object-fit: cover; border-radius: 4px;" />',
+                    image_url
+                )
+            except Exception as e:
+                # Log the error for debugging
+                print(f"Error getting image URL in admin preview: {e}")
+                return format_html(
+                    '<div style="width: 100px; height: 100px; background: #f0f0f0; display: flex; align-items: center; justify-content: center; border-radius: 4px; font-size: 12px; text-align: center;">Image Error</div>'
+                )
+        return format_html(
+            '<div style="width: 100px; height: 100px; background: #f8f8f8; display: flex; align-items: center; justify-content: center; border-radius: 4px; font-size: 12px; text-align: center;">No Image</div>'
+        )
     image_preview.short_description = "Preview"
 
 @admin.register(EventGallery)
@@ -33,7 +46,24 @@ class EventGalleryAdmin(admin.ModelAdmin):
     list_editable = ['is_featured', 'order']
     
     def image_preview(self, obj):
-        if obj.image:
-            return format_html('<img src="{}" width="50" height="50" style="object-fit: cover;" />', obj.image.url)
-        return "No image"
+        """Safe image preview for list view"""
+        if obj and obj.image:
+            try:
+                image_url = obj.image.url
+                return format_html(
+                    '<img src="{}" width="50" height="50" style="object-fit: cover; border-radius: 3px;" />',
+                    image_url
+                )
+            except Exception as e:
+                print(f"Error getting image URL in admin list: {e}")
+                return format_html(
+                    '<div style="width: 50px; height: 50px; background: #e0e0e0; display: flex; align-items: center; justify-content: center; border-radius: 3px; font-size: 10px;">Error</div>'
+                )
+        return format_html(
+            '<div style="width: 50px; height: 50px; background: #f5f5f5; display: flex; align-items: center; justify-content: center; border-radius: 3px; font-size: 10px;">None</div>'
+        )
     image_preview.short_description = "Preview"
+
+    def get_queryset(self, request):
+        """Optimize queryset to avoid N+1 queries"""
+        return super().get_queryset(request).select_related('event')
