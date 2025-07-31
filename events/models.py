@@ -17,9 +17,14 @@ from django.core.files.base import ContentFile
 EVENTS = (
     ('Eventmanagement','Eventmanagement'),
     ('MakeupArtsist','Makeup Artsist'),
+    ('Cakeshops','Cake shops'),
     ('MehandiArtist','Mehandi Artist'),
     ('Photographer','Photographer'),
     ('WeddingVenues','Wedding Venues'),
+    ('CarsAndBuses','Cars and Buses'),
+    ('InvitationCards','Invitation Cards'),
+    ('Stagedecorator','Stage decorator'),
+    ('CateringService','Catering Service'),
 )
 
 PLACES = (
@@ -80,7 +85,17 @@ class Event(models.Model):
     objects = EventManager()
 
     def __str__(self):
-        return f"Eventive"
+        user_display = "No User"
+        try:
+            if self.user:
+                user_display = str(self.user)
+        except:
+            user_display = "Unknown User"
+        
+        category_display = getattr(self, 'category', 'No Category')
+        price_display = getattr(self, 'price', 'No Price')
+        
+        return f"Eventive-{user_display} - {category_display} - {price_display}"
 
     def get_facilities(self):
         """Get all active facilities for this event"""
