@@ -230,8 +230,6 @@ class MultipleImageUploadForm(forms.Form):
         
         # Remove None values
         images = [img for img in images if img is not None]
-        if self.instance and self.instance.pk and not images:
-            return getattr(self.instance, 'images', [])
         
         if len(images) > 10:
             raise forms.ValidationError("You can upload maximum 10 images at once.")
