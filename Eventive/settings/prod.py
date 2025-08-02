@@ -2,7 +2,7 @@ from .base import *
 
 DEBUG = False
 
-ALLOWED_HOSTS = ['*.railway.app','https://eventive-production.up.railway.app']
+ALLOWED_HOSTS = ['.railway.app','eventive-production.up.railway.app']
 DATABASES = {
     'default': env.db() 
 }
