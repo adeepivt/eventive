@@ -10,6 +10,6 @@ https://docs.djangoproject.com/en/5.1/howto/deployment/wsgi/
 import os
 
 from django.core.wsgi import get_wsgi_application
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'Eventive.settings.local')
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'Eventive.settings.prod')
 print("Django_settings_module--", os.environ.get('DJANGO_SETTINGS_MODULE'))
 application = get_wsgi_application()
